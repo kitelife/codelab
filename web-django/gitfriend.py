@@ -1,3 +1,5 @@
+#To delete some kinds of files automatically,such as:.pyc,.class,the temp file of vim,and so on.
+
 import os
 
 for root,dir,files in os.walk(os.getcwd()):
