@@ -2,9 +2,13 @@
 
 import os
 
-for root,dir,files in os.walk(os.getcwd()):
-	for fileName in os.listdir(root):
-		if fileName.endswith('~') or fileName.endswith('.pyc') or fileName.endswith('.class'):
-			filepath = root + '/' +fileName
-			print filepath
-			os.remove(filepath)
+def deleteUNneedFile():
+	for root,dir,files in os.walk(os.getcwd()):
+		for fileName in os.listdir(root):
+			if fileName.endswith('~') or fileName.endswith('.pyc') or fileName.endswith('.class'):
+				filepath = root + '/' +fileName
+				print filepath
+				os.remove(filepath)
+			
+if __name__ == '__main__':
+	deleteUNneedFile()
