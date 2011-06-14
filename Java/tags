@@ -1,0 +1,26 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+DEFAULT_HEIGHT	GUIDictionary/mutithreadDict.java	/^	public static final int DEFAULT_HEIGHT = 650;$/;"	f	class:TextComponentFrame
+DEFAULT_WIDTH	GUIDictionary/mutithreadDict.java	/^	public static final int DEFAULT_WIDTH = 600;$/;"	f	class:TextComponentFrame
+GoogleDict	GUIDictionary/GoogleDict.java	/^	public GoogleDict(String input)$/;"	m	class:GoogleDict
+GoogleDict	GUIDictionary/GoogleDict.java	/^class GoogleDict extends Thread$/;"	c
+IcibaDict	GUIDictionary/IcibaDict.java	/^	public IcibaDict(String input)$/;"	m	class:IcibaDict
+IcibaDict	GUIDictionary/IcibaDict.java	/^class IcibaDict extends Thread$/;"	c
+ReturnResult	GUIDictionary/GoogleDict.java	/^	public String ReturnResult()$/;"	m	class:GoogleDict
+ReturnResult	GUIDictionary/IcibaDict.java	/^	public String ReturnResult()$/;"	m	class:IcibaDict
+TextComponentFrame	GUIDictionary/mutithreadDict.java	/^	public TextComponentFrame()$/;"	m	class:TextComponentFrame
+TextComponentFrame	GUIDictionary/mutithreadDict.java	/^class TextComponentFrame extends JFrame$/;"	c
+googleResult	GUIDictionary/mutithreadDict.java	/^	String googleResult,icibaResult;$/;"	f	class:TextComponentFrame
+icibaResult	GUIDictionary/mutithreadDict.java	/^	String googleResult,icibaResult;$/;"	f	class:TextComponentFrame
+main	GUIDictionary/mutithreadDict.java	/^	public static void main(String[] args) {$/;"	m	class:mutithreadDict
+mutithreadDict	GUIDictionary/mutithreadDict.java	/^public class mutithreadDict {$/;"	c
+result	GUIDictionary/GoogleDict.java	/^	String result;$/;"	f	class:GoogleDict
+result	GUIDictionary/IcibaDict.java	/^	String result;$/;"	f	class:IcibaDict
+run	GUIDictionary/GoogleDict.java	/^	public void run()$/;"	m	class:GoogleDict
+run	GUIDictionary/IcibaDict.java	/^	public void run()$/;"	m	class:IcibaDict
+searchterm	GUIDictionary/GoogleDict.java	/^	private String searchterm=null;$/;"	f	class:GoogleDict	file:
+searchterm	GUIDictionary/IcibaDict.java	/^	private String searchterm=null;$/;"	f	class:IcibaDict	file:
