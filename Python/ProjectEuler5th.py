@@ -28,7 +28,7 @@ for number in range(19,1,-1):
 				break
 		if marker == 0:
 			selectedNumList.append(number)
-print len(selectedNumList)
+#print len(selectedNumList)
 Num =LCM(selectedNumList[0],selectedNumList[1])
 for index in range(2,len(selectedNumList)):
 	Num = LCM(Num,selectedNumList[index])
