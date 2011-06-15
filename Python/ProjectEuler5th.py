@@ -12,12 +12,11 @@ def GCD(num1,num2):
 	else:
 		return GCD(num2,num1%num2)
 def LCM(num1,num2):
-	temp=None
-	temp = num1*num2/GCD(num1,num2)
-	return temp
+	return num1*num2/GCD(num1,num2)
 
 selectedNumList=[20,]
 smallestProduct=1
+
 for number in range(19,1,-1):
 	listLength = len(selectedNumList)
 	if listLength != 0:
@@ -34,4 +33,3 @@ for index in range(2,len(selectedNumList)):
 	Num = LCM(Num,selectedNumList[index])
 
 print Num
-
