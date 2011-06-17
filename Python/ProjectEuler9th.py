@@ -10,6 +10,6 @@ Find the product abc.
 for c in range(500,333,-1):
 	for b in range(0,c):
 		for a in range(0,b):
-			if a+b+c==1000 and a*a+b*b==c*c:
+			if a+b+c==1000 and a**2+b**2==c**2:
 				print "a=",a,";b=",b,";c=",c
 				print a*b*c
