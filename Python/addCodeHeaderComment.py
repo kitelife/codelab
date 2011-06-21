@@ -3,7 +3,7 @@
 #
 # Author:youngsterxyf
 #
-# FuncDescription: 'This code is for adding HeaderComment to some code file'
+# FuncDescription: The code is for adding headerComment to some code file
 #
 ############################################################
 
@@ -11,9 +11,10 @@ import sys,os
 import datetime
 
 def addHeaderComment(codeFileName,funcDescription):
-	if '/' not in codeFileName:
-		codeFileName = os.getcwd()+'/'+codeFileName
-	
+	print codeFileName
+	if '\\' not in codeFileName:
+		codeFileName = os.getcwd()+'\\'+codeFileName
+	print codeFileName	
 	fileHandle=open(codeFileName)
 	content = fileHandle.read()
 	fileHandle.close()
