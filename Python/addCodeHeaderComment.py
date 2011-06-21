@@ -11,10 +11,10 @@ import sys,os
 import datetime
 
 def addHeaderComment(codeFileName,funcDescription):
-	print codeFileName
+	#print codeFileName
 	if '\\' not in codeFileName:
 		codeFileName = os.getcwd()+'\\'+codeFileName
-	print codeFileName	
+	#print codeFileName	
 	fileHandle=open(codeFileName)
 	content = fileHandle.read()
 	fileHandle.close()
