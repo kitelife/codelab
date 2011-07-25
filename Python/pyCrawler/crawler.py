@@ -14,6 +14,7 @@ def changeCoding(string):
 	return string
 
 dirName = 'D:/Test/'
+typeList = ['html','jpg','jpeg','pdf','doc','gif','ppt','xls','pptx','docx','pptx','rar','zip']
 
 def getPage(address):
 	tomkdir = address.split('://')[1]
@@ -38,7 +39,9 @@ def getPage(address):
 	except :
 		pass
 	if content != None:
-		if filename.split('.')[-1] != 'html':
+
+		filetype = filename.split('.')[-1]
+		if not (filetype in typeList):
 			filename = filename + '.html'
 		pagefile = open(filename,'w')
 		pagefile.write(content)
