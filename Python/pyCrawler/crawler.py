@@ -7,6 +7,8 @@ import os
 from HTMLParser import HTMLParser
 import chardet
 
+import textOrBinary
+
 def changeCoding(string):
 	detResult=chardet.detect(string)
 	coding=detResult['encoding']
@@ -56,7 +58,8 @@ def getPage(address):
 		else:
 			filename = filename + '.html'
 			typeList['html'] += 1
-		pagefile = open(filename,'w')
+		
+		pagefile = open(filename,'wb+')
 		pagefile.write(content)
 		pagefile.close()
 		return content
