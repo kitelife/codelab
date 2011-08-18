@@ -1,4 +1,3 @@
-
 //这个程序其实很需要进行重构，GoogleDict.java和IcibaDict.java相同的代码太多
 
 import java.awt.*;
@@ -25,6 +24,7 @@ public class mutithreadDict {
 		
 	}
 }
+
 class TextComponentFrame extends JFrame
 {
 	String googleResult,icibaResult;

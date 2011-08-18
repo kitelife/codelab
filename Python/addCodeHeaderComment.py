@@ -27,6 +27,7 @@ def addHeaderComment(codeFileName,funcDescription):
 	headerComment='#'*60+'\n'+date+author+funcDescription+'#'*60+'\n\n'
 
 	content=headerComment+content
+	content='#-*- coding:utf-8 -*-\n'+content
 
 	fileHandle = open(codeFileName,'w')
 	fileHandle.write(content)

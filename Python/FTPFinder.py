@@ -1,3 +1,5 @@
+#-*- coding: utf-8 -*-
+
 import wx
 from ftplib import FTP
 FileName = "FileList.txt"
