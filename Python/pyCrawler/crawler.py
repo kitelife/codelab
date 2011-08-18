@@ -43,11 +43,16 @@ def getPage(address):
 	if content != None:
 		if not os.path.exists(tempPath):
 			os.mkdir(tempPath)
-
+		else:
+			pass
 		filetype = filename.split('.')[-1]
+		
 		if (filetype in typeList.keys()):
 			typeList[filetype] += 1
-		#if not (filetype in typeList): #如果URL是动态生成的，也就是没有明确的文件后缀名表示的文件类型，则不管是什么东西都把当作html文件
+		#if not (filetype in typeList):
+		
+		#如果URL是动态生成的，也就是没有明确的文件后缀名表示的文件类型，
+		#则不管是什么东西都把当作html文件
 		else:
 			filename = filename + '.html'
 			typeList['html'] += 1
@@ -55,6 +60,8 @@ def getPage(address):
 		pagefile.write(content)
 		pagefile.close()
 		return content
+	else:
+		pass
 	
 linksList = list()
 getedLinksList = list()
@@ -97,7 +104,8 @@ if __name__ == "__main__":
 	statistics = ''
 	for item  in anotherTypeList:
 		numOfThisFile = float(item[1])
-		statistics = statistics + item[0] +' ---> '+ str(numOfThisFile) + ' ---> ' + str(numOfThisFile/numOfFiles) + '\n'
+		statistics = statistics + item[0] +' ---> '+ str(numOfThisFile) + ' ---> ' \
+		    + str(numOfThisFile/numOfFiles) + '\n'
 	print statistics
 	statisticsFile = open(dirName+'statistics.txt','w')
 	statisticsFile.write(statistics)
