@@ -1,0 +1,400 @@
+\documentclass[CJK]{beamer}
+\usepackage{CJK}
+\usepackage{graphicx}
+\usetheme{Warsaw}
+\setbeamercovered{transparent}
+
+\begin{document}
+\begin{CJK*}{GBK}{song}
+
+\title{Swarm Intelligence}
+\subtitle{chapter six : Thinking Is Social}
+\author{夏永锋}
+\date{2011-7-22}
+
+\begin{frame}
+\maketitle
+\end{frame}
+
+\begin{frame}
+\begin{quote}
+\textcolor[rgb]{0.00,0.50,1.00}
+{
+This chapter takes a simulation from the social sciences and shows how it can be modified slightly to
+perform combinatorial optimization.
+}
+\end{quote}
+\end{frame}
+
+\begin{frame}
+\frametitle{Introduction}
+\begin{itemize}
+\item{"The blind men and the elephant"}
+\item{Societies are able to benefit from the sharing of individuals' partial knowledge,resulting in a body of facts and strategies that far exceeds what any individual could have ever acquired independently.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Introduction - Adaptation on three levels}
+\begin{quote}
+\textcolor[rgb]{0.00,0.50,0.75}
+{Not only do people learn from one another,but as knowledge and skills spread from person to person,the population converges on optimal processes.}
+\end{quote}
+\begin{enumerate}
+\item{Individuals learn locally from their neighbors.}
+\item{The spread of knowledge through social learning results in emergent group-level processes.}
+\item{Culture optimizes cognition.}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Introduction - The ACM}
+\begin{itemize}
+\item{Robert Axelrod - "Evolution of Cooperation" and "The Complexity of Cooperation"}
+\item{Extend Axelrod's computer simulation of the spread of features through a culture to demonstrate how social interaction might comprise a natural computation method that results in coherent and intelligent human thought,opinion,action.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Axelrod's Culture Model}
+\begin{itemize}
+\item{Axelrod:The probability of human interaction is a function of the similarity of two individuals.}
+
+\begin{quote}
+\textbf{\textcolor[rgb]{0.00,0.53,0.68}{"The basic idea is that agents who are similar to each other are likely to interact and then become more similar."}}
+\end{quote}
+
+\item{1. Individuals are represented as strings of symbols called "features";\\
+    2. The number and length of the strings and the universe of symbols available to them are parameters of the system.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Axelrod's Culture Model Cont.}
+\begin{itemize}
+\item{An interaction in ACM occurs when one individual adopts a non-matching feature of the other.}
+\begin{enumerate}
+\item{Randomly select an individual and one of its horizontally or vertically adjacent neighbors;}
+\item{If stochastic similarity criteria are met, the selected individual will change one of its elements to match the symbol in the same position of the neighbor's string;}
+\item{The element changed is selected stochastically from the elements that are different.}
+\end{enumerate}
+\item{As a simulation iterates, neighbors begin to resembling one another, until regions of the matrix contain identical strings.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Axelrod's Culture Model Cont.}
+\begin{flushleft}
+\includegraphics[height=3.7cm]{1.png}
+\end{flushleft}
+\begin{flushright}
+\includegraphics[height=3.7cm]{2.png}
+\end{flushright}
+\end{frame}
+
+\begin{frame}
+\frametitle{Axelrod's Culture Model Cont.}
+Because similarity sets the threshold for instigating changes, boundaries between regions containing strings with no matching members eventually become fixed, and change in the system stops.
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 1:Similarity in Axelrod's Model}
+\begin{itemize}
+\item{Axelrod theorizes that similarity is a precondition for social interaction and subsequent exchange of cultural features. the probability of interaction depends on similarity}
+\item{but there is evidence to suggest that the role of similarity is not as important as Axelrod theorizes}
+\item{In this experiment, Axelrod's model was altered slightly: the effect of similarity as a causal influence was deleted from the model.This was accomplished easily by setting the probability of interaction to 1.0 for all selected pairs.}
+\item{Thus when an individual and its neighbor were selected they interacted, regardless of their similarity, with the individual changing one of its nonmatching elements to be the same as the neighbor's. }
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 1 Cont.}
+\begin{figure}
+\includegraphics[width=6cm]{7.png}
+\end{figure}
+\begin{itemize}
+\item{These trials resulted in unanimity.All 20 trials run to stability in a $10\times10$ population resulted in uniform populations of individuals with identical features.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 1 Cont.}
+ Interindividual similarities do not facilitate convergence, but rather, when individuals contain no matching features,the probability of interaction is defined as 0.0,and cultural differences become insurmountable. Interaction occurs, and the population converges, in the absence of any similarity criterion, but polarization was not seen;thus the effect of similarity is negative.
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 2:Optimization of an Arbitrary Function}
+\textbf{A hypothesis ---}
+\begin{quote}
+     the culture model might belong to a larger class of general function optimizers and that in Axelrod's implementation the function that is optimized is similarity.
+\end{quote}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 2 Cont.}
+\begin{itemize}
+\item{In Axelrod's Model,the change rule is "if($rand < S/N$) then interact"where rand is a random number between zero and one,S represents the number of similar or matching elements, and N is the number of features in a string.}
+\item{This experiment substituted a simple arbitrary function for the similarity test previously used.Rather than testing the similarity of two neighbors, the algorithm was modified so that the numerals comprising an individual's features were summed.}
+\item{The change rule became "\textcolor[rgb]{0.98,0.00,0.00}{if(the neighbor's sum is larger than the targeted individual's sum)then interact.}"}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 2 Cont.}
+\begin{itemize}
+\item{\textbf{whether the algorithm would maximize the sums of numerals comprising the individuals ?}}
+\item{In 20 trials of the paradigm, the population(randomly initialized)converged on the global optimum every time.}
+\item{interaction resulted in the adaptive discovery of that optimal set of features and its spread through the population.}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Experiment 3:A Slightly Harder and More Interesting Function}
+\begin{itemize}
+\item{In this experiment,the task is  to find a set of five numbers―the individual’s feature string―within which the sum of the first three numbers equaled the sum of the last two.}
+\item{In the program, the difference was calculated between the first and second sums, and if the neighbor's difference was smaller (the sums were more nearly equal), the target adopted a feature from the neighbor.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 3 Cont.}
+This task is interesting for two reasons:
+\begin{enumerate}
+\item{unlike the previous example,in which a string of nines or of zeroes satisfies the maximization or minimization constraints, the equal-sums task has a great number of perfect solutions.}
+\item{the task requires the complex coordination of the entire vector of elements.}
+\begin{itemize}
+\item{ A "2" in the fifth position is only successful if it and the fourth element contribute together to a sum that is predicted by the first three elements.}
+\item{In a psychological sense, this is analogous to a model of cognitive or attitudinal consistency.}
+\end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 3 Cont.}
+\begin{figure}
+\includegraphics[width=6cm]{8.png}
+\end{figure}
+\begin{itemize}
+\item{All individuals in the population solved the problem.in 20 trials, this pattern of results was seen every time.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 3 Cont.}
+These results have an obvious analogue in human society.
+\begin{itemize}
+\item{A string in the simulation may be seen as a set of features, attitudes, or beliefs held by an individual, which must be internally consistent in order to become stable.}
+\item{The features are also constrained to be externally consistent; that is, individuals strive to resemble their neighbors, at least when the neighbors are relatively successful at attaining a "good" set of features.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 4:A Hard Function}
+\begin{itemize}
+\item{TSP --- an eight-city tour}
+\begin{enumerate}
+\item{$8^{8}$,or 16777216,possible combinations of eight cities,allowing for cities to be visited more than once;}
+\item{8!,or 40320,legitimate tours,in which each city is visited once;}
+\item{Of those tours,there are 16 that are globally optimal, or provide the shortest possible path.}
+\end{enumerate}
+\item{Experiment is set up with a set of cities defined as two-dimensinal Cartesian coordinates,which were contrived so that the best tour was known to the researcher.the optimal tour was "ABCDEFGH",of course starting on any letter and going in either direction.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 4 Cont.}
+\begin{center}
+\begin{figure}
+\includegraphics[width=8cm]{3.png}\\
+\end{figure}
+Result of a simulation of TSP.
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 4 Cont.}
+\begin{itemize}
+\item{The adaptive culture alogrithm is able to optimize combinatorial functions. A penalty was added to the length of a tour if it went to a node more than once.}
+\item{The result to test the propensity(倾向性) for the algorithm to find multiple optima(20 trials): }
+\begin{enumerate}
+\item{9 of these trials resulted in the globally optimal tour.}
+\item{2 trials resulted in convergence on two different optimal patterns.}
+\item{1 trial found five different series of cities that produced the shortest possible route.}
+\item{Other successful trials converged on a single optimum.}
+\end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 5:Parallel Constraint Satisfaction}
+\textbf{What's "Parallel Constraint Satisfaction" ?}
+\begin{itemize}
+\item{\textcolor[rgb]{0.00,0.50,1.00}{PCS is a dynamic model of Attitude, integrates three areas(Connectionsm,neural networks, and parallel distributed processing) to propose a holistic explanation for an individual's response to cognitive dissonance(认知失调).
+}}
+\item{\textcolor[rgb]{0.00,0.50,1.00}{PCS posits that beliefs impose constraints on other beliefs, and conditions can either constrain or make salient(显著的) different aspects of one’s beliefs. Attitudes and beliefs are therefore changeable, due to trying to satisfactorily fit with the various constraints of circumstances as well as adapt to the constantly evolving truths in life.
+}}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Experiment 5 Cont.}
+\begin{itemize}
+\item{A parallel constraint satisfaction network was taken from a recent \emph{Psychological Review} paper by Kunda and Thagard}
+\item{The model simulates the effect of stereotypical information(定型的信息)on a concept, in this case the descriptor "aggressive".}
+\item{Kunda and Thagard hypothesized
+that \textcolor[rgb]{0.00,0.50,1.00}{individuals are more likely to expect a stereotypical
+construction worker to punch someone and a lawyer to argue with someone,
+given that both targets are labeled “aggressive.”}}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Experiment 5 Cont.}
+\begin{figure}
+  % Requires \usepackage{graphicx}
+\includegraphics[width=7cm]{4.png}
+\end{figure}
+{\tiny Parallel constraint satisfaction examples. Solid lines represent positive links, and the
+dotted line represents a negative link. (From Kunda and Thagard, 1996.)}
+\end{frame}
+\begin{frame}
+\frametitle{Experiment 5 Cont.}
+\begin{figure}
+\includegraphics[width=7cm]{5.png}
+\end{figure}
+{\tiny The two binary networks shown in previous page are combined into a single multivalued
+network. Note that each node can also take on a zero value.}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 5 Cont.}
+\begin{enumerate}
+\item{An experimental trial clamped, that is, held constant, a value of Occupation:
+a population was initialized with random values for the nodes
+and with one occupation fixed}
+\item{Individuals in the population generated patterns of activation,
+evaluated these, compared their own evaluations to their neighbors’,
+and adopted a feature from the neighbor if their pattern was better.}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 5 Cont.}
+\begin{itemize}
+\item{A string is composed of the variables in the following order:}
+\begin{enumerate}
+\item{Occupation (A = Lawyer, B = Construction worker)}
+\item{Aggressive (value is A or 0)}
+\item{Socioeconomic class (A=Upper middle class, B=Working class)}
+\item{Sophistication(老练) (A = Verbal, B = Unrefined)}
+\item{Expected response (A = Punch, B = Argue)}
+\end{enumerate}
+\item{Thus a string such as “AABBA” represents a Lawyer who is Aggressive,
+Working class, Unrefined, and more likely to Punch than to Argue.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 5 Cont.}
+\begin{itemize}
+\item{The network was coded as a series of rules of five elements.}
+\item{Negative
+connections were coded with a minus sign on the node value or on the
+weight, and a period represented no connection.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 5 Cont.}
+\begin{center}
+\begin{figure}
+\includegraphics[width=2cm]{6.png}
+\end{figure}
+\end{center}
+\begin{enumerate}
+\item{The first rule determines values to be clamped on throughout the trial.In this set the first line tells the system to assign a “B” for the first node; the dots in that row mean the other nodes are free to vary}
+\item{The second line says that state “A” of the first node is connected to “A”for the second, third, and fourth nodes and is not connected to the fifth.}
+\item{The “\#” symbol in the fourth rule means that the second node (the second column is the first with a symbol in it) connects to any value of the fifth node}
+\item{A minus sign means that the element should not be present; it represents a negative or inhibitory connection}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 5 Cont.}
+\begin{itemize}
+\item{The rule set may be accompanied by a set of weights for each element in each row, or a default weight of 1 can be used for everything.}
+\item{The program compares a proposed solution to each rule, and sums up the weights of the items that
+match.}
+\item{In the present example, the first “B” is clamped on, so all population members will have that state for their first node. The rule in the second line (A A A A .) fails to match in the first specified position, so the rest of the rule is not evaluated. The next rule (B A B B .) does match in the first specified position, so the weights for the rest of the line are summed, with a penalty for mismatches.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiment 5 Cont.}
+\begin{enumerate}
+\item{When the program is executed, a population of random symbol strings is generated.}
+\item{A string is evaluated by comparing it to each rule in the rule file. Weighted matches between the test string and the rules are summed through the rule set.}
+\item{A larger total indicates that more constraints were satisfied}
+\item{The ACM algorithm is applied by selecting an individual and a neighbor, comparing their evaluation totals, and interacting when the neighbor’s total is greater than the individual’s}
+\end{enumerate}
+\end{frame}
+\begin{frame}
+\frametitle{Experiment 5 Cont.}
+\begin{itemize}
+\item{This network model using a $10\times10$ population was tested 20 times with Lawyer clamped on and 20 times with Construction worker clamped on.}
+\item{All 40 trials resulted in the population converging on the correct stereotypical conclusion, that is, Lawyers would be thought more likely to Argue than to Punch, and Construction workers would be expected to be more likely to Punch than to Argue.}
+\item{ACM shows the development of stereotyped thinking as it spreads through a population}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Experiment 6:Symbol Processing}
+\begin{center}
+So complicated that i can't understand it, then it's skipped.\\
+I'm so sorry!
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion}
+\begin{itemize}
+\item{An ACM system iterates, with individuals repeatedly interacting, until it reaches a stable point where change ceases.}
+\item{The simulations reported in this chapter have been seen to stop in three kinds of states:}
+\begin{enumerate}
+\item{states where the population is uniform,with all feature strings identical;}
+\item{states with two or more regions of strings that are identical within regions and different between them;}
+\item{states with a population of unique strings that satisfy the change criterion equally well.}
+\end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion Cont.}
+\begin{itemize}
+\item{In the first experiment,the similarity rule was responsible for producing boundaries between distinct groups.}
+\item{In the other experiments, the change rule stated that interaction occurred only when the neighbor's performance exceeded the selected individual's.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion Cont.}
+\begin{itemize}
+\item{In sum, culture and cognition are seen from three simultaneous levels of phenomena:}
+\begin{enumerate}
+\item{individuals searching for solutions learn from the experiences of others.This level is most easily measured by social scientists, and importantly it is the level at which the system is programmed.}
+\item{an observer looking at a population as a whole perceives(感知)phenomena of which individual people are the parts.these global effects emerged from simple local interactions.}
+\item{culture affects the performance of the individuals who comprise it. nothing  in  the  programs  specified  that  individuals would solve problems, but only that they would imitate others who performed better than themselves.}
+\end{enumerate}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+ACM appears to give individuals very little credit. Thinking,and in fact hard thinking, is depicted here with no assertions about,or reliance on,the intelligence of individuals.\\
+A human processing unit in these simulations functions mainly through adaptive imitation.\\
+The present view would suggest that a relatively large proportion of cognition is concerned with evaluation and comparison of self and others.
+\end{frame}
+\begin{frame}
+\frametitle{Question and Discussion}
+\begin{center}
+{\LARGE \textbf{THANK YOU !}}\\
+\end{center}
+\end{frame}
+
+\end{CJK*}
+\end{document} 
