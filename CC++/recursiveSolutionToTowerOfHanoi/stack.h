@@ -15,9 +15,9 @@ Status InitStack (struct SqStack *, char*);
 //Status ClearStack (struct SqStack *);
 //Status StackEmpty (struct SqStack);
 int StackLength (struct SqStack);
-int GetTop (struct SqStack); //若栈不空，则用e返回S的栈顶元素，并返回OK，否则返回ERROR
+SElemType GetTop (struct SqStack); //若栈不空，则用e返回S的栈顶元素，并返回OK，否则返回ERROR
 Status Push (struct SqStack *, SElemType);
-int Pop (struct SqStack *);
+SElemType Pop (struct SqStack *);
 
 Status InitStack(struct SqStack *S,char* name) {
     S->base = (SElemType *)malloc(STACK_INIT_SIZE * sizeof(SElemType));
@@ -29,7 +29,7 @@ Status InitStack(struct SqStack *S,char* name) {
     return 0;
 }
 
-int GetTop(struct SqStack S){
+SElemType GetTop(struct SqStack S){
     SElemType e;
     if (S.top == S.base)
         return -1;
@@ -52,7 +52,7 @@ Status Push(struct SqStack *S, SElemType e){
     return 0;
 }
 
-int Pop (struct SqStack *S){
+SElemType Pop (struct SqStack *S){
     //若栈不空，则删除S的栈顶元素，并返回其值。
     SElemType e;
     if (S->top == S->base)

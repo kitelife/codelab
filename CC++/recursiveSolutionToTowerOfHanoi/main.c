@@ -12,7 +12,7 @@ int hanoi (int n, struct SqStack *x, struct SqStack *y, struct SqStack *z);
 
 int main()
 {
-    int count=0, element=0, stepCount=0;
+    int count=0, stepCount=0;
     struct SqStack A, B, C;
     InitStack(&A,"A");
     InitStack(&B,"B");
