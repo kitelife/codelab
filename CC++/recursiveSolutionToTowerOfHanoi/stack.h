@@ -47,7 +47,7 @@ Status Push(struct SqStack *S, SElemType e){
     S->top = S->base + S->stacksize;
     S->stacksize += STACKINCREMENT;
     }
-    *((S->top)++) = e;
+    *(S->top)++ = e;
     //printf("Push %d\n",*(S->top-1));
     return 0;
 }
