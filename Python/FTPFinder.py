@@ -1,7 +1,9 @@
 #-*- coding: utf-8 -*-
 
 import wx
+import sys
 from ftplib import FTP
+
 FileName = "FileList.txt"
 contents = None
 
@@ -19,26 +21,35 @@ def listdir(dirlist,filelist,ftp):
     return eachList
  
 def getLists():
-    ftp=FTP()
-    ftp.connect("202.120.40.124","2121")
-    ftp.login("projectadmin","adminproject")
- 
+    
+    host, port, username, passwd = sys.argv[1:]
+    try:
+        ftp=FTP()
+        ftp.connect(host,port)
+        ftp.login(username,passwd)
+    except:
+        return
+
     filelist = open(FileName,"w")
- 
-    listdir(ftp.nlst("+WSN"),filelist,ftp)
+    try:
+        listdir(ftp.nlst("+WSN"),filelist,ftp)
+    except:
+        pass
+
     filelist.close()
     ftp.quit()
  
 def searchFromFile(FileName):
-    filelist=open(FileName)
-    LineList=filelist.readlines()
-    filelist.close()
+    fp=open(FileName)
+    lineList = fp.readlines()
+    fp.close()
  
     searchword=filename.GetValue()
  
     searchResult=""
-    for line in LineList:
-        if searchword.lower() in line.lower():
+    for line in lineList:
+        lineIntoParts = line.split('/')
+        if searchword in lineIntoParts:
             temp=searchResult
             searchResult=temp+'\n'+line
     return searchResult
@@ -50,6 +61,11 @@ def showGetLists(event):
 def showSearchResult(event):
     contents.SetValue(searchFromFile(FileName))
 
+##################### Main ##############################
+
+if len(sys.argv) < 5:
+    print '''usage: python FTPFinder.py [HostName] [Port] [UserName] [Passwd]'''
+    exit(0)
 
 app = wx.App()
 win = wx.Frame(None,title = "FTP-Searcher",size=(410,335))
