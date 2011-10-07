@@ -201,7 +201,7 @@ class NoteFrame(wx.Frame):
         
         #dirPath = os.getcwd()
         if not os.path.isfile(self.fileName):
-            open(self.fileName,'w').write('Notes\n')
+            open(self.fileName,'w')
         
         NoteBookContent = self.ReadNotes(self.fileName)    
     
