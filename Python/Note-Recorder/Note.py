@@ -43,7 +43,7 @@ class DialogForAddNote(wx.Frame):
         sizer.AddGrowableRow(2)
         panel.SetSizerAndFit(sizer)
         
-
+        
     def storeNote(self,e):
         noteToBeStored = self.noteAdded.GetValue()
         if not (noteToBeStored == ''):
@@ -51,8 +51,9 @@ class DialogForAddNote(wx.Frame):
             fp.write(noteToBeStored + '\n')
             fp.close()
         
-        self.Destroy()
-
+        self.DestroyChildren()
+        self.Close()    #
+        
 class CheckListCtrl(wx.ListCtrl, CheckListCtrlMixin, ListCtrlAutoWidthMixin):
     def __init__(self, parent):
         wx.ListCtrl.__init__(self, parent, -1, style = wx.LC_REPORT|wx.SUNKEN_BORDER)
@@ -170,6 +171,8 @@ class NoteMenu(wx.Menu):
         self.AppendItem(closeFrame)
         self.Bind(wx.EVT_MENU, self.OnClose, closeFrame)
         
+        #print self.parent
+        
     def addNote(self, e):
         app = wx.App()
         DialogForAddNote(None, -1, 'Dialog For Add Note')
@@ -184,10 +187,11 @@ class NoteMenu(wx.Menu):
         app = wx.App()
         FTPOperation.DialogForFTPUploading(None, -1, 'Dialog For Sending to FTP')
         app.MainLoop()
-        
+       
     def OnClose(self, e):
+        self.parent.DestroyChildren()
         self.parent.Close()
-
+    
 class NoteFrame(wx.Frame):
     
     def __init__(self, *args, **kwargs):
@@ -210,11 +214,12 @@ class NoteFrame(wx.Frame):
         panel.Bind(wx.EVT_RIGHT_DOWN, self.OnRightDown)
         panel.Bind(wx.EVT_LEFT_DCLICK, self.OnLeftDoubleClick)        
         
-        Notes = wx.TextCtrl(panel, pos = (20, 20), size = (450, 330), 
+        Notes = wx.TextCtrl(panel, pos = (0, 0), size = (495, 375), 
                             style = wx.TE_MULTILINE | wx.HSCROLL)
         Notes.Bind(wx.EVT_RIGHT_DOWN, self.OnRightDown)
         Notes.Bind(wx.EVT_LEFT_DCLICK, self.OnLeftDoubleClick)
         Notes.SetValue(NoteBookContent)
+        
         
         self.Notes = Notes
         self.SetSize((500, 400))
@@ -246,7 +251,7 @@ class NoteFrame(wx.Frame):
 def main():
     
     note = wx.App()
-    NoteFrame(None)
+    NoteFrame(None, style = wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX)
     note.MainLoop()
     
 if __name__ == '__main__':
