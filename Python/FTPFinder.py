@@ -1,13 +1,13 @@
 #-*- coding: utf-8 -*-
+import socket
 
 import wx
 import sys
 import os
-
 from ftplib import FTP
 
 FileName = "FileList.txt"
-contents = ""
+contents = None
 
 in_coding = ""
 #print sys.platform
@@ -32,27 +32,32 @@ def listdir(dirlist,filelist,ftp):
  
 def getLists():
     
-    host, port, username, passwd = sys.argv[1:]  #可能会存在问题
+    host, port, username, passwd = filename.GetValue().encode(in_coding).split(':')[:4]  #可能会存在问题
+    filename.SetValue("")
+    
     try:
         ftp=FTP()
         ftp.connect(host,port)
         ftp.login(username,passwd)
     except:
+        
         return
-    print "connected to FTP"
+    #print "connected to FTP"
     filelist = open(FileName,"w")
-
+    
+    contents.SetValue("Connected to FTP server, begin to tranverse the fold tree...please waiting\n\n")
+    
     try:
         listdir(ftp.nlst("+WSN"),filelist,ftp)
-    except:
-        pass
+    except socket.error, e:
+        contents.AppendText(str(e.message)+"\n")
     filelist.close()
     ftp.quit()
  
 def searchFromFile(FileName):
 
     if not os.path.isfile(FileName):
-        print 'There is no the file, because you should first get the file content for search'
+        contents.SetValue('There is no the file, because you should first get the file content for search')
         return ""
     else:
         fp=open(FileName)
@@ -64,8 +69,7 @@ def searchFromFile(FileName):
         searchword=filename.GetValue().encode(in_coding)  #...
         searchword = searchword.strip()
         if searchword == "":
-            for line in lineList:
-                searchResult += '\n' + line
+            pass
         else:
             for line in lineList:
                 if searchword in line:
@@ -75,23 +79,43 @@ def searchFromFile(FileName):
  
 def showGetLists(event):
     getLists()
-    contents.SetValue(open(FileName).read())
+    fileContent = open(FileName).read()
+    if fileContent == "":
+        pass
+    else:
+        try:
+            contents.AppendText(fileContent.decode(in_coding)+"\n\n")
+        except UnicodeDecodeError, e:
+            contents.AppendText("UnicodeDecodeError: "+e.reason + "\n\n")
     #contents.SetValue(getLists())
  
 def showSearchResult(event):
-    contents.SetValue(searchFromFile(FileName).decode(in_coding))
-
+    searchResult = searchFromFile(FileName)
+    if searchResult == "":
+        pass
+    else:
+        try:
+            contents.AppendText(searchResult.decode(in_coding)+"\n\n")
+        except UnicodeDecodeError, e:
+            contents.AppendText("UnicodeDecodeError: "+e.reason+ "\n\n")
 ##################### Main ##############################
 
-if len(sys.argv) < 5:
-    print '''usage: python FTPFinder.py [HostName] [Port] [UserName] [Passwd]'''
-    exit(0)
+Tips = '''
+1.
+If you want to "GetList" from FTP server, you should first
+input "[HostName|IP]:[Port]:[UserName]:[Passwd]" in the
+textBox above, then click Button "GetList"
+
+2.
+If you want to search from local file which is produced by
+step 1, you should first input the KeyWord in the textBox
+above, then click Button "Search"
+'''
 
 app = wx.App()
 win = wx.Frame(None,title = "FTP-Searcher",size=(410,335))
-
 bkg = wx.Panel(win)
-	
+
 loadButton = wx.Button(bkg,label='GetList')
 loadButton.Bind(wx.EVT_BUTTON,showGetLists)
 
@@ -100,6 +124,8 @@ saveButton.Bind(wx.EVT_BUTTON,showSearchResult)
 
 filename = wx.TextCtrl(bkg)
 contents = wx.TextCtrl(bkg,style=wx.TE_MULTILINE | wx.HSCROLL)
+
+contents.SetValue(Tips)
 
 hbox = wx.BoxSizer()
 hbox.Add(filename,proportion=1,flag=wx.EXPAND)
