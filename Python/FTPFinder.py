@@ -5,7 +5,7 @@ import sys
 from ftplib import FTP
 
 FileName = "FileList.txt"
-contents = None
+contents = ""
 
 def listdir(dirlist,filelist,ftp):
     eachList=""
@@ -29,13 +29,13 @@ def getLists():
         ftp.login(username,passwd)
     except:
         return
-
+    print "connected..."
     filelist = open(FileName,"w")
+
     try:
         listdir(ftp.nlst("+WSN"),filelist,ftp)
     except:
         pass
-
     filelist.close()
     ftp.quit()
  
@@ -43,23 +43,28 @@ def searchFromFile(FileName):
     fp=open(FileName)
     lineList = fp.readlines()
     fp.close()
- 
-    searchword=filename.GetValue()
- 
+
     searchResult=""
-    for line in lineList:
-        lineIntoParts = line.split('/')
-        if searchword in lineIntoParts:
-            temp=searchResult
-            searchResult=temp+'\n'+line
+
+    searchword=filename.GetValue().encode("gbk")  #...
+    searchword = searchword.strip()
+    if searchword == "":
+        for line in lineList:
+            searchResult += '\n' + line
+    else:
+        for line in lineList:
+            if searchword in line:
+                temp=searchResult
+                searchResult=temp+'\n'+line
     return searchResult
  
 def showGetLists(event):
     getLists()
     contents.SetValue(open(FileName).read())
+    #contents.SetValue(getLists())
  
 def showSearchResult(event):
-    contents.SetValue(searchFromFile(FileName))
+    contents.SetValue(searchFromFile(FileName).decode("gbk"))
 
 ##################### Main ##############################
 

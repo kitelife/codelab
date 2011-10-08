@@ -48,7 +48,7 @@ class DialogForAddNote(wx.Frame):
         noteToBeStored = self.noteAdded.GetValue()
         if not (noteToBeStored == ''):
             fp = open('NoteBook.txt', 'a')
-            fp.write(noteToBeStored + '\n')
+            fp.write(noteToBeStored.encode("gbk") + '\n')  #gbk or gb2312 or cp936
             fp.close()
         
         self.DestroyChildren()
