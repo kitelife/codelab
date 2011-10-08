@@ -2,10 +2,20 @@
 
 import wx
 import sys
+import os
+
 from ftplib import FTP
 
 FileName = "FileList.txt"
 contents = ""
+
+in_coding = ""
+#print sys.platform
+if sys.platform == "win32":
+    in_coding = "gbk"
+else:
+    in_coding = "utf-8"
+#print in_coding
 
 def listdir(dirlist,filelist,ftp):
     eachList=""
@@ -22,14 +32,14 @@ def listdir(dirlist,filelist,ftp):
  
 def getLists():
     
-    host, port, username, passwd = sys.argv[1:]
+    host, port, username, passwd = sys.argv[1:]  #可能会存在问题
     try:
         ftp=FTP()
         ftp.connect(host,port)
         ftp.login(username,passwd)
     except:
         return
-    print "connected..."
+    print "connected to FTP"
     filelist = open(FileName,"w")
 
     try:
@@ -40,23 +50,28 @@ def getLists():
     ftp.quit()
  
 def searchFromFile(FileName):
-    fp=open(FileName)
-    lineList = fp.readlines()
-    fp.close()
 
-    searchResult=""
-
-    searchword=filename.GetValue().encode("gbk")  #...
-    searchword = searchword.strip()
-    if searchword == "":
-        for line in lineList:
-            searchResult += '\n' + line
+    if not os.path.isfile(FileName):
+        print 'There is no the file, because you should first get the file content for search'
+        return ""
     else:
-        for line in lineList:
-            if searchword in line:
-                temp=searchResult
-                searchResult=temp+'\n'+line
-    return searchResult
+        fp=open(FileName)
+        lineList = fp.readlines()
+        fp.close()
+
+        searchResult=""
+
+        searchword=filename.GetValue().encode(in_coding)  #...
+        searchword = searchword.strip()
+        if searchword == "":
+            for line in lineList:
+                searchResult += '\n' + line
+        else:
+            for line in lineList:
+                if searchword in line:
+                    temp=searchResult
+                    searchResult=temp+'\n'+line
+        return searchResult
  
 def showGetLists(event):
     getLists()
@@ -64,7 +79,7 @@ def showGetLists(event):
     #contents.SetValue(getLists())
  
 def showSearchResult(event):
-    contents.SetValue(searchFromFile(FileName).decode("gbk"))
+    contents.SetValue(searchFromFile(FileName).decode(in_coding))
 
 ##################### Main ##############################
 

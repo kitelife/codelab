@@ -12,6 +12,12 @@ from wx.lib.mixins.listctrl import CheckListCtrlMixin, ListCtrlAutoWidthMixin
 
 import FTPOperation
 
+in_coding = ""
+if sys.platform == "win32":
+    in_coding = "gbk"
+else:
+    in_coding = "utf-8"
+
 class DialogForAddNote(wx.Frame):
     
     def __init__(self, parent, id, title):
@@ -48,7 +54,7 @@ class DialogForAddNote(wx.Frame):
         noteToBeStored = self.noteAdded.GetValue()
         if not (noteToBeStored == ''):
             fp = open('NoteBook.txt', 'a')
-            fp.write(noteToBeStored.encode("gbk") + '\n')  #gbk or gb2312 or cp936
+            fp.write(noteToBeStored.encode(in_coding) + '\n')
             fp.close()
         
         self.DestroyChildren()
