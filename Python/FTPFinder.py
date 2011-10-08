@@ -48,9 +48,9 @@ def getLists():
     contents.SetValue("Connected to FTP server, begin to tranverse the fold tree...please waiting\n\n")
     
     try:
-        listdir(ftp.nlst("+WSN"),filelist,ftp)
+        listdir(ftp.nlst(ftp.pwd()),filelist,ftp)
     except socket.error, e:
-        contents.AppendText(str(e.message)+"\n")
+        contents.AppendText("socket error\n")
     filelist.close()
     ftp.quit()
  
@@ -95,9 +95,9 @@ def showSearchResult(event):
         pass
     else:
         try:
-            contents.AppendText(searchResult.decode(in_coding)+"\n\n")
+            contents.SetValue(searchResult.decode(in_coding)+"\n\n")
         except UnicodeDecodeError, e:
-            contents.AppendText("UnicodeDecodeError: "+e.reason+ "\n\n")
+            contents.SetValue("UnicodeDecodeError: "+e.reason+ "\n\n")
 ##################### Main ##############################
 
 Tips = '''
