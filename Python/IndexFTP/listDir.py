@@ -9,10 +9,10 @@ import time
 import operationOnMySQL
 import operateLog
 #-----------------------------------
-host = 'localhost'
-userName = 'root'
-passwd = 'dell@3107'
-dbName = 'dataforftpsearch'
+host = 'xxx'
+userName = 'xxx'
+passwd = 'xxx'
+dbName = 'xxx'
 #-----------------------------------
 
 def listFileInThisDir(directory):
