@@ -51,11 +51,17 @@ def listFileInThisDir(directory):
 	operateMySQL.closeLink()
 
 if __name__ == '__main__':
+	logger = operateLog.initLog()
 	
-	beginMessage = '***** Begin list FTP directory at : ' + time.ctime() + ' *****\n'
-	operateLog.writeLog(beginMessage)
+	#beginMessage = '***** Begin list FTP directory at : ' + time.ctime() + ' *****\n'
+	#operateLog.writeLog(beginMessage)
+	
+	beginMessage = 'Begin list FTP directory.'
+	logger.info(beginMessage)
 
 	listFileInThisDir('/var/ftp/project/+WSN/')
 	
-	endMessage = '##### End list FTP directory at: ' + time.ctime() + ' #####\n'
-	operateLog.writeLog(endMessage)
+	#endMessage = '##### End list FTP directory at: ' + time.ctime() + ' #####\n'
+	#operateLog.writeLog(endMessage)
+	endMessage = 'End list FTP directory'
+	logger.info(endmessage)

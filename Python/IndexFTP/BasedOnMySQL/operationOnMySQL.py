@@ -14,12 +14,15 @@ class MySQLdbOperation():
 		self.userName = userName
 		self.passwd = passwd
 		self.dbName = dbName
+		self.logger = operateLog.initLog()
+
 		try:
 			self.conn = mdb.connect(self.host, self.userName, self.passwd, self.dbName)
 			#cursor = self.conn.cursor()
 		except mdb.Error, e:
 			exceptMessage = 'Error %d: %s' %(e.args[0], e.args[1])
-			operateLog.writeLog(exceptMessage)
+			self.logger.error(exceptMessage)
+			#operateLog.writeLog(exceptMessage)
 			#print 'Error %d: %s' %(e.args[0], e.args[1])
 			sys.exit(1)
 
@@ -35,7 +38,8 @@ class MySQLdbOperation():
 			self.conn.commit()
 		except mdb.Error, e:
 			exceptMessage = 'Error %d: %s' %(e.args[0], e.args[1])
-			operateLog.writeLog(exceptMessage)
+			self.logger.error(exceptMessage)
+			#operateLog.writeLog(exceptMessage)
 			#print 'Error %d: %s' %(e.args[0], e.args[1])
 			cursor.close()
 			#self.conn.close()
@@ -50,7 +54,8 @@ class MySQLdbOperation():
 			return rows
 		except mdb.Error, e:
 			exceptMessage = 'Error %d: %s' %(e.args[0], e.args[1])
-			operateLog.writeLog(exceptMessage)
+			self.logger.error(exceptMessage)
+			#operateLog.writeLog(exceptMessage)
 			#print 'Error %d: %s' %(e.args[0], e.args[1])
 			cursor.close()
 			#self.conn.close()
@@ -60,14 +65,17 @@ class MySQLdbOperation():
 		cursor = self.conn.cursor()
 		SQL = 'INSERT INTO filelist (fileName, Path, lastTimeModified) VALUES("%s", "%s", "%s")' %(fileName, Path, lastTimeModified)
 		#print SQL
-		operateLog.writeLog('Insert %s' %fileName)
+		#operateLog.writeLog('Insert %s' %fileName)
+		insertMessage = 'Insert %s' %fileName
+		self.logger.info(insertMessage)
 
 		try:
 			cursor.execute(SQL)
 			self.conn.commit()
 		except mdb.Error, e:
 			exceptMessage = 'Error %d: %s' %(e.args[0], e.args[1])
-			operateLog.writeLog(exceptMessage)
+			self.logger.error(exceptMessage)
+			#operateLog.writeLog(exceptMessage)
 			#print 'Error %d: %s' %(e.args[0], e.args[1])
 			cursor.close()
 			return -1
@@ -80,7 +88,8 @@ class MySQLdbOperation():
 			cursor.execute(sqlSentence)
 		except mdb.Error, e:
 			exceptMessage = 'Error %d: %s' %(e.args[0], e.args[1])
-			operateLog.writeLog(exceptMessage)
+			self.logger.error(exceptMessage)
+			#operateLog.writeLog(exceptMessage)
 			cursor.close()
 			return -1
 		return 0
