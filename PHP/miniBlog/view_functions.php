@@ -21,6 +21,12 @@ function do_html_footer()
 {
 	// print an HTML footer
 ?>
+	<center>
+	<p>
+	Powered By PHP<br />
+	xiayf
+	</p>
+	</center>
 	</body>
 	</html>
 <?php
