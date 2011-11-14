@@ -1,8 +1,8 @@
 <?php
 $title="Hacker's Whiteboard";
 
-$dbHost='localhost';
-$dbUser='root';
-$dbPasswd='';
-$dbName='miniblog';
+$dbHost="localhost";
+$dbUser="root";
+$dbPasswd="";
+$dbName="miniblog";
 ?>
