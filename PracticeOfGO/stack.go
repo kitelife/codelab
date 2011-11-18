@@ -1,13 +1,24 @@
 package main
 
 import "fmt"
+import "strconv"
+/*
+type stackMethods interface {
 
-type arraylen10 [10]int
+	push(int)
+	pop() int
+	String()
+}
+*/
+
+const maxlen = 100
+
+type arrayfixedlen [maxlen]int
 
 type stack struct {
 	pointer int
 	maxium int
-	array arraylen10
+	array arrayfixedlen
 }
 
 func (st *stack) push(element int) {
@@ -32,14 +43,25 @@ func (st *stack) pop()(element int) {
 	return
 }
 
+func (st *stack) String() string {
+
+	var str string
+	for i := st.pointer-1; i >= 0; i-- {
+		str = str + "[" +
+					strconv.Itoa(i) + ":" + strconv.Itoa(st.array[i]) + "]"
+	}
+	return str
+}
+
 func main() {
 	st := new(stack)
 	st.pointer = 0
-	st.maxium = 10
-	for index := 0; index < 100; index++ {
-		st.push(index)
+	st.maxium = maxlen
+	for index := 0; index < maxlen+1; index++ {
+		st.push(index + 2)
 	}
-	for index := 0; index < 100; index++ {
-		st.pop()
-	}
+//	for index := 0; index < 100; index++ {
+//		st.pop()
+//	}
+	fmt.Printf("left content of stack: %s\n",st)
 }
