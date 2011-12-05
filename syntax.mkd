@@ -25,12 +25,7 @@
 <pre><code>This is a code block.
 </code></pre>
 <pre><code>
-#include<stdio.h>
-int main()
-{
-		printf("%s\n","Hello,World!");
-		return 0;
-}
+print "Hello, world!"
 </code></pre>
 * * *
 
