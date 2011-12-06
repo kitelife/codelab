@@ -1,0 +1,131 @@
+\documentclass[10pt,compress,mathserif,red]{beamer}
+\usepackage{CJKutf8}
+\usetheme{Antibes}
+
+\begin{document}
+\begin{CJK*}{UTF8}{gkai}
+\title{Linux内核设计与实现}
+\subtitle{第三章:进程管理}
+\author{夏永锋}
+\institute[SJTU]{上海交通大学\ 软件学院}
+\date{\today}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{block}{}
+进程在被创建的时刻开始存活。在Linux系统中，这通常是调用fork()系统调用的结果，该系统调用通过复制一个现有进程来创建一个全新的进程。调用fork()的进程被称为父进程，新产生的进程被称为子进程。该调用结束时，在返回点这个相同的位置上，父进程恢复执行，子进程开始执行。fork()系统调用从内核返回两次：一次回到父进程，另一次回到新诞生的子进程。
+\end{block}
+\end{frame}
+
+\section{进程描述符及任务结构}
+\begin{frame}
+\begin{block}{}
+内核把进程存放在叫做任务队列(task list)的双向循环链表中。链表中的每一项都是类型为task\_struct，称为进程描述符(process descriptor)的结构，该结构定义在$<linux/sched.h>$文件中。进程描述符中包含一个具体进程的所有信息。
+\end{block}
+\begin{block}{}
+task\_struct相对较大，在32位机器上，它大约有1.7K字节。
+\end{block}
+\end{frame}
+\subsection{分配进程描述符}
+\begin{frame}{分配进程描述符}
+\begin{block}{}
+Linux通过slab分配器分配task\_struct结构，这样能达到对象复用和缓存着色(cache coloring)的目的(译者注:通过预先分配和重复使用task\_struct，可以避免动态分配和释放所带来的资源消耗)
+\end{block}
+\end{frame}
+\subsection{进程描述符的存放}
+\begin{frame}{进程描述符的存放}
+\begin{block}{}
+内核通过一个惟一的进程标识符或PID来标识每个进程。PID是一个数，表示为pid\_t隐含类型，实际上就是一个int类型。为了与老版本的Unix和Linux兼容，PID的最大值默认设置为32768(short int短整形的最大值)，尽管这个值也可以增加到类型所允许的范围。
+\end{block}
+{\small
+\begin{block}{!!!}
+PID的最大值很重要，因为它实际上就是系统中允许同时存在的进程的最大数目。这个值越小，转一圈就越快，本来数值大的进程比数值小的进程迟运行，但这样一来就破坏了这一原则。
+\end{block}}
+\end{frame}
+\subsection{进程状态}
+\begin{frame}{进程状态}
+进程描述符中state域描述了进程的当前状态。系统中的每个进程都必然处于5个进程状态中的一种。\\
+{\small
+\begin{itemize}
+	\item<2-> TASK\_RUNNING(运行) --- 进程是可执行的；它或者正在执行，或者在运行队列中等待执行。
+	\item<3-> TASK\_INTERRUPTIBLE(可中断) --- 进程正在睡眠(也就是说它被阻塞)，等待某些条件的达成。一旦这些条件达成，内核就会把进程状态设置为运行。处于此状态的进程也会因为接收到信号而提前被唤醒并投入运行。
+	\item<4-> TASK\_UNINTERRUPTIBLE(不可中断) --- 除了不会因为接收到信号而被唤醒从而投入运行外，这个状态与可中断状态相同。
+	\item<5-> TASK\_ZOMBIE(僵死) --- 该进程已经结束了，但其父进程还没有调用$wait4()$系统调用。为了父进程能够获知它的信息，子进程的进程描述符仍然被保留着。一旦父进程调用$wait4()$，进程描述符就会被释放。
+	\item<6-> TASK\_STOPPED(停止) --- 进程停止执行；进程没有投入运行也不能投入运行。通常这种状态发生在接收到SIGSTOP,SIGTSTP,SIGTTIN,\\SIGTTOU等信号的时候。此外，在调试期间接收到任何信号，都会使进程进入这种状态。
+\end{itemize}}
+\end{frame}
+\subsection{进程家族树}
+\begin{frame}{进程家族树}
+Unix系统的进程之间存在一个明显的继承关系，在Linux系统中也是如此。{\color{red} 所有的进程都是PID为1的init进程的后代。内核在系统启动的最后阶段启动init进程。该进程读取系统的初始化脚本(initscript)并执行其他的相关程序，最终完成系统启动的整个过程。}\\
+系统中的每个进程必有一个父进程(除了init进程?)。相应的，每个进程也可以拥有零个或多个子进程。拥有同一个父进程的所有进程被称为兄弟。进程之间的关系存放在进程描述符中。每个task\_struct都包含一个指向其父进程task\_struct，叫做parent的指针，还包含一个称为children的子进程链表。
+\end{frame}
+\section{进程创建}
+\begin{frame}
+Unix将进程的创建过程分解到两个单独的函数中去实现：\ fork()和exec()
+\begin{block}{}
+\begin{enumerate}
+	\item<2-> fork()通过拷贝当前进程创建一个子进程。子进程与父进程的区别仅仅在于PID，PPID(父进程的进程号)和某些资源和统计量(例如挂起的信号，它没有必要被继承)。
+	\item<3-> exec()函数负责读取可执行文件并将其装载入地址空间开始运行。
+\end{enumerate}
+\end{block}
+\end{frame}
+\subsection{写时拷贝}
+\begin{frame}{写时拷贝}
+传统的fork()系统调用直接把所有的资源复制给新创建的进程。\\
+\begin{alertblock}{}
+Linux的fork()使用写时拷贝(copy-on-write)页实现。
+\end{alertblock}
+写时拷贝是一种可以推迟甚至免除拷贝数据的技术。内核此时并不复制整个进程地址空间，而是让父进程和子进程共享同一个拷贝。只有在需要写入的时候，数据才会被复制，从而使各个进程拥有各自的拷贝。也就是说，资源的复制只有在需要写入的时候才进行，在此之前，只是以只读方式共享。
+\end{frame}
+\subsection{fork()}
+\begin{frame}{fork()}
+\begin{itemize}
+	\item Linux通过clone()系统调用实现fork()。这个调用通过一系列的参数标志来指明父，子进程需要共享的资源。
+	\item fork(),vfork()和\_\_clone()库函数都根据各自需要的参数标志去调用clone()。然后由clone()去调用do\_fork()。
+	\item do\_fork()完成了创建中的大部分工作，它的定义在$kernel/fork.c$文件中。该函数调用copy\_process()函数，如果copy\_process()函数成功返回，新创建的子进程被唤醒并让其投入运行。内核有意选择子进程首先执行。因为一般子进程都会马上调用exec()函数，这样可以避免写时拷贝的额外开销，如果父进程首先执行的话，有可能会开始向地址空间写入。
+\end{itemize}
+\end{frame}
+\subsection{vfork()}
+\begin{frame}{vfork()}
+\begin{block}{}
+$vfork()$ 系统调用和fork()的功能相同，除了不拷贝父进程的页表项。子进程作为父进程的一个单独的线程在它的地址空间里运行，父进程被阻塞，直到子进程退出或执行exec()(?)。子进程不能向地址空间写入。子进程不能向地址空间写入。
+\end{block}
+\begin{block}{}
+在过去3BSD时期，这个优化是很有意义的，那时并未使用写时拷贝来实现fork().现在由于在执行$fork()$时引入了写时拷贝并且明确了子进程先执行，$vfork()$的好处就仅限于不拷贝父进程的页表项了。如果Linux将来$fork()$有了写时拷贝页表项，那么$vfork()$就彻底没用了。
+\end{block}
+$vfork()$系统调用的实现是通过向$clone()$系统调用传递一个特殊标志来进行的 。
+\end{frame}
+\subsection{线程在linux中的实现}
+\begin{frame}{线程在linux中的实现}
+从内核的角度来说，linux并没有线程的概念。Linux把所有的线程都当作进程来实现。内核并没有准备特别的调度算法或是定义特别的数据结构来表征线程。相反,{\color{red}线程仅仅被视为一个与其他进程共享某些资源的进程。}每个线程都拥有惟一隶属于自己的task\_struct，所以在内核中，它看起来就像是一个普通的进程(只是该进程与其他一些进程共享某些资源，如地址空间)。\\
+线程的创建和普通进程的创建类似，只不过在调用$clone()$的时候需要传递一些参数标志来指明需要共享的资源:\\
+{\small
+$clone(CLONE\_VM | CLONE\_FS | CLONE\_FILES | CLONE\_SIGHAND, 0);$
+}\\
+上面的代码产生的结果和调用$fork()$差不多，只是父子俩共享地址空间，文件系统资源，文件描述符和信号处理程序。换个说法就是，新建的进程和它的父进程就是流行的所谓线程。
+\end{frame}
+\begin{frame}{内核线程}
+\begin{block}{}
+内核经常需要在后台执行一些操作。这种任务可以通过内核线程(kernel thread)完成---独立运行在内核空间的标准进程。
+\end{block}
+\begin{block}{}
+内核线程和普通的进程间的区别在于内核线程没有独立的地址空间(实际上它的mm指针被设置为NULL)。它们只在内核空间运行，从来不切换到用户空间去。
+\end{block}
+内核线程和普通进程一样，可以被调度，也可以被抢占。
+\end{frame}
+\section{}
+\subsection{}
+\begin{frame}{}
+\begin{block}{}
+{\huge
+\begin{center}
+The End!
+\end{center}
+}
+\end{block}
+\end{frame}
+\end{CJK*}
+\end{document}
