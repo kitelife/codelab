@@ -1,6 +1,6 @@
 import subprocess
 import datetime
-from reportlib.pdfgen import canvas
+from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 
 def disk_report():
