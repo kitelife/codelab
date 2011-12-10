@@ -15,7 +15,7 @@ Status InitStack (struct SqStack *, char*);
 //Status ClearStack (struct SqStack *);
 //Status StackEmpty (struct SqStack);
 int StackLength (struct SqStack);
-SElemType GetTop (struct SqStack); //ÈôÕ»²»¿Õ£¬ÔòÓÃe·µ»ØSµÄÕ»¶¥ÔªËØ£¬²¢·µ»ØOK£¬·ñÔò·µ»ØERROR
+SElemType GetTop (struct SqStack); //è‹¥æ ˆä¸ç©ºï¼Œåˆ™ç”¨eè¿”å›Sçš„æ ˆé¡¶å…ƒç´ ï¼Œå¹¶è¿”å›OKï¼Œå¦åˆ™è¿”å›ERROR
 Status Push (struct SqStack *, SElemType);
 SElemType Pop (struct SqStack *);
 
@@ -53,7 +53,7 @@ Status Push(struct SqStack *S, SElemType e){
 }
 
 SElemType Pop (struct SqStack *S){
-    //ÈôÕ»²»¿Õ£¬ÔòÉ¾³ıSµÄÕ»¶¥ÔªËØ£¬²¢·µ»ØÆäÖµ¡£
+    //è‹¥æ ˆä¸ç©ºï¼Œåˆ™åˆ é™¤Sçš„æ ˆé¡¶å…ƒç´ ï¼Œå¹¶è¿”å›å…¶å€¼ã€‚
     SElemType e;
     if (S->top == S->base)
         return -1;
