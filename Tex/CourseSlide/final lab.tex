@@ -1,0 +1,79 @@
+\documentclass[CJK]{beamer}
+\usepackage{CJKutf8}
+\usepackage{xcolor} % 使用颜色宏包
+\usepackage{listings}
+\usetheme{Boadilla}
+\setbeamercovered{transparent}
+\begin{document}
+\begin{CJK*}{UTF8}{gbsn}
+\title{计算机编程基础与实践}
+\subtitle{---Web数据库应用实验教程}
+\author{夏永锋}
+\institute[SJTU]{上海交通大学\ 软件学院\\嵌入式实验室}
+\date{\today}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}{实验内容概述}
+\begin{block}{}
+{\bf	实现一个Browser/Server模式的简单数据库应用 --- 简单通讯录}
+\end{block}
+\begin{block}{}
+{\bf 实验环境：}Windows, Apache, PHP, MySQL\\
+{\bf 要求：}联系人的添加，删除，修改
+\end{block}
+因此，主要包括如下三个方面的工作:
+\begin{block}{}
+	\begin{itemize}
+		\item 如何存储？---数据库的设计
+		\item 如果存取？---通过PHP+SQL访问数据库
+		\item 交互界面---使用HTML(HyperText Markup Language)
+	\end{itemize}
+\end{block}
+\end{frame}
+\begin{lstlisting}[language=SQL,caption=创建数据库,keywordstyle=\color{blue!70},frame=shadowbox, rulesepcolor=\color{red!20!green!20!blue!20}]
+CREATE database contacts 
+DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE contacts;
+CREATE TABLE personinfo(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(20) NOT NULL,
+	phonenumber VARCHAR(15) NOT NULL,
+	email VARCHAR(30)
+);
+INSERT INTO personinfo(name,phonenumber,email)VALUES(
+"xiayf","15921584916","youngsterxyf@sjtu.edu.cn"
+);
+\end{lstlisting}
+\begin{block}{}
+可分步执行，也可以一起执行，或者将上面的SQL代码放到一个文件中，然后导入执行。
+\end{block}
+\begin{frame}{PHP+SQL访问MySQL}
+\begin{block}{基本步骤}
+\begin{enumerate}
+	\item 获取表单数据，并进行预处理
+	\item 使用mysqli类创建数据库连接对象，并测试是否创建成功
+	\item 使用表单数据填写需要执行的SQL语句
+	\item 通过数据库连接对象的query方法执行SQL语句
+	\item 获取数据库查询结果并使用HTML进行表示，以返回给客户端browser
+	\item 释放查询结果
+	\item 断开数据库连接
+\end{enumerate}
+\end{block}
+{\tiny 参看具体代码实例}
+\end{frame}
+\begin{frame}{常见问题难点}
+	\begin{itemize}
+		\item 出现编码问题
+		\item 使用表单数据编写SQL语句
+	\end{itemize}
+\end{frame}
+\begin{frame}
+	\begin{center}
+	{\LARGE Thank You!}
+	\end{center}
+\end{frame}
+\end{CJK*}
+\end{document}
