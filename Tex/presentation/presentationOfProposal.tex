@@ -1,0 +1,113 @@
+\documentclass[CJK]{beamer}
+\usepackage{CJKutf8}
+
+\usetheme{Boadilla}
+%\setbeamercovered{transparent}
+\begin{document}
+\begin{CJK*}{UTF8}{gkai}
+
+\title{基于Web的群体机器人远程控制系统研究与实现}
+\subtitle{\small Web-based Swarm-robots Remote Control System\\Research and Implementation}
+\author{夏永锋}
+\institute[SJTU]{上海交通大学\ 软件学院\\嵌入式实验室}
+\date{\today}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}{What's the problem?}
+\begin{alertblock}{}
+\begin{center}
+{\Large
+如何消除群体机器人控制系统在空间距离上的限制？
+}
+\end{center}
+\end{alertblock}
+\begin{block}{}
+\begin{center}
+便捷，低耗！
+\end{center}
+\end{block}
+\end{frame}
+\begin{frame}{难点重点}
+\begin{enumerate}
+	\item<2-> 如何确保网络时延的不确定性不会造成远程控制系统的功能性错误？
+	\item<3-> 如何尽可能降低远程控制系统与特定类型机器人之间的耦合度，提高系统的可移植性，灵活性？
+	\item<4-> 如何确保基于Web的远程控制系统的安全性，使其不会受到不明身份使用者的不当使用与恶意攻击？
+	\item<5-> 如何协调不同的人在群体机器人系统上部署不同的任务？
+\end{enumerate}
+\end{frame}
+\begin{frame}{国内外现状}
+\begin{itemize}
+	\item Ken Goldberg, Steve Gentner, Carl Sutter, "{\bf The Mercury Project: A Feasibility Study for Internet Robots}",1994
+	\begin{block}{}
+	"The Mercury Project was the first system to permit Internet users to remotely view and manipulate the real world."\\
+	"We viewed the Mercury Project as a feasibility study for a broad range of applications using the Internet to bring remote classrooms and scientific lab equipment to a much wider audience."
+	\end{block}
+	\item Hironori Hiraishi,Hayato Ohwada,Fumio Mizoguchi,"{\bf Web-based Communication and control for Multiagent Robots}",1998,IROS
+	\begin{block}{}
+	"This paper describes a Web-based method for communication with and control of heterogeneous robots in a unified manner."\\
+	"The Web technologies provide a general framework for integrating robots control, communication between robots and humans,and Web-page access.This framework can extend the robot-based intelligent office as new direction of the intranet."
+	\end{block}
+\end{itemize}
+\end{frame}
+\begin{frame}{ 国内外现状(续)}
+\begin{itemize}
+	\item Roland Siegwart,Patrick Saucy,"{\bf Interacting Mobile Robots on the Web}",1999,ICRA
+	\begin{block}{}
+	"This paper discusses the approach and preliminary results of projects in Internet-robotics, then a modular framework for mobile robots on the Web."\\
+	{\bf Two questions:}
+	\begin{itemize}
+		\item Why should one connect mobile robots to the Web?
+		\item How to guide mobile robots through the Web?
+	\end{itemize}
+{\bf A1:}To get real unbound interaction with a distant environment, a mobile platform is most adequate.It has no workspace limitations and allows thus for movement to places and for real exploration of distant locations.\\
+	\end{block}
+\end{itemize}
+\end{frame}
+\begin{frame}{国内外现状(续)}
+A2:\ Mobile robot systems connected to the Web are facing three major problems:\\
+\begin{itemize}
+	\item The network can introduce large time delay for which no upper bound can be guaranteed.
+	\item The network enables unexperienced peoples without any sense for technology to guide the robots.
+	\item The Web interface has to be easy to understand and to use in order to attract as many people as possible.
+\end{itemize}
+\end{frame}
+\begin{frame}{国内外现状(续)}
+\begin{itemize}
+	\item Peter X.Liu,Max Q.-H.Meng,Polley R.Liu,and Simon X.Yang,"{\bf An End-to-End Transmission Architecture for the Remote Control of Robots Over IP Networks}",2005,IEEE/ASME Transactions on Mechatronics
+	\begin{block}{}
+	"Physical interaction with remote environment over IP networks poses many technical challenges that are still outstanding,such as time delay, limited bandwidth,and unreliable transmission."\\
+	"This paper describes a novel data transmission architecture, for which the core is the trinomial transport protocol,to facilitate the remote control of Internet robots."
+	\end{block}
+\end{itemize}
+\end{frame}
+\begin{frame}{国内外现状(续)}
+\begin{itemize}
+	\item Vlad M.Trifa,Christopher M.Cianci,Dominique Guinard,"{\bf Dynamic Control of a Robotic Swarm using a Service-Oriented Architecture}",2008,AROB
+	\begin{block}{}
+	"The lack of standardized interfaces and communication protocols to interconnect robots from different manufacturers makes it very difficult to develop flexible robotic applications."\\
+	"We propose an efficient system suited to support heterogeneous robotic swarms that can be used as a toolkit for fast prototyping of robust distributed applications."\\
+	"The key idea behind SOA is that different companies offer their services in the form of modular, and loosely coupled software components exchanging data over HTTP which can be consumed by other companies through the internet."
+	\end{block}
+\end{itemize}
+\end{frame}
+\begin{frame}{国内外现状(续)}
+\begin{itemize}
+\item Quanyu Wang,Siyin Liu,Zhe Wang,"{\bf A New Internet Architecture for Robot Remote Control}",2006,IROS
+\item Yinong Chen,Zhihui Du,and Marcos Garcia-Acosta,"{\bf Robot as a Service in Cloud Computing}",2010,SOSE
+\end{itemize}
+\end{frame}
+\begin{frame}{}
+\begin{block}{}
+{\Large
+\begin{center}
+Thank You!\\
+Q and A
+\end{center}
+}
+\end{block}
+\end{frame}
+\end{CJK*}
+\end{document}
