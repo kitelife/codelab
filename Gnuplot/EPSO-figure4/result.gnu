@@ -10,7 +10,8 @@ set origin 0.0,0.5
 set title "(a)"
 set xlabel "Robot	No."
 set ylabel "Remained	Energy"
-set xrange [0:6]
+set xrange [1:5]
+set xtics 1,1,5
 set yrange [3000:7000]
 plot "1.txt" using 1:2 with lp pt 5 lw 4 title "EPSO", "1.txt" using 1:3 w lp pt 8 lw 4  title "MS-PSO"
 
@@ -49,8 +50,8 @@ set xlabel "Test No."
 set ylabel "Mission Completion Times"
 set yrange [32:40]
 set ytics 32,2,40
-set xrange [0:10]
-set xtics 0,1,10
+set xrange [1:10]
+set xtics 1,1,10
 plot "4.txt" using 1:2 with linespoints pt 5 lw 4 title "EPSO", "4.txt" using 1:3 w lp pt 8 lw 4 title "MS-PSO"
 
 unset multiplot
