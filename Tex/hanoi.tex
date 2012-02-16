@@ -1,0 +1,219 @@
+
+\documentclass[a4paper]{article}
+
+\usepackage{CJK}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{geometry}
+
+
+\begin{document}
+\begin{CJK*}{GBK}{kai}
+
+\title{汉诺塔问题技术报告}
+\author{致远学院2011级计算机科学班\ \ 杨宽(5110309049)}
+
+\maketitle
+
+\tableofcontents
+
+\section{汉诺塔问题简介}
+\subsection{起源}
+最早发明这个问题的人是法国数学家爱德华·卢卡斯。有一个传说是这样的：印度某间寺院有三根柱子，上串64个金盘。
+寺院里的僧侣依照一个古老的预言，以上述规则移动这些盘子；预言说当这些盘子移动完毕，世界就会灭亡。
+这个传说叫做梵天寺之塔问题(Tower of Brahma puzzle)。但不知道是卢卡斯自创的这个传说，还是他受其启发。\\
+\\
+汉诺塔是根据这个传说形成的一个问题：\\
+有三根杆子$A$，$B$，$C$。$A$杆上有$N$个($N>1$)穿孔圆盘，盘的尺寸由下到上依次变小。要求按下列规则将所有圆盘移至C杆：
+每次只能移动一个圆盘；大盘不能叠在小盘上面。\\
+提示：可将圆盘临时置于$B$杆，也可将从$A$杆移出的圆盘重新移回$A$杆，但都必须尊循上述两条规则。\\
+问：如何移？最少要移动多少次？\\
+\subsection{数学解法}
+下面我们讨论汉诺塔问题的数学解法，不妨设从下到上盘子的编号依次为$1, 2, 3, \ldots, n$ \\
+\\
+如果只有一个盘子，则不需要利用$B$座，直接将盘子从$A$移动到$C$。\\
+\\
+如果有$2$个盘子，可以先将盘子$1$上的盘子$2$移动到$B$；将盘子$1$移动到$C$；
+将盘子$2$移动到$C$。这说明了：可以借助$B$将$2$个盘子从$A$移动到$C$，当然，也可以借助$C$将$2$个盘子从$A$移动到$B$。\\
+\\
+如果有$3$个盘子，那么根据$2$个盘子的结论，可以借助$C$将盘子$1$上的两个盘子从$A$移动到$B$；将盘子$1$从$A$移动到$C$，A变成空座；
+借助$A$座，将$B$上的两个盘子移动到$C$。这说明：可以借助一个空座，将$3$个盘子从一个座移动到另一个。\\
+\\
+如果有$4$个盘子，那么首先借助空座$C$，将盘子$1$上的三个盘子从$A$移动到$B$；将盘子$1$移动到$C$，$A$变成空座；
+借助空座$A$，将$B$座上的三个盘子移动到$C$。\\
+\\
+上述的思路可以一直扩展到$n$个盘子的情况：可以借助空座C将盘子$1$上的$n-1$个盘子从$A$移动到$B$；
+将盘子$1$移动到$C$，$A$变成空座；借助空座$A$，将$B$座上的$n-1$个盘子移动到$C$。\\
+
+\section{用C语言求解汉诺塔问题}
+\subsection{递归的实现}
+很明显上面的数学解法里用到了递归的思想：即较大规模的问题可以分解为较小规模的同类型问题之和，解决了那些小规模的问题，
+就可以很方便地解决较大规模的问题。幸运的是，C语言为我们提供了系统栈，使得我们可以很轻松地实现递归。\\
+设函数hanoi(n, A, B, C)表示现在一共要移动n个盘子，起始盘子为A，目标盘子为B，辅助盘子为C，根据上述解法，
+应该先递归调用hanoi(n - 1, A, C, B)，然后输出把最大的盘子从A移动到B的操作，然后再递归调用hanoi(n - 1, C, B, A)。\\
+当然，要注意的是，递归调用必须设置边界，在这个问题里，就是n=0的情况，因为n=0时不需要移动操作。\\
+\subsection{C语言程序}
+\begin{verbatim}
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h> 
+#include <math.h>
+
+int n, cnt = 0;
+
+inline void hanoi(int dep, char *A, char *B, char *C) {
+    if (dep == 0) return;
+    hanoi(dep - 1, A, C, B);
+    printf("step %d: Move from %s to %s\n", ++ cnt, A, B);
+    hanoi(dep - 1, C, B, A);
+}
+
+int main() {
+    scanf("%d", &n);
+    hanoi(n, "Src", "Dst", "Aux");
+
+    return 0;
+}
+\end{verbatim}
+
+\section{用LC-3汇编语言求解汉诺塔问题}
+\subsection{栈的实现}
+用LC-3汇编程序解决汉诺塔问题，我的想法是把C语言翻译成LC-3汇编语言，其他的操作都很好翻译，但是在解决递归的时候有了麻烦——
+因为LC-3中没有系统栈这个东西，所以我们必须人工模拟。\\
+事实上也很简单，我们只需不断开辟新的空间来存储需要的数据即可。一般地，用R6寄存器表示栈顶指针，x6000表示栈的起始位置。\\
+压栈操作的代码如下：\\
+\begin{verbatim}
+STR     R0, R6, #0
+ADD     R6, R6, #-1
+\end{verbatim}
+从栈顶弹出的代码如下：\\
+\begin{verbatim}
+ADD     R6, R6, #1
+LDR     R0, R6, #0
+\end{verbatim}
+最后需要注意的就是栈里面应该保存的元素了，除了当前的盘子数（为了判断是否到了边界情况），当前的起始、目标和辅助盘子之外，
+我们还需要在栈里面存下上一层指令的位置，这是因为每次JSR之后PC的值会赋给R7，如果这时候不把R7的值存下来的话，下一次JSR的时候R7的值
+被覆盖了，我们就不知道下一次RET时应该执行的下一条指令了。\\
+至此，问题完全解决，我在下面的LC-3汇编程序旁边写了详细的注释，说明了每一段代码分别有什么作用或是翻译了C语言程序中的哪一句。\\
+
+\subsection{LC-3汇编程序}
+\begin{verbatim}
+        .ORIG   x3000
+        LD      R6, Stack
+        LEA     R0, Prompt
+        TRAP    x22
+        JSR     READ
+
+        LEA     R0, StringC       ; move(n, a, b, c)
+        STR     R0, R6, #0        ; push c
+        ADD     R6, R6, #-1
+        LEA     R0, StringB
+        STR     R0, R6, #0        ; push b
+        ADD     R6, R6, #-1
+        LEA     R0, StringA
+        STR     R0, R6, #0        ; push a
+        ADD     R6, R6, #-1
+        STR     R2, R6, #0        ; push n
+        ADD     R6, R6, #-1
+
+        JSR     Move
+        TRAP    x25
+
+READ    AND     R5, R5, #0        ; 从键盘读入汉诺塔盘子的个数
+        ADD     R5, R7, #0
+        AND     R2, R2, #0
+For     TRAP    x23               ; 读到第一个非数字字符停止
+        ADD     R7, R5, #0
+        LD      R1, Minus
+        ADD     R0, R0, R1
+        BRn     Exit
+        ADD     R1, R0, #-9
+        BRp     Exit
+        JSR     Multi
+        ADD     R2, R2, R0
+        BR      For
+Exit	ADD     R2, R2, #0
+        BRz     Err               ; 如果第一个字符为非数字或为0，则错误
+        RET
+
+Err     LEA     R0, ErrorInfo     ; 输出错误信息
+        TRAP    x22
+        TRAP    x25
+
+Multi   AND     R3, R3, #0        ; 乘以10
+        ADD     R3, R2, R2
+        ADD     R2, R3, R3
+        ADD     R2, R2, R2
+        ADD     R2, R2, R3
+        RET
+
+Move    STR     R7, R6, #0
+        ADD     R6, R6, #-1
+
+        LDR     R5, R6, #2        ; if (n == 0) return;
+        BRnz    Return
+
+        ADD     R4, R6, #0
+        LDR     R5, R6, #2
+        ADD     R5, R5, #-1
+        LDR     R0, R4, #4        ; move(n - 1, a, c, b)
+        STR     R0, R6, #0        ; push b
+        ADD     R6, R6, #-1
+        LDR     R0, R4, #5
+        STR     R0, R6, #0        ; push c
+        ADD     R6, R6, #-1
+        LDR     R0, R4, #3
+        STR     R0, R6, #0        ; push a
+        ADD     R6, R6, #-1
+        STR     R5, R6, #0        ; push n - 1
+        ADD     R6, R6, #-1
+        JSR     Move
+
+        LEA     R0, OutputMove    ; Print
+        TRAP    x22
+        LDR     R0, R6, #3
+        TRAP    x22
+        LEA     R0, OutputTo
+        TRAP    x22
+        LDR     R0, R6, #4
+        TRAP    x22
+        LD      R0, NewLine
+        TRAP    x21
+
+        ADD     R4, R6, #0
+        LDR     R5, R6, #2
+        ADD     R5, R5, #-1
+        LDR     R0, R4, #3        ; move(n - 1, c, b, a)
+        STR     R0, R6, #0        ; push a
+        ADD     R6, R6, #-1
+        LDR     R0, R4, #4
+        STR     R0, R6, #0        ; push b
+        ADD     R6, R6, #-1
+        LDR     R0, R4, #5
+        STR     R0, R6, #0        ; push c
+        ADD     R6, R6, #-1
+        STR     R5, R6, #0        ; push n - 1
+        ADD     R6, R6, #-1
+        JSR     Move
+
+        BR      Return
+
+Return  LDR     R7, R6, #1
+        ADD     R6, R6, #5
+        RET
+
+NewLine     .FILL   x000A
+Minus       .FILL   #-48
+Stack       .FILL   x6000
+ErrorInfo   .STRINGZ    "Not a number!"
+Prompt      .STRINGZ    "Please input the number of the Hanoi tower >"
+OutputMove  .STRINGZ    "Move "
+OutputTo    .STRINGZ    " to "
+StringA     .STRINGZ    "Src"
+StringB     .STRINGZ    "Dst"
+StringC     .STRINGZ    "Aux"
+            .END
+\end{verbatim}
+
+\end{CJK*}
+\end{document}
