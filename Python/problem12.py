@@ -2,7 +2,7 @@ symbol = True
 
 result = 0
 
-for i in range(1, 501):
+for i in range(1,501):
 	#print i
 	result += i
 
