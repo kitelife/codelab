@@ -3,7 +3,6 @@
  * purpose list contents of directory or directories
  * action if no args, use . else list files in args
  * note use stat and pwd.h and grp.h
- * BUG: try ls /tmp
  * */
 #include<stdio.h>
 #include<sys/types.h>
