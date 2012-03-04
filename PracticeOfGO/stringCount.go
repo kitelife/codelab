@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"utf8"
+	"unicode/utf8"
 )
 
 func main() {
 	sentence := "asSASA ddd dsjkdsjs dk"
-	number := 0
+	//number := 0
 /*
 	for pos, char := range sentence {
 		if char !=' ' {
