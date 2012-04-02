@@ -12,7 +12,8 @@ else
 fi
 
 if [ -f "interfaces" ];then
-	cp interfaces /etc/network/
-	/etc/init.d/networking restart
+	sudo cp interfaces /etc/network/
+	sudo /etc/init.d/networking restart
 	rm interfaces
+	python ~/Software/goagent/local/proxy.py
 fi
