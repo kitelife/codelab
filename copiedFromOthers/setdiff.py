@@ -49,6 +49,9 @@ class A(object):
         a = set(self.a)
         b = set(self.b)
         self.diff = [i for i in a if i not in b]
+    @timer()
+    def set_coolMethod(self):
+        self.diff = list(set(self.a) - set(self.b))
 
 if __name__ == "__main__":
     a = A()
@@ -56,3 +59,4 @@ if __name__ == "__main__":
     a.set_method()
     a.sort_method()
     a.set_simpleMethod()
+    a.set_coolMethod()
