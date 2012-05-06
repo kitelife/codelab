@@ -6,7 +6,6 @@ function foreachd(){
 		if [ -f $file ]; then
 			echo $file >> ~/$2.txt
 		else
-			#echo $file
 			foreachd $file $2
 		fi
 	done
@@ -22,8 +21,6 @@ fi
 
 filesInDir1=()
 filesInDir2=()
-dir1Same=()
-dir2Same=()
 
 count1=0
 while read line
@@ -56,44 +53,21 @@ do
 			echo $file1abs VS. $file2abs
 			diff $file1abs $file2abs
 			echo "------------------------------------"
-			dir2Same[${#dir2Same[*]}]=$file2abs
-		fi
+			unset filesInDir2[$p2]
+		fi	
 		p2=$[$p2+1]
 	done
 	if [ $same -gt 0 ]; then
-		dir1Same[${#dir1Same[*]}]=$file1abs
+		unset filesInDir1[$p1]
 	fi
 	p1=$[$p1+1]
 done
+
 printf "====================================\nBelow is the files with different names:\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"
-for file1 in ${filesInDir1[*]}
-do
-	count=0
-	for file1same in ${dir1Same[*]}
-	do
-		if [ $file1 = $file1same ]; then
-			count=$[$count+1]
-		fi
-	done
-	if [ $count -eq 0 ]; then
-		printf "$file\n"
-	fi
-done
+echo ${filesInDir1[*]}
 
 echo "---------------------------------------"
-for file2 in ${filesInDir2[*]}
-do
-	count=0
-	for file2same in ${dir2Same[*]}
-	do
-		if [ $file2 = $file2same ]; then
-			count=$[$count+1]
-		fi
-	done
-	if [ $count -eq 0 ]; then
-		printf "$file\n"
-	fi
-done
+echo ${filesInDir2[*]}
 
 rm 1.txt
 rm 2.txt
