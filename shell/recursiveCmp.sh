@@ -16,6 +16,9 @@ if [ $# = 2 ]; then
 	foreachd $1 1
 	foreachd $2 2
 fi
+#以上功能也可用find来实现
+#find $1 -depth -type f -exec ls {} \; > 1.txt
+#find $2 -depth -type f -exec ls {} \; > 2.txt
 
 filesInDir1=()
 filesInDir2=()
