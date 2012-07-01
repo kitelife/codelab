@@ -12,7 +12,7 @@ public class ReturnBook {
         String name=s.nextLine();
         try
         {
-            FileReader f=new FileReader("/home/xyf/Desktop/src/LentBookCatalogue.vim");
+            FileReader f=new FileReader("LentBookCatalogue.vim");
             BufferedReader reader=new BufferedReader(f);
            
             StringBuffer buffer = new StringBuffer();
@@ -35,7 +35,7 @@ public class ReturnBook {
             output=buffer.toString();
             //System.out.println(output);
            
-            FileWriter fw=new FileWriter("/home/xyf/Desktop/src/LentBookCatalogue.vim");
+            FileWriter fw=new FileWriter("LentBookCatalogue.vim");
             BufferedWriter writer=new BufferedWriter(fw);
             writer.write(output);
          

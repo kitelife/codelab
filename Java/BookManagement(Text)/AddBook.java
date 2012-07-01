@@ -3,6 +3,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Scanner;
+
 public class AddBook {
     Scanner s=new Scanner(System.in);
     public void add()
@@ -15,7 +16,7 @@ public class AddBook {
         String press=s.next();
         try
         {
-            FileWriter fw=new FileWriter("/home/xyf/Desktop/src/BookCatalogue.vim",true);
+            FileWriter fw=new FileWriter("BookCatalogue.vim",true);
             BufferedWriter bw=new BufferedWriter(fw);
             String message=String.format("%-15s%-15s%-15s",name,author,press);
             bw.write(message);

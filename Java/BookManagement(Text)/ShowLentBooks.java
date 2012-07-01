@@ -9,7 +9,7 @@ public class ShowLentBooks {
         String output="";
         try
         {
-            File fs=new File("/home/xyf/Desktop/src/LentBookCatalogue.vim");
+            File fs=new File("LentBookCatalogue.vim");
             if(!fs.exists())
             {
                 System.out.println("The file is not exist");

@@ -8,7 +8,7 @@ public class ShowAllBooks {
         String output="";
         try
         {
-        FileReader f=new FileReader("/home/xyf/Desktop/src/BookCatalogue.vim");
+        FileReader f=new FileReader("BookCatalogue.vim");
         BufferedReader input = new BufferedReader (f);
         StringBuffer buffer = new StringBuffer();
         int number=0;

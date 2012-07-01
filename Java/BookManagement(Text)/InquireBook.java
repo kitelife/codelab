@@ -9,7 +9,7 @@ public class InquireBook {
             System.out.print("Input the book's name:");
             String name = s.nextLine();
            
-            FileReader f = new FileReader("/home/xyf/Desktop/src/BookCatalogue.vim");
+            FileReader f = new FileReader("BookCatalogue.vim");
             BufferedReader input = new BufferedReader(f);
             String text;
             while (((text = input.readLine()) != null)) {

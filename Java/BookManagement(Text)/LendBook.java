@@ -16,8 +16,8 @@ public class LendBook {
             System.out.print("Please input who:");
             String who=s.nextLine();
            
-            FileReader f = new FileReader("/home/xyf/Desktop/src/BookCatalogue.vim");
-            FileWriter fw=new FileWriter("/home/xyf/Desktop/src/LentBookCatalogue.vim",true);
+            FileReader f = new FileReader("BookCatalogue.vim");
+            FileWriter fw=new FileWriter("LentBookCatalogue.vim",true);
            
             BufferedReader input = new BufferedReader(f);
             BufferedWriter bw=new BufferedWriter(fw);
