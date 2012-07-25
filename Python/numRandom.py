@@ -9,7 +9,7 @@ def main():
 	for data in dataset:
 		print data
 		with open(data) as fh:
-			with open(data+"result.txt", 'a') as resultHandler:
+			with open(data+"-result.txt", 'a') as resultHandler:
 				for line in fh.readlines():
 					line = line.strip()
 					lineArray = line.split(' ')
