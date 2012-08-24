@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="HibernateTemplate"
+  id="myeclipse.1343495500082"
+  context-root="/HibernateTemplate"
+  j2ee-spec="6.0"
+  archive="HibernateTemplate.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="StaticFactory"
+  id="myeclipse.1343398627534"
+  context-root="/StaticFactory"
+  j2ee-spec="6.0"
+  archive="StaticFactory.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

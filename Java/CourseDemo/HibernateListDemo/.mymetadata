@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="HibernateListDemo"
+  id="myeclipse.1342848783875"
+  context-root="/HibernateListDemo"
+  j2ee-spec="6.0"
+  archive="HibernateListDemo.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

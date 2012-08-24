@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="FilterAndListener"
+  id="myeclipse.1341635251478"
+  context-root="/FilterAndListener"
+  j2ee-spec="6.0"
+  archive="FilterAndListener.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

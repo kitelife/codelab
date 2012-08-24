@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="SpringManageAction"
+  id="myeclipse.1343480084082"
+  context-root="/SpringManageAction"
+  j2ee-spec="6.0"
+  archive="SpringManageAction.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

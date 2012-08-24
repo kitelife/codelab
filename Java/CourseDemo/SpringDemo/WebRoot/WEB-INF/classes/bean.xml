@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+<bean id="personService" class="demo.PersonService">
+	<property name="name" value="wawa" />
+</bean>
+<bean id="chinese1" class="demo1.Chinese">
+	<property name="axe" ref="stoneAxe" />
+</bean>
+<bean id="chinese2" class="demo2.Chinese">
+	<constructor-arg ref="steelAxe" />
+</bean>
+<bean id="stoneAxe" class="demo1.StoneAxe" />
+<bean id="steelAxe" class="demo2.SteelAxe" />
+
+<bean id="p1" class="demo2.Chinese" />
+<bean id="p2" class="demo2.Chinese" scope="prototype" />
+
+<bean id="examplebean" class="demo4.ExampleBean">
+	<property name="integerProperty" value="1" />
+	<property name="doubleProperty" value="2.3" />
+</bean>
+</beans>

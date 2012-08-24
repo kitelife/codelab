@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="MVCLogin"
+  id="myeclipse.1342167003423"
+  context-root="/MVCLogin"
+  j2ee-spec="6.0"
+  archive="MVCLogin.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+
