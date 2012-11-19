@@ -7,16 +7,15 @@ Created on Fri Oct 07 02:08:17 2011
 
 import os
 import sys
+import codecs
 import wx
 from wx.lib.mixins.listctrl import CheckListCtrlMixin, ListCtrlAutoWidthMixin
 
 import FTPOperation
 
-in_coding = ""
+in_coding = "utf-8"
 if sys.platform == "win32":
     in_coding = "gbk"
-else:
-    in_coding = "utf-8"
 
 class DialogForAddNote(wx.Frame):
     
@@ -58,7 +57,7 @@ class DialogForAddNote(wx.Frame):
             fp.close()
         
         self.DestroyChildren()
-        self.Close()    #
+        self.Close()
         
 class CheckListCtrl(wx.ListCtrl, CheckListCtrlMixin, ListCtrlAutoWidthMixin):
     def __init__(self, parent):
@@ -147,7 +146,7 @@ class DialogForDelNote(wx.Frame):
                 notesRemain.append(self.list.GetItemText(i))
         
         self.list.DeleteAllItems()
-        fp = open('NoteBook.txt','w')
+        fp = codecs.open('NoteBook.txt','w', in_coding)
         for note in notesRemain:
             fp.write(note)
             self.list.InsertStringItem(sys.maxint, note)
