@@ -1,0 +1,12 @@
+*.pdf
+*.pyc
+.directory/
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.log
+*.nav
+*.out
+*.snm
+*.toc
