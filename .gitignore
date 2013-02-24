@@ -1,6 +1,6 @@
 *.pdf
 *.pyc
-.directory/
+.directory
 *.aux
 *.bbl
 *.blg
@@ -10,3 +10,4 @@
 *.out
 *.snm
 *.toc
+*.gz
