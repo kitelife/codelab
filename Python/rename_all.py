@@ -2,20 +2,24 @@
 
 import os, sys
 
+target_dir = 'output/'
+
 def rename_files(dir_name):
 
     if not dir_name.endswith('/'):
         dir_name += '/'
-
     file_names = os.listdir(dir_name)
+    if not os.path.exists(target_dir):
+        os.mkdir(target_dir)
+
     name_template = '%s.%s'
     count = 1
     for filename in file_names:
         if not filename.startswith('.'):
             file_type = filename.split('.')[-1]
-            new_name = dir_name + name_template %(str(count), file_type)
+            new_name = target_dir + name_template %(str(count), file_type)
             print filename, '--->', new_name
-            os.rename(dir_name + filename, new_name)
+            os.system('cp "%s" "%s"' %(dir_name + filename, new_name))
             count +=1
 
 if __name__ == '__main__':
