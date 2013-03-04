@@ -8,7 +8,7 @@ import json
 import matplotlib.pyplot as plt
 
 count_dict = {}
-for_type_merge = {'C source': 'c', 'Perl script': 'pl', 
+for_type_merge = {'C source': 'c', 'Perl script': 'pl',
                     'Python script': 'py', 'POSIX shell script': 'sh',
                     'C++ source': 'cpp', 'LaTeX document': 'tex',
                     'Bourne-Again shell script': 'sh', 
