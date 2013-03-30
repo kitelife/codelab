@@ -5,8 +5,8 @@ import re
 import os
 import requests
 
-main_url = 'http://girl99.pixnet.net'
-albumlist_url = 'http://girl99.pixnet.net/album/list'
+MAIN_URL = 'http://girl99.pixnet.net'
+ALBUMLIST_URL = 'http://girl99.pixnet.net/album/list'
 
 PROXIES = {
         'http': '127.0.0.1:8087',
@@ -25,14 +25,14 @@ def parse_album_list(url):
     may_next_page = next_pageurl_pattern.findall(content)
     if len(may_next_page):
         print 'next_page: %s' %may_next_page[0]
-        nextpage_url = main_url + may_next_page[0]
+        nextpage_url = MAIN_URL + may_next_page[0]
         parse_album_list(nextpage_url)
 
 
 def parse_album(url):
-    photo_urls = []
-    
+    photo_urls = [] 
     content = download_content(url)
+
     def parse_onepage(page_content):
         photo_pattern = re.compile('<a\s+class="photolink"\s+title="\d+"\shref="(http://girl99.pixnet.net/album/photo/\d+(?:#after=\d+)?)">')
         onepage_photos = photo_pattern.findall(page_content)
@@ -41,7 +41,7 @@ def parse_album(url):
         may_nextpage = nextpage_pattern.findall(page_content)
         if len(may_nextpage):
             print '### next_page: %s' %may_nextpage[0]
-            nextpage_url = main_url + may_nextpage[0]
+            nextpage_url = MAIN_URL + may_nextpage[0]
             nextpage_content = download_content(nextpage_url)
             parse_onepage(nextpage_content)
 
@@ -83,7 +83,7 @@ def download_content(url):
     return content
 
 def main():
-    parse_album_list(albumlist_url)
+    parse_album_list(ALBUMLIST_URL)
     for album_url in ALL_ALBUM_LIST:
         parse_album(album_url)
 
