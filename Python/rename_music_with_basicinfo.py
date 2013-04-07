@@ -50,7 +50,11 @@ def parse_music_and_rename(music_path):
             music_info.remove('')
         new_name = '-'.join(music_info) + '.mp3'
         new_name = '{0}/{1}'.format('/'.join(music_path.split('/')[:-1]), new_name.encode('utf-8'))
-        os.rename(music_path, new_name)
+        try:
+            os.rename(music_path, new_name)
+        except Exception:
+            pass
+
 
 if __name__ == '__main__':
     music_path = sys.argv[1]
