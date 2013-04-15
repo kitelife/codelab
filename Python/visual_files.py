@@ -16,6 +16,7 @@ for_type_merge = {'C source': 'c', 'Perl script': 'pl',
                     'JPEG image data': 'jpeg', 'HTML document': 'html',
                     'PDF document': 'pdf', 'Zip archive data': 'zip',
                     'awk script': 'awk'}
+
 json_filename = 'files_count.json'
 
 def count_files(dir_name):
