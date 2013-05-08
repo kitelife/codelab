@@ -225,3 +225,49 @@ $("div").show();
  * when you call show() on that element, it sets the display property back to 
  * what it was previously. 
 */
+
+// animate() and Animation Convenience Methods
+
+// slideUp
+// slideDown
+// slideToggle
+/*
+* These methods animate elements by height. slideUp will animate an element to a 
+* height of 0, creating the effect that the element slides up the page, with 
+* its height getting smaller and smaller until it disappears. slideDown does 
+* the reverse, animating an element's height to a specific value. Finally, 
+* slideToggle will either slide an element up or down, based on the state it's in 
+* when you call it. If you call slideToggle on an element that has height 0, it 
+* will slide it down and reveal it. If you call slideToggle on an element that 
+* is visible, it will slide it up.
+* */
+
+//#############################################################################
+/*
+ * To get and set attributes of DOM elements, jQuery provides the attr() method.
+ * This works just like the css() method. There are three ways to do things:
+ * */
+// $("div").attr("id")  to get the value of the ID attribute.
+// $("div").attr("id", "main")  to set the value of the ID attribute to "main"
+// $("div").attr({
+//      "id": "main",
+//      "rel": "one"
+// });  to set multiple attributes at once.
+
+// prop() vs. attr()
+
+//#############################################################################
+// text() vs. html()
+/* If you want to update some text within an element, the best way to do it is 
+* by using the text() method.
+*
+* When you pass in HTML to the text() method, it is automatically escaped for you.
+* This means that jQuery replaces the symbol "<" with its HTML entity, which is 
+* "&lt;". The browser then displays this as the "<" symbol, but it's not HTML, 
+* just plain text.
+*
+* html() works exactly the same as text() but will not escape any HTML within it.
+*
+* You shouldn't get into the practice of inserting complex HTML via these methods,
+* though. jQuery provides a myriad of options for inserting into the DOM.
+*/ 
