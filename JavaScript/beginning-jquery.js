@@ -270,4 +270,29 @@ $("div").show();
 *
 * You shouldn't get into the practice of inserting complex HTML via these methods,
 * though. jQuery provides a myriad of options for inserting into the DOM.
-*/ 
+*/
+
+//##############################################################################
+// Removing Elements from the DOM
+/*
+ * remove() vs. detach()
+ *
+ * remove() will remove the set of elements from the DOM but also remove anything 
+ * else associated with it --- such as events.
+ * 
+ * remove() returns the entire set of elements that match the selector, not just
+ * the set of elements it just removed.
+ * 
+ * If you want to remove an element from the DOM but not its associations, there's 
+ * detach(). 
+ * */
+/*
+ * At times, you might want to remove everything within an element but not the
+ * element itself. This is where empty() comes in.
+ * */
+
+/*
+ * The final method for removing an element is unwrap(), which does roughly the
+ * opposite of empty(). empty() takes an element and removes its children,
+ * whereas unwrap() takes an element and removes its parent element.
+ * */
