@@ -296,3 +296,166 @@ $("div").show();
  * opposite of empty(). empty() takes an element and removes its children,
  * whereas unwrap() takes an element and removes its parent element.
  * */
+
+// Creating New Elements
+/*
+* Before getting to inserting new content into the DOM, you first need to look
+* at how to create a new object. 
+* The easiest way is to create a string of HTML.
+* However, this can get complicated very quickly if you're inserting structures
+* that are more complex.
+* */
+var newDiv = $("<div></div>", {
+    "text": "Hello",
+    "class": "newDiv",
+    "title": "Hello"
+});
+/*
+ * That's the best way to create complicated elements, which have a lot of
+ * attributes to set. 
+ * You call jQuery on an empty element, and then pass in an object that maps
+ * properties to values.
+ * */
+
+// Inserting into the DOM
+/*
+* 1. DOM Insertion, Around: These methods let you insert elements around existing
+* ones.
+* 2. DOM Insertion, Inside: These methods let you insert elements within
+* existing ones.
+* 3. DOM Insertion, Outside: These methods let you insert elements outside
+* existing ones that are completely separate.
+* */
+
+// DOM Insertion, Around
+/*
+ * 1. wrap()
+ * 2. wrapAll()
+ * 3. wrapInner()
+ * */
+
+/*
+ * <div>
+ *  <p>hey</p>
+ * </div>
+ * */
+$("p").wrap("<div></div>");
+/*
+ * <div>
+ *  <div>
+ *      <p>Hey</p>
+ *  </div>
+ * </div>
+ * */
+
+var newDiv = $("<div />", {
+    "class": "Hello",
+    "text": "Hey"
+});
+$("p").wrap(newDiv);
+
+/*
+ * wrapAll() does something similar with wrap(): it will take every element in
+ * the set and wrap and wrap them all in the new element.
+ * */
+/*
+ * <div>
+ *  <p>Hey</p>
+ *  <p>Hello</p>
+ * </div>
+ * */
+$("p").wrapAll("<div />");
+/*
+ * <div>
+ *  <div><p>Hey</p><p>Hello</p></div>
+ * </div>
+ * */
+/*
+ * The final wrap function is wrapInner(), which wraps the contents of each
+ * element in the new element.
+ * */
+$("p").wrapInner("<strong />");
+/*
+ * <div><p><strong>Hey</strong></p> <p><strong>Hello</strong></p></div>
+ * */
+
+
+// DOM Insertion, Inside
+/*
+ * append()
+ * appendTo()
+ * html()
+ * prepend()
+ * prependTo()
+ * text()
+ * */
+
+/*
+ * <div></div>
+ * <div></div>
+ * <div></div>
+ * */
+var p = $("<p />", {
+    "text": "Hello"
+});
+$("div").append(p);
+/*
+ * <div><p>Hello</p></div>
+ * <div><p>Hello</p></div>
+ * <div><p>Hello</p></div>
+ * */
+
+// DOM Insertion, Outside
+/*
+ * after()
+ * before()
+ * insertAfter()
+ * insertBefore()
+ * */
+// <div><p>Hello</p></div>
+$("p").after("<span>Hey</span>");
+// <div><p>Hello</p><span>Hey</span></div>
+
+// and if you were to do:
+$("p").before("<span>Hey</span>");
+// <div><span>Hey</span><p>Hello</p></div>
+
+$("<span>Hey</span>").insertAfter("p");
+$("<span>Hey</span").insertBefore("p");
+
+/*
+ * DOM manipulation is expensive. Relative to most of the JavaScript you'll
+ * write, removing, manipulatiing, or inserting DOM elements is going to be the
+ * slowest part.
+ * */
+
+// 为了提升效率，应尽可能少地操作DOM，下面的两段代码，片段2就优于片段1
+// 代码片段1
+$(function(){
+    var i = 0;
+    var newUl = $("<ul />").appendTo("body");
+    while( i < 10 ) {
+        $("<li />", {
+            "text": i+1
+        }).appendTo(newUl);
+        i++;
+    }
+});
+
+// 代码片段2
+$(function() {
+    var i = 0;
+    var newUl = $("<ul />");
+    while( i < 10 ) {
+        $("<li />", {
+            "text": i+1
+        }).append(newUl);
+        i++;
+    }
+    newUl.appendTo("body");
+});
+/*
+ * The key here is that you don't append the unordered list to the body until
+ * the loop is complete. You can create an element and add elements to it before
+ * you add it that element to the DOM. That's the best way to do it.
+ * */
