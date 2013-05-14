@@ -650,4 +650,169 @@ $(function() {
     });
 });
 
+//##############################################################################
+
+//// More Events
+
+// Event Delegation
+
+/*
+ * Two problems:
+ * 1. How can you run a function whenever a paragraph is clicked, but still bind
+ * it efficiently when there are a lot of paragraphs?
+ * 2. How can you make it so any new paragraph inserted into the DOM also run
+ * the code when they are clicked?
+ * */
+/*
+ * 'event delegation' means that instead of binding the event to each paragraph
+ * individually, you bind the event to a parent element of all the paragraphs
+ * and let it delegate the event to the paragraph.
+ * */
+/*
+ * An explanation of how it works:
+ * 1. The click event is bound to a parent element of all you paragraphs (keep it
+ * simple and use the body element for this example).
+ * 2. When the body element detects an event of the type you bound (click, in this
+ * case), it checks to see if the click happened on a paragraph.
+ * 3. If it was, it fires the function you bound to it. This is where the
+ * delegation happens.
+ * */
+
+$(function() {
+    $("p").on("click", function() {
+        alert("Hello world");
+    });
+    $("<p />", {
+        text: "Paragraph 6"
+    }).appendTo("body");
+});
+
+// vs.
+$(function() {
+    $("body").on("click", "p", function() {
+        alert("Hello world");
+    });
+    $("<p />", {
+        text: "Paragraph 6"
+    }).appendTo("body");
+});
+
+/*
+ * If you're binding an event to just one element, there's no point in
+ * delegating because you don't gain anything. 
+ * */
+
+
+// Event Propagation
+
+/*
+ * Event propagation is the same as event bubbling; they are simply two terms
+ * meaning the same thing.
+ * */
+/*
+ * When an event is fired on a element in the browser, it's not just fired on
+ * that element, but every element that is a parent of it.
+ * */
+/*
+ * While most events (including the ones you'll work with most often) propagate,
+ * not all of them do.
+ * */
+// http://en.wikipedia.org/wiki/DOM_events
+
+/*
+ * Typically, the only time you need to worry about event propagation is when 
+ * you are binding an event to both an element and the element's parent.
+ * */
+/*
+ * Luckily, there is a way to stop event propagation. The event object has a
+ * method named 'stopPropagation' that can prevents the event from bubbling up
+ * the DOM tree, preventing any parent handlers from being notified of the
+ * event.
+ * */
+$(function() {
+    $("h5").on("click", function(event) {
+        alert("header");
+        event.stopPropagation();
+    });
+    $("div").on("click", function() {
+        alert("div");
+    });
+});
+
+/*
+ * Unless the propagation of an event is causing an issue, don't prevent it.
+ * */
+
+// Preventing Default Behavior
+/*
+ * Sometimes when you bind to an event, you need to stop the browser from
+ * performing the default action attached to that event.
+ * */
+$(function() {
+    $("a").on("click", function(event) {
+        event.preventDefault();
+        $("div").css("background", "blue");
+    });
+});
+
+//######
+$(function() {
+    $("a").on("click", function() {
+        $("div").css("background", "blue");
+        return false;
+    });
+});
+
+/*
+ * Making a handler return Boolean false has the effect of stopping the default
+ * event action from being called and stopping the event from propagating. In
+ * essence, it effectively is a shortcut for calling stopPropagation and
+ * preventDefault.
+ * As I explained, most of time you actually don't want to call stopPropagation,
+ * so I strongly advise avoiding return false;, and instead use preventDefault.
+ * */
+
+// You Own Events
+/*
+ * A seldom-used but very useful feature of jQuery’s events is the ability to 
+ * trigger and bind to your own custom events.
+ */
+$(function() {
+    $("h5").on("click", function() {
+        $("div").trigger("bgchange");
+    });
+    
+    $("div").on("bgchange", function() {
+        var t = $(this);
+        t.css("background-color", "blue");
+    });
+});
+
+/*
+ * The beauty of custom events is that they give you a neat way to package up
+ * your code and keep as much of it separate as possible. It also allows you to 
+ * assign meaningful names to the events you create, keeping your code easy to 
+ * follow and maintain.
+ */
+
+
+$(function() {
+    var accordion = $("#accordion");
+    var headings = $("h2");
+    var paragraphs = $("p");
+    paragraphs.not(":first").hide();
+    accordion.on("click", "h2", function() {
+        var t = $(this);
+        var tPara = t.next();
+        if(!tPara.is(":visible")) {
+            tPara.trigger("showParagraph");
+        }
+    });
+
+    accordion.on("showParagraph", "p", function() {
+        paragraphs.slideUp("normal");
+        $(this).slideDown("normal");
+    });
+});
+
 
