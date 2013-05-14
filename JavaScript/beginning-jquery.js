@@ -459,3 +459,195 @@ $(function() {
  * the loop is complete. You can create an element and add elements to it before
  * you add it that element to the DOM. That's the best way to do it.
  * */
+
+//##############################################################################
+// An introduction to Events
+
+/*
+ * Previously there were a huge number of methods, all focused on event binding.
+ * There were individual handlers like click(), hover(), and so on. Then there
+ * were more methods for general event binding, such as bind(), live() and
+ * delegate(). this got complicated and required a lot of explaining. Those
+ * methods all still exist in jQuery now, but it's highly advised that you
+ * switch to just using on().
+ * */
+
+/*
+ * hover() isn't actually an event, but it's shorthand for binding two functions
+ * at once---one to the mouseenter event, which is executed when the mouse
+ * hovers over the element in question, and one for the mouseleave event, which
+ * is when the mouse stops hovering over the element.
+ * */
+$("div").hover(function() {
+    alert("hovered in");
+}, function() {
+    alert("hovered out");
+});
+
+/*
+ * If you would rather use the new on() method, you have to use the mouseenter
+ * and mouseleave events:
+ * */
+$("div").on("mouseenter", function() {
+    alert("hovered over");
+}).on("mouseleave", function() {
+    alert("hovered out");
+});
+
+/*
+ * on() allows you to bind the same function to multiple events. Simply pass
+ * them into the on() method as a space-demilited string:
+ * */
+$("div").on("mouseenter mouseleave", function() {
+    alert("hovered on or out");
+});
+
+$("div").on("mouseenter mouseleave click dblclick", function() {
+    alert("hovered on or out, clicked or double clicked");
+});
+
+/*
+ * The main mouse events you need to be aware of are:
+ * click
+ * mouseenter
+ * mouseleave
+ * dblclick
+ * */
+/*
+ * Another important part of jQuery'e events are the form events.
+ * jQuery makes enhancing forms using JavaScript --- such as custom validation
+ * --- really straightforward.
+ * */
+/*
+<form action="/some/url" method="post">
+    <label>Enter your first name: </label>
+    <input type="text" name="first_name" >
+    <input type="submit" name="submit" value="submit" >
+</form>
+*/
+$("form").on("submit", function() {
+    alert("you just submitted the form!");
+});
+
+/*
+ * For dealing with events on individual inputs, the two events you will use
+ * most often are focus and blur, which are exact opposites of each other.
+ * The focus event is fired when an element has focus. The most obvious example 
+ * is when the user clicks an input box or starts typing in it. At that moment,
+ * the element has focus and the focus event is fired. When the user moves on,
+ * clicking another element or just off the element, the blur method fired.
+ * Think of focus and blur as being a little like mouseenter and mouseleave in
+ * how they work. The most important difference is that focus and blur can be
+ * triggered in more ways than just via a mouse. The can also be triggered via
+ * the keyboard when the user tabs through a form. Thus, for events to be fired
+ * based on an input element being active, never use mouseenter or mouseleave.
+ * Always use focus and blur.
+ * */
+
+$("input").on("focus", function() {
+    alert("you're focused on an input");
+}).on("blur", function() {
+    alert("this input just lost focus");
+});
+
+
+/*
+ * Sometimes you might want to manually trigger an event. Perhaps you've got a
+ * link that enables the user to fill out a form, and when it's clicked you'd
+ * like to fire the submit event on a form. jQuery has the trigger() method to
+ * do this for us:
+ * */
+$("a").on("click", function() {
+    $("form").trigger("submit");
+});
+
+/*
+ * Just as you have on() for binding to events, you have off() for unbinding
+ * from events.
+ * */
+$("div").off();
+/*
+ * That will unbind all events from every div. You can also pass in an event as
+ * the first parameter to unbind all events of that type.
+ * */
+// It's also possible to unbind just a specific function.
+$(function() {
+    var clickEvent = function() {
+        alert("clickEvent");
+    };
+    $("p").on("click", function() {
+        alert("click");
+    }).on("click", clickEvent);
+
+    $("p").off("click", clickEvent);
+});
+
+// The Event Object
+
+/*
+ * Whenever you bind an event to a function and that function is then triggered,
+ * jQuery passes what’s known as the event object. This object contains a lot of 
+ * information about the event. To get access to this, just make your event
+ * handler take one parameter as an argument. jQuery then passes the event
+ * object into this function, and you can get at it through the argument that
+ * you denoted your function should take.
+ * */
+$(function() {
+    $("p").on("click", function(event) {
+        console.log(event);
+    });
+});
+
+$(function() {
+    $("div").on("hover", function(event) {
+        if(event.type === 'mouseenter') {
+            $(this).css("background", "blue");
+        }else{
+            $(this).css("background", "red");
+        }
+    });
+});
+
+/*
+ * You can use the pageX and pageY properties to get the position of the mouse
+ * when the event fired, relative to the top-left edge of the document window.
+ * */
+$(function() {
+    $("div").on("click", function(event) {
+        alert("Your mouse is at X " + event.pageX + " and at Y " + event.pageY);
+    });
+});
+
+// Building an Accordion
+$(function() {
+    var headings = $("h2");
+    var paragraphs = $("p");
+    paragraphs.not(":first").hide();
+
+    headings.on("click", function() {
+        var t = $(this);
+        if(t.next().is(":visible")) {
+            return;
+        }
+        paragraphs.hide();
+        t.next().show();
+    });
+});
+
+// vs.
+$(function() {
+    var headings = $("h2");
+    var paragraphs = $("p");
+    paragraphs.not(":first").hide();
+    headings.on("click", function() {
+        var t = $(this);
+        var tPara = t.next();
+        if(tPara.is(":visible")) {
+            return;
+        }
+        paragraphs.slideUp("normal");
+        tPara.slideDown("normal");
+    });
+});
+
+
