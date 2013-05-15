@@ -875,3 +875,108 @@ animate({
  * animation.
  * */
 
+// The lag effect problem
+
+$(function() {
+    $("h5").on("click", function() {
+        $("div").fadeToggle(500);
+    });
+});
+
+// VS.
+
+$(function() {
+    $("h5").on("click", function() {
+        $("div").stop().fadeToggle(500);
+    });
+});
+
+// VS.
+
+$(function() {
+    $("h5").on("click", function() {
+        $("div").stop(true, true).fadeToggle(500);
+    });
+});
+
+
+// Making things as easy as possible is really important in my opinion.
+
+//##############################################################################
+
+// The Image Slider
+
+/*
+#slider {
+    width: 300px;
+    overflow: hidden;
+    height: 400px;
+}
+
+#slider ul {
+    list-style: none;
+    width: 1500px;
+    height: 300px;
+    margin: 0;
+    padding: 0;
+}
+
+#slider li {
+    float: left;
+    width: 300px;
+    height: 300px;
+}
+*/
+
+$(function() {
+    var sliderWrapper = $("#slider");
+    var sliderList = sliderWrapper.children("ul");
+    var sliderItems = sliderList.children("li");
+    var buttons = sliderWrapper.children(".button");
+
+    var animateSlider = function(direction, duration) {
+        sliderList.animate({
+            "margin-left": direction + "=300px"    
+        }, duration);
+    };
+
+    var isAtStart = function() {
+        return parseInt(sliderList.css("margin-left"), 10) === 0;
+    }
+
+    var isAtEnd = function() {
+        var imageWidth = sliderItems.first().width();
+        var imageCount = sliderItems.length;
+        var maxMargin = -1 * (imageWidth * (imageCount-1));
+        return parseInt(sliderList.css("margin-left"), 10) === maxMargin;
+    }
+
+    /*
+    buttons.on("click", function() {
+        if($(this).hasClass("back")){
+            animateSlider("+", 1000);
+        } else {
+            animateSlider("-", 1000);
+        }
+    });
+    */
+   buttons.on("click", function() {
+       var $this = $(this);
+       var isBackBtn = $this.hasClass("back");
+
+       if(isBackBtn && isAtStart()) {
+           return;
+       }
+       if(!isBackBtn && isAtEnd()) {
+           return;
+       }
+       // if((isBackBtn && isAtStart()) || (!isBackBtn && isAtEnd())) { return; }
+       animateSlider((isBackBtn ? "+" : "-"), 1000);
+   });
+});
+
+/*
+ * If the margin of the unordered list is set to 0, it means you are at the
+ * first image, and hence the Back button should be disabled. If the margin is
+ * set to -1200 pixels, you are at the last image.
+ * */
