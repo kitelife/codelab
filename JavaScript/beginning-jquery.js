@@ -815,4 +815,63 @@ $(function() {
     });
 });
 
+//##############################################################################
+
+// Animation
+/*
+* The animate() method can be used to animate a number of properties on an
+* element over a period of time.
+* */
+
+animate({
+    property: value,
+    property2: value2
+}, 500, function() {
+    console.log("finished");
+});
+/*
+ * Within the callback function, the value of this will refer to the DOM element 
+ * that has just been animated. If you wanted to use jQuery methods on that
+* object, you'd simply pass it through to jQuery, as follows: $(this)
+* */
+
+
+/*
+ * fadeIn()
+ * fadeOut()
+ * fadeToggle()
+ * fadeTo()
+ * */
+
+/*
+ * slideUp()
+ * slideDown()
+ * slideToggle()
+ * */
+/*
+ * If you ever find yourself checking whether an element is visible or not
+ * before sliding/fading it in, use the toggle methods to save yourself some
+ * work.
+ * */
+
+/*
+ * show()
+ * hide()
+ * toggle()
+ * */
+
+// The Animation Queue
+/*
+ * When you run multiple animations on a single element, they are not all run at
+ * the same time but are added to jQuery's animation queue.
+ * */
+/*
+ * jQuery performs animation through a series of setTimeout() calls.
+ * setTimeout() is a JavaScript method that runs code after a defined time
+ * interval. When you run code to animate a div's opacity from 1 to 0, it
+ * actually makes a large number of very small changes to the opacity over time
+ * to emulate an animation. There's no actual fading occuring. It's just very
+ * quickly changing the opacity by a small amount to give the illusion of
+ * animation.
+ * */
 
