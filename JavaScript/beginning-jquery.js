@@ -980,3 +980,138 @@ $(function() {
  * first image, and hence the Back button should be disabled. If the margin is
  * set to -1200 pixels, you are at the last image.
  * */
+
+//##############################################################################
+
+// Ajax with jQuery
+
+/*
+ * Unlike JavaScript, keys in JSON object have to have "double quotes" around
+ * them.
+ *
+ * Values in JSON can be of the following types:
+ * String
+ * Number
+ * Array
+ * Boolean true/false
+ * null
+ *
+ * Items in arrays can be any of these types, too.
+ * Strings need to be double quoted, but the rest don't
+ * */
+
+/*
+ * JSON.stringify(): Takes a JavaScript object and produces a JSON string from
+ * it.
+ * JSON.parse(): Takes a JSON string and parses it to a JavaScript object.
+ * */
+
+/*
+ * Web site (http://caniuse.com/json) is useful for finding out which browsers
+ * natively support JSON
+ * */
+
+$.ajax({
+    "url": "/myurl",
+    "type": "POST",     // Default is GET
+    "dataType": "json",
+    "success": function(data){
+        console.log(data);
+        ...
+    },
+    "error": function(jqxhr, msg, error){
+        ...
+    }
+});
+
+
+/*
+ * When jQuery 1.5 launched, it came with a new way of handling callbacks for
+ * Ajax requests that improved the syntax hugely.
+ * */
+/*
+ * The jqXHR object is a wrapper around the browser's native XMLHttpRequest
+ * object---the way Ajax requests are done with just JavaScript. Every jQuery
+ * Ajax method --- both the convenience one like $.getJSON and the main $.ajax
+ * method --- returns an instance of this object. What you can then do is add
+ * your callback methods onto this, meaning you don't have to define them within
+ * the call to the Ajax method.
+ * */
+
+$.ajax({
+    "url": "/someurl",
+    "success": function() {
+        // do something here
+    }
+});
+
+// VS.
+var req = $.ajax({
+    "url": "/someurl"
+});
+req.done(function(){
+    // do something
+});
+/*
+ * As of jQuery 1.8, using .error() and .success() are deprecated, meaning they
+ * shouldn't be used; instead, the following should be used:
+ * .done(), which replaces .success()
+ * .fail(), which replaces .error()
+ * .always(), which runs regardless of whether the request was successful or not
+ * */
+/*
+ * The real advantage of this is that you can set up multiple callbacks:
+ */
+
+var req = $.ajax({
+    "url": "/someUrl"
+});
+ 
+req.done(function() {
+    //do something
+});
+req.done(function() {
+    //do something else
+});
+ 
+req.always(function() {
+    //always do this
+});
+
+//##############################################################################
+
+/*
+ * By default, the browser won't allow one domain to make an Ajax call to a URL
+ * on another domain to pull in data, because this could be potentially
+ * dangerous.
+ * 
+ * Of course, this is not practical when it comes to using third-party APIs, and
+ * hence, many workarounds exist. One of the newer workarounds is Cross-Origin
+ * Resources Sharing(CORS), which allows the server to include a header in its
+ * response, stating that a cross-origin request is valid.
+ * https://developer.mozilla.org/en/docs/HTTP_access_control
+ * 
+ * Another solution, the one commonly used today, is to use JSONP, which stands
+ * for JSON Padded.
+ * http://johnnywey.wordpress.com/2012/05/20/jsonp-how-does-it-work/
+ *
+ * What if you could put the URL of the data you want into a script tag and get
+ * the server's response as a JavaScript script, thus allowing you to get at the
+ * data? This is how JSONP works.
+* */
+
+$(function() {
+    var req = $.ajax({
+        url: "http://api.dribbble.com/shots/626625",
+        dataType: "jsonp"       // 注意这里！
+    });
+    req.done(function(data) {
+        console.log(data);
+    });
+});
+
+//##############################################################################
+/*
+* 本书接下来的最后三个章节是讲述如何编写jQuery插件的，有时间可以再看看。
+* 本书挺不错。
+* */
