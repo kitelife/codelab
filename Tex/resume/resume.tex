@@ -1,0 +1,80 @@
+%% start of file `template-zh.tex'.
+%% Copyright 2006-2013 Xavier Danaux (xdanaux@gmail.com).
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License version 1.3c,
+% available at http://www.latex-project.org/lppl/.
+
+
+\documentclass[12pt,a4paper,sans]{moderncv}   % possible options include font size ('10pt', '11pt' and '12pt'), paper size ('a4paper', 'letterpaper', 'a5paper', 'legalpaper', 'executivepaper' and 'landscape') and font family ('sans' and 'roman')
+
+% moderncv 主题
+\moderncvstyle{banking}                        % 选项参数是 ‘casual’, ‘classic’, ‘oldstyle’ 和 ’banking’
+\moderncvcolor{blue}                          % 选项参数是 ‘blue’ (默认)、‘orange’、‘green’、‘red’、‘purple’ 和 ‘grey’
+%\nopagenumbers{}                             % 消除注释以取消自动页码生成功能
+
+% 字符编码
+\usepackage[utf8]{inputenc}                   % 替换你正在使用的编码
+\usepackage{CJKutf8}
+
+% 调整页面出血
+\usepackage[scale=0.75]{geometry}
+%\setlength{\hintscolumnwidth}{3cm}           % 如果你希望改变日期栏的宽度
+
+% 个人信息
+\name{夏永锋}{}
+\title{个人简历}                     % 可选项、如不需要可删除本行
+\phone[mobile]{15921584916}              % 可选项、如不需要可删除本行
+\email{youngsterxiayf@gmail.com}                    % 可选项、如不需要可删除本行
+\homepage{youngsterxyf.github.io}            % 可选项、如不需要可删除本行
+\extrainfo{\url{github.com/youngsterxyf}} 
+%----------------------------------------------------------------------------------
+%            内容
+%----------------------------------------------------------------------------------
+\begin{document}
+\begin{CJK}{UTF8}{kai}                       % 详情参阅CJK文件包
+\maketitle
+
+\section{工作背景}
+\cventry{2013.4 -- 至今}{运营开发工程师}{腾讯}{上海}{}{
+\begin{itemize}
+\item xxx
+\item xxx
+\end{itemize}}
+
+\cventry{2012.5. -- 2012.12}{Web开发实习生}{谷歌-企业社会责任部}{上海}{}{
+\begin{itemize}%
+\item 负责开发维护一起公益网(\url{www.17gong1.com})
+\item 维护公益品网(\url{www.gong1pin.com})
+\item 负责服务器的日常管理维护工作
+\item 使用Python处理多种数据
+\end{itemize}}
+
+\section{教育背景}
+\cventry{2010.9 -- 2013.4}{硕士}{上海交通大学 - 软件学院}{上海}{}{}  % 第3到第6编码可留白
+\cventry{2006.9 -- 2010.7}{学士}{上海大学 - 计算机工程与科学学院}{上海}{}{}
+
+\section{计算机技能}
+\begin{itemize}
+\item 熟悉Python、PHP、JavaScript，会用Go、shell、C/C++、Java；
+\item 熟悉Linux系统运维；
+\item 熟悉HAProxy、Keepalived、BIND的安装部署以及运维；
+\item 熟悉MySQL, Redis, Memcached；
+\item 熟练掌握常用数据结构与算法；
+\end{itemize}
+
+\section{语言技能}
+\cvitemwithcomment{英语}{CET-6}{读、写 - 流畅，听、说 - 一般}
+\begin{itemize}
+\item 经常翻译优秀技术文章（见{\color{blue}\href{http://youngsterxyf.github.io}{个人博客}}）；
+\item 每天阅读Hacker News，经常查询浏览Stack Overflow, Reddit等网站；
+\end{itemize}
+
+\section{个人兴趣}
+\cvitem{阅读}{\small 三日不读书便觉面目可憎。阅读甚广，尤其偏爱文史哲}
+\cvitem{长跑}{\small 曾跑过上海马拉松半程(21KM)，2小时13分钟}
+
+\clearpage\end{CJK}
+\end{document}
+
+%% 文件结尾 `template-zh.tex'.
