@@ -7,8 +7,8 @@ import urllib
 import requests
 
 PROXIES = {
-        'http': '127.0.0.1:8087',
-        'https': '127.0.0.1:8087'
+        'http': 'http://127.0.0.1:8087',
+        'https': 'http://127.0.0.1:8087'
         }
 
 
@@ -21,6 +21,7 @@ class Downloader(object):
         self.video_name = ''
 
     def _parse_target_url(self):
+        print self.url
         r = self.session.get(self.url, proxies=PROXIES)
         if r.status_code == requests.codes.OK:
             url_pattern = re.compile('flv_url=(http.+)&amp;url_bigthumb')
@@ -40,7 +41,7 @@ class Downloader(object):
         r = self.session.get(self.target_url, stream=True, proxies=PROXIES)
         total_size = int(r.headers['content-length'])
         percent_one_size = total_size / 50
-        print self.video_name
+        #print self.video_name
         print str(total_size / 1024 / 1024) + 'MB'
         if r.status_code == requests.codes.OK:
             print '[',
