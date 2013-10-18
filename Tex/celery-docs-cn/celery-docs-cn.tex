@@ -1,0 +1,157 @@
+\documentclass[9pt,a4paper]{article}
+\usepackage{CJK}
+\usepackage{geometry}
+\geometry{left=1cm,right=1cm,top=2cm,bottom=2cm}
+
+\ifx\pdfoutput\undefined
+\usepackage[CJKbookmarks=true,dvipdfm, pdfstartview=FitH,colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green% 开始时候页面的大小，是正常的页面，即100%，注释掉的话页面大小为50%
+]{hyperref} \else
+\usepackage[CJKbookmarks=true,pdftex,pdfstartview=FitH,colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green% 开始时候页面的大小，是正常的页面，即100%，注释掉的话页面大小为50%
+]{hyperref}
+\fi
+
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage[svgnames]{xcolor}
+\usepackage{framed}
+
+\newcommand*\openquote{\makebox(10,-22){\scalebox{3}{``}}}
+\newcommand*\closequote{\makebox(10,-22){\scalebox{3}{''}}}
+\colorlet{shadecolor}{LightGrey}
+
+\makeatletter
+\newif\if@right
+\def\shadequote{\@righttrue\shadequote@i}
+\def\shadequote@i{\begin{snugshade}\begin{quote}\openquote}
+\def\endshadequote{%
+  \if@right\hfill\fi\closequote\end{quote}\end{snugshade}}
+\@namedef{shadequote*}{\@rightfalse\shadequote@i}
+\@namedef{endshadequote*}{\endshadequote}
+\makeatother
+
+\begin{document}
+\begin{CJK*}{GBK}{kai}
+
+\title{Celery文档\ 中文简译}
+\author{夏永锋}
+
+\maketitle
+
+\tableofcontents
+
+
+\section{入门指南}
+
+\subsection{Celery简介}
+
+\ \ \ \ Celery是一个简单、灵活且可靠的分布式系统，用于处理数量巨大的消息，同时提供维护这样一个系统所需要的工具。Celery是一个消息队列，侧重于实时处理，但也支持任务调度。
+
+\subsubsection{什么是任务队列？}
+
+\ \ \ \ 任务队列是一种在多线程或多机器之间分配任务的机制。任务队列的输入是一个工作单元，也称为一个任务，然后专用的工作者进程持续地监听该队列，看是否有新的工作需要完成。Celery使用一个中间人在客户端（消息生产者）和工作者（消息消费者）之间传递消息。客户端在对列中放入一个消息来开始一个任务，中间人将该消息分发到一个工作者。
+
+一个Celery系统可以包含多个工作者和中间人，以实现高可用和水平扩展。
+
+Celery以Python语言编写，但协议可以使用任何语言来实现。
+
+\subsubsection{我依赖于什么？}
+
+\ \ \ \ Celery的使用需要有一个消息中间人来发送和接收消息。RabbitMQ、Redis和MongoDB作为中间人，特性比较完善，但Celery也支持大量其他方案，包括使用SQLite进行本地开发。
+
+Celery可以运行在单机上，也可以运行在多台机器上，甚至横跨多个数据中心。
+
+\subsubsection{开始}
+
+如果这是你第一次尝试使用Celery，或你使用过以前的版本，但对于Celery3.0是新手，那么你应该阅读一下我们的入门教程：
+
+\begin{itemize}
+\item \href{http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#first-steps}{Celery学习第一步}
+\item \href{http://docs.celeryproject.org/en/latest/getting-started/next-steps.html#next-steps}{接下来}
+\end{itemize}
+
+\subsubsection{Celery是...}
+\begin{shadequote}
+\begin{itemize}
+\item \textbf{简单}\\Celery易于使用和维护，也\textit{不需要配置文件}。
+\item \textbf{高度可用}
+        
+\item \textbf{快速}
+
+\item \textbf{灵活}
+\end{itemize}
+\end{shadequote}
+
+\subsubsection{特性}
+
+\subsubsection{框架集成}
+
+\subsubsection{快速跳转}
+
+\subsubsection{安装}
+
+\subsection{中间人（Broker）}
+
+\subsubsection{代理人使用说明}
+
+\subsubsection{代理人概观}
+
+\subsection{Celery学习第一步}
+
+\subsubsection{选择一个代理人}
+
+\subsubsection{安装Celery}
+
+\subsubsection{应用}
+
+\subsubsection{运行Celery工作者服务器}
+
+\subsubsection{调用任务}
+
+\subsubsection{保存结果}
+
+\subsubsection{配置}
+
+\subsubsection{何去何从}
+
+\subsection{接下来}
+
+\subsection{资源}
+
+\section{用户手册}
+
+\subsection{应用}
+
+\subsection{任务}
+
+\subsection{调用任务}
+
+\subsection{规划：设计工作流}
+
+\subsection{工作者指南}
+
+\subsection{定期任务}
+
+\subsection{HTTP回调任务（Web钩子）}
+
+\subsection{路由任务}
+
+\subsection{监控和管理指南}
+
+\subsection{安全}
+
+\subsection{优化}
+
+\subsection{并发}
+
+\subsection{信号}
+
+\section{配置与默认值}
+
+
+\section{集成到Django}
+
+
+\section{内部原理}
+
+\end{CJK*}
+\end{document}
