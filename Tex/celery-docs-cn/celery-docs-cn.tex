@@ -10,29 +10,13 @@
 ]{hyperref}
 \fi
 
-\usepackage[T1]{fontenc}
-\usepackage{graphicx}
-\usepackage[svgnames]{xcolor}
-\usepackage{framed}
-
-\newcommand*\openquote{\makebox(10,-22){\scalebox{3}{``}}}
-\newcommand*\closequote{\makebox(10,-22){\scalebox{3}{''}}}
-\colorlet{shadecolor}{LightGrey}
-
-\makeatletter
-\newif\if@right
-\def\shadequote{\@righttrue\shadequote@i}
-\def\shadequote@i{\begin{snugshade}\begin{quote}\openquote}
-\def\endshadequote{%
-  \if@right\hfill\fi\closequote\end{quote}\end{snugshade}}
-\@namedef{shadequote*}{\@rightfalse\shadequote@i}
-\@namedef{endshadequote*}{\endshadequote}
-\makeatother
+\usepackage{fancyvrb}
+\usepackage{listings}
 
 \begin{document}
 \begin{CJK*}{GBK}{kai}
 
-\title{Celery文档\ 中文简译}
+\title{Celery文档\ 阅读笔记}
 \author{夏永锋}
 
 \maketitle
@@ -40,118 +24,721 @@
 \tableofcontents
 
 
-\section{入门指南}
+\section{Get Started}
 
-\subsection{Celery简介}
+\subsection{Introduction to Celery}
 
 \ \ \ \ Celery是一个简单、灵活且可靠的分布式系统，用于处理数量巨大的消息，同时提供维护这样一个系统所需要的工具。Celery是一个消息队列，侧重于实时处理，但也支持任务调度。
 
-\subsubsection{什么是任务队列？}
+\subsubsection{What is a Task Queue？}
 
-\ \ \ \ 任务队列是一种在多线程或多机器之间分配任务的机制。任务队列的输入是一个工作单元，也称为一个任务，然后专用的工作者进程持续地监听该队列，看是否有新的工作需要完成。Celery使用一个中间人在客户端（消息生产者）和工作者（消息消费者）之间传递消息。客户端在对列中放入一个消息来开始一个任务，中间人将该消息分发到一个工作者。
+\ \ \ \ 任务队列是一种在多线程或多机器之间分配任务的机制。任务队列的输入是一个工作单元，也称为一个任务，然后专用的工作者进程持续地监听该队列，看是否有新的工作需要完成。Celery使用一个中间人（Broker）在客户端（消息生产者）和工作者（Worker，消息消费者）之间传递消息。客户端在对列中放入一个消息来开始一个任务，中间人将该消息分发到一个工作者。
 
 一个Celery系统可以包含多个工作者和中间人，以实现高可用和水平扩展。
 
-Celery以Python语言编写，但协议可以使用任何语言来实现。
+\subsubsection{What do I need？}
 
-\subsubsection{我依赖于什么？}
+\ \ \ \ Celery requires a message broker to send and receive messages. The RabbitMQ, Redis and MongoDB broker transports are feature complete, but there\textquoteright s also support for a myriad of other solutions, including using SQLite for local development.
 
-\ \ \ \ Celery的使用需要有一个消息中间人来发送和接收消息。RabbitMQ、Redis和MongoDB作为中间人，特性比较完善，但Celery也支持大量其他方案，包括使用SQLite进行本地开发。
+Celery can run on a single machine, on multiple machines, or even across data centers.
 
-Celery可以运行在单机上，也可以运行在多台机器上，甚至横跨多个数据中心。
+\subsection{Brokers}
 
-\subsubsection{开始}
+\subsubsection{Using RabbitMQ}
 
-如果这是你第一次尝试使用Celery，或你使用过以前的版本，但对于Celery3.0是新手，那么你应该阅读一下我们的入门教程：
+\ \ \ \ RabbitMQ is the default broker so it does not require any additional dependencies or initial configuration, other than the URL location of the broker instance you want to use：
+
+\begin{Verbatim}[frame=single]
+>>> BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+\end{Verbatim}
+
+\textbf{Setting up RabbitMQ}
+
+To use celery we need to create a RabbitMQ user, a virtual host and allow that user access to that virtual host:
+
+\begin{Verbatim}[frame=single]
+$ rabbitmqctl add_user myuser mypassword
+$ rabbitmqctl add_vhost myvhost
+$ rabbitmqctl set_permissions -p myvhost myuser ".*" ".*" ".*"
+\end{Verbatim}
+
+\subsubsection{Using Redis}
+
+\textbf{Installation}
+
+For the Redis support you have to install additional dependencies. You can install both Celery and these dependencies in one go using either the celery-with-redis, or the django-celery-with-redis bundles:
+
+\begin{Verbatim}[frame=single]
+$ pip install -U celery-with-redis
+\end{Verbatim}
+
+\begin{flushleft}
+\textbf{Configuration}
+\end{flushleft}
+
+Just configure the location of your Redis database:
+
+\begin{Verbatim}[frame=single]
+BROKER_URL = 'redis://localhost:6379/0'
+\end{Verbatim}
+
+\subsection{First Steps with Celery}
+
+\subsubsection{Application}
+
+\ \ \ \ The first thing you need is a Celery instance, this is called the celery application or just app in short. Since this instance is used as the entry-point for everything you want to do in Celery, like creating tasks and managing workers, it must be possible for other modules to import it.
+
+\begin{Verbatim}[frame=single, label=tasks.py]
+from celery import Celery
+
+celery = Celery('tasks', broker='amqp://guest@localhost//')
+
+@celery.task
+def add(x, y):
+    return x + y
+\end{Verbatim}
+
+\subsubsection{Running the celery worker server}
+
+\ \ \ \ You now run the worker by executing our program with the worker argument:
+
+\begin{Verbatim}[frame=single]
+$ celery -A tasks worker --loglevel=info
+\end{Verbatim}
+
+\subsubsection{Calling the task}
+
+\ \ \ \ To call our task you can use the \verb"delay()" method.
+
+This is a handy shortcut to the \verb"apply\_async()" method which gives greater control of the task execution:
+
+\begin{Verbatim}[frame=single]
+>>> from tasks import add
+>>> add.delay(4, 4)
+\end{Verbatim}
+
+The task has now been processed by the worker you started earlier, and you can verify that by looking at the workers console output.
+
+Calling a task returns an \textbf{AsyncResult} instance, which can be used to check the state of the task, wait for the task to finish or get its return value (or if the task failed, the exception and traceback). But \textbf{this isn\textquoteright t enabled by default, and you have to configure Celery to use a result backend}.
+
+\subsubsection{Keeping Results}
+
+\ \ \ \ If you want to keep track of the tasks\textquoteright\ states, Celery needs to store or send the states somewhere.
+
+\subsection{Next Steps}
+
+\subsubsection{Using Celery in your application}
+
+\ \ \ \ \textbf{Our Project}
+
+\begin{Verbatim}[frame=single]
+proj/__init__.py
+    /celery.py
+    /tasks.py
+\end{Verbatim}
+
+\begin{Verbatim}[frame=single, label=proj/celery.py]
+from __future__ import absolute_import
+
+from celery import Celery
+
+celery = Celery('proj.celery',
+                broker='amqp://',
+                backend='amqp://',
+                include=['proj.tasks'])
+
+# Optional configuration, see the application user guide.
+celery.conf.update(
+    CELERY_TASK_RESULT_EXPIRES=3600,
+)
+
+if __name__ == '__main__':
+    celery.start()
+\end{Verbatim}
+
+In this module you created our Celery instance (sometimes referred to as the app). To use Celery within your project you simply import this instance.
+
+The \verb"include" argument is a list of modules to import when the worker starts. You need to add our tasks module here so that the worker is able to find our tasks.
+
+\begin{Verbatim}[frame=single, label=proj/tasks.py]
+from __future__ import absolute_import
+
+from proj.celery import celery
+
+
+@celery.task
+def add(x, y):
+    return x + y
+
+
+@celery.task
+def mul(x, y):
+    return x * y
+
+
+@celery.task
+def xsum(numbers):
+    return sum(numbers)
+\end{Verbatim}
+
+\textbf{Starting the worker}
+
+The celery program can be used to start the worker:
+
+\begin{Verbatim}[frame=single]
+$ celery worker --app=proj -l info
+\end{Verbatim}
+
+\subsubsection{Calling Tasks}
+
+\ \ \ \ You can call a task using the \verb"delay()" method:
+
+\begin{Verbatim}[frame=single]
+>>> add.delay(2, 2)
+\end{Verbatim}
+
+This method is actually a star-argument shortcut to another method called \verb"apply_async()":
+
+\begin{Verbatim}[frame=single]
+>>> add.apply_async((2, 2))
+\end{Verbatim}
+
+The latter enables you to specify execution options like the time to run (countdown), the queue it should be sent to and so on:
+
+\begin{Verbatim}[frame=single]
+>>> add.apply_async((2, 2), queue='lopri', countdown=10)
+\end{Verbatim}
+
+In the above example the task will be sent to a queue named \verb"lopri" and the task will execute, at the earliest, 10 seconds after the message was sent.
+
+Every task invocation will be given a unique identifier (an UUID), this is the task id.
+
+The \verb"delay" and \verb"apply_async" methods return an \verb"AsyncResult" instance, which can be used to keep track of the tasks execution state. But for this you need to enable a result backend so that the state can be stored somewhere.
+
+If you have a result backend configured you can retrieve the return value of a task:
+
+\begin{Verbatim}[frame=single]
+>>> res = add.delay(2, 2)
+>>> res.get(timeout=1)
+4
+\end{Verbatim}
+
+You can find the task\textquoteright s id by looking at the \verb"id" attribute:
+
+\begin{Verbatim}[frame=single]
+>>> res.id
+d6b3aea2-fb9b-4ebc-8da4-848818db9114
+\end{Verbatim}
+
+You can also inspect the exception and traceback if the task raised an exception, in fact \verb"result.get()" will propagate any errors by default:
+
+\begin{Verbatim}[frame=single]
+>>> res = add.delay(2)
+>>> res.get(timeout=1)
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+File "/opt/devel/celery/celery/result.py", line 113, in get
+    interval=interval)
+File "/opt/devel/celery/celery/backends/amqp.py", line 138, in wait_for
+    raise self.exception_to_python(meta['result'])
+TypeError: add() takes exactly 2 arguments (1 given)
+\end{Verbatim}
+
+If you don\textquoteright t wish for the errors to propagate then you can disable that by passing the \verb"propagate" argument:
+
+\begin{Verbatim}[frame=single]
+>>> res.get(propagate=False)
+TypeError('add() takes exactly 2 arguments (1 given)',)
+\end{Verbatim}
+
+In this case it will return the exception instance raised instead, and so to check whether the task succeeded or failed you will have to use the corresponding methods on the result instance:
+
+\begin{Verbatim}[frame=single]
+>>> res.failed()
+True
+
+>>> res.successful()
+False
+\end{Verbatim}
+
+So how does it know if the task has failed or not? It can find out by looking at the tasks state:
+
+\begin{Verbatim}[frame=single]
+>>> res.state
+'FAILURE'
+\end{Verbatim}
+
+A task can only be in a single state, but it can progress through several states. The stages of a typical task can be:
+
+\begin{Verbatim}[frame=single]
+PENDING -> STARTED -> SUCCESS
+\end{Verbatim}
+
+The pending state is actually not a recorded state, but rather the default state for any task id that is unknown, which you can see from this example:
+
+\begin{Verbatim}[frame=single]
+>>> from proj.celery import celery
+
+>>> res = celery.AsyncResult('this-id-does-not-exist')
+>>> res.state
+'PENDING'
+\end{Verbatim}
+
+\subsubsection{Canvas: Designing Workflows}
+
+\ \ \ \ You just learned how to call a task using the tasks \verb"delay" method, and this is often all you need, but sometimes you may want to pass the signature of a task invocation to another process or as an argument to another function, for this Celery uses something called \textit{subtasks}.
+
+A subtask wraps the arguments and execution options of a single task invocation in a way such that it can be passed to functions or even serialized and sent across the wire.
+
+You can create a subtask for the \textit{add} task using the arguments \textit{(2, 2)}, and a countdown of 10 seconds like this:
+
+\begin{Verbatim}[frame=single]
+>>> add.subtask((2, 2), countdown=10)
+tasks.add(2, 2)
+\end{Verbatim}
+
+There is also a shortcut using star arguments:
+
+\begin{Verbatim}[frame=single]
+>>> add.s(2, 2)
+tasks.add(2, 2)
+\end{Verbatim}
+
+\textbf{The Primitives}
 
 \begin{itemize}
-\item \href{http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html#first-steps}{Celery学习第一步}
-\item \href{http://docs.celeryproject.org/en/latest/getting-started/next-steps.html#next-steps}{接下来}
+\item group
+\item chain
+\item chord
+\item map
+\item starmap
+\item chunks
 \end{itemize}
 
-\subsubsection{Celery是...}
-\begin{shadequote}
-\begin{itemize}
-\item \textbf{简单}\\Celery易于使用和维护，也\textit{不需要配置文件}。
-\item \textbf{高度可用}
-        
-\item \textbf{快速}
+The primitives are subtasks themselves, so that they can be combined in any number of ways to compose complex workflows.
 
-\item \textbf{灵活}
-\end{itemize}
-\end{shadequote}
+\textit{\textbf{Groups}}
 
-\subsubsection{特性}
+A \textbf{group} calls a list of tasks in parallel, and it returns a special result instance that lets you inspect the results as a group, and retrieve the return values in order.
 
-\subsubsection{框架集成}
+\begin{Verbatim}[frame=single]
+>>> from celery import group
+>>> from proj.tasks import add
 
-\subsubsection{快速跳转}
+>>> group(add.s(i, i) for i in xrange(10))().get()
+[0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+\end{Verbatim}
 
-\subsubsection{安装}
+\textit{Partial group}
 
-\subsection{中间人（Broker）}
+\begin{Verbatim}[frame=single]
+>>> g = group(add.s(i) for i in xrange(10))
+>>> g(10).get()
+[10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+\end{Verbatim}
 
-\subsubsection{代理人使用说明}
+\textit{\textbf{Chains}}
 
-\subsubsection{代理人概观}
+Tasks can be linked together so that after one task returns the other is called:
 
-\subsection{Celery学习第一步}
+\begin{Verbatim}[frame=single]
+>>> from celery import chain
+>>> from proj.tasks import add, mul
 
-\subsubsection{选择一个代理人}
+# (4 + 4) * 8
+>>> chain(add.s(4, 4) | mul.s(8))().get()
+64
+\end{Verbatim}
 
-\subsubsection{安装Celery}
+or a partial chain:
 
-\subsubsection{应用}
+\begin{Verbatim}[frame=single]
+# (? + 4) * 8
+>>> g = chain(add.s(4) | mul.s(8))
+>>> g(4).get()
+64
+\end{Verbatim}
 
-\subsubsection{运行Celery工作者服务器}
+Chains can also be written like this:
 
-\subsubsection{调用任务}
+\begin{Verbatim}[frame=single]
+>>> (add.s(4, 4) | mul.s(8))().get()
+64
+\end{Verbatim}
 
-\subsubsection{保存结果}
+\textit{\textbf{Chords}}
 
-\subsubsection{配置}
+A chord is a group with a callback:
 
-\subsubsection{何去何从}
+\begin{Verbatim}[frame=single]
+>>> from celery import chord
+>>> from proj.tasks import add, xsum
 
-\subsection{接下来}
+>>> chord((add.s(i, i) for i in xrange(10)), xsum.s())().get()
+90
+\end{Verbatim}
 
-\subsection{资源}
+A group chained to another task will be automatically converted to a chord:
 
-\section{用户手册}
+\begin{Verbatim}[frame=single]
+>>> (group(add.s(i, i) for i in xrange(10)) | xsum.s())().get()
+90
+\end{Verbatim}
 
-\subsection{应用}
+Be sure to read more about workflows in the \href{http://docs.celeryproject.org/en/latest/userguide/canvas.html#guide-canvas}{Canvas} user guide.
 
-\subsection{任务}
+\subsubsection{Routing}
 
-\subsection{调用任务}
+\ \ \ \ Celery supports all of the routing facilities provided by AMQP, but it also supports simple routing where messages are sent to named queues.
 
-\subsection{规划：设计工作流}
+The \verb"CELERY_ROUTES" setting enables you to route tasks by name and keep everything centralized in one location:
 
-\subsection{工作者指南}
+\begin{Verbatim}[frame=single]
+celery.conf.update(
+    CELERY_ROUTES = {
+        'proj.tasks.add': {'queue': 'hipri'},
+    },
+)
+\end{Verbatim}
 
-\subsection{定期任务}
+You can also specify the queue at runtime with the \verb"queue" argument to \verb"apply_async":
 
-\subsection{HTTP回调任务（Web钩子）}
+\begin{Verbatim}[frame=single]
+>>> from proj.tasks import add
+>>> add.apply_async((2, 2), queue='hipri')
+\end{Verbatim}
 
-\subsection{路由任务}
+You can then make a worker consume from this queue by specifying the -Q option:
 
-\subsection{监控和管理指南}
+\begin{Verbatim}[frame=single]
+$ celery -A proj worker -Q hipri
+\end{Verbatim}
 
-\subsection{安全}
+\subsubsection{Remote Control}
 
-\subsection{优化}
+\ \ \ \ If you\textquoteright re using RabbitMQ(AMQP), Redis or MongoDB as the broker then you can control and inspect the worker at runtime.
 
-\subsection{并发}
+For example you can see what tasks the worker is currently working on:
 
-\subsection{信号}
+\begin{Verbatim}[frame=single]
+$ celery -A proj inspect active
+\end{Verbatim}
 
-\section{配置与默认值}
+This is implemented by using broadcast messaging, so all remote control commands are received by every worker in the cluster.
+
+The \textbf{celery inspect} command contains commands that does not change anything in the worker, it only replies information and statistics about what is going on inside the worker. For a list of inspect commands you can execute:
+
+\begin{Verbatim}[frame=single]
+$ celery -A proj inspect --help
+\end{Verbatim}
+
+Then there is the \textbf{celery control} command, which contains commands that actually changes things in the worker at runtime:
+
+\begin{Verbatim}[frame=single]
+$ celery -A proj control --help
+\end{Verbatim}
+
+The \textbf{celery status} command also uses remote control commands and shows a list of online workers in the cluster:
+
+\begin{Verbatim}[frame=single]
+$ celery -A proj status
+\end{Verbatim}
+
+You can read more about the \textbf{celery} command and monitoring in the \href{http://docs.celeryproject.org/en/latest/userguide/monitoring.html#guide-monitoring}{Monitoring Guide}.
 
 
-\section{集成到Django}
+\section{User Guide}
 
+\subsection{Application}
 
-\section{内部原理}
+\ \ \ \ The Celery library must be instantiated before use, this instance is called an application (or app for short).
+
+The application is thread-safe so that multiple Celery applications with different configuration, components and tasks can co-exist in the same process space.
+
+Let’s create one now:
+
+\begin{Verbatim}[frame=single]
+>>> from celery import Celery
+>>> celery = Celery()
+>>> celery
+<Celery __main__:0x100469fd0>
+\end{Verbatim}
+
+The last line shows the textual representation of the application, which includes the name of the celery class (\verb"Celery"), the name of the current main module (\verb"__main__"), and the memory address of the object (\verb"0x100469fd0").
+
+\subsubsection{Main Name}
+
+\ \ \ \ Only one of these is important, and that is the main module name, let\textquoteright s look at why that is.
+
+When you send a task message in Celery, that message will not contain any source code, but only the name of the task you want to execute. This works similarly to how host names works on the internet: every worker maintains a mapping of task names to their actual functions, called the \textit{task registry}.
+
+Whenever you define a task, that task will also be added to the local registry:
+
+\begin{Verbatim}[frame=single]
+>>> @celery.task
+... def add(x, y):
+...     return x + y
+
+>>> add
+<@task: __main__.add>
+
+>>> add.name
+__main__.add
+
+>>> celery.tasks['__main__.add']
+<@task: __main__.add>
+\end{Verbatim}
+
+and there you see that \verb"__main__" again; whenever Celery is not able to detect what module the function belongs to, it uses the main module name to generate the beginning of the task name.
+
+\subsubsection{Laziness}
+
+\ \ \ \ The application instance is lazy, meaning that it will not be evaluated until something is actually needed.
+
+Creating a \verb"Celery" instance will only do the following:
+
+\begin{enumerate}
+\item Create a logical clock instance, used for events.
+\item Create the task registry.
+\item Set itself as the current app (but not if the \verb"set_as_current" argument was disabled)
+\item Call the \verb"Celery.on_init()" callback (does nothing by default).
+\end{enumerate}
+
+The \verb"task()" decorator does not actually create the tasks at the point when it\textquoteright s called, instead it will defer the creation of the task to happen either when the task is used, or after the application has been \textit{finalized},
+
+This example shows how the task is not created until you use the task, or access an attribute (in this case \verb"repr()"):
+
+\begin{Verbatim}[frame=single]
+>>> @celery.task
+>>> def add(x, y):
+...    return x + y
+
+>>> type(add)
+<class 'celery.local.PromiseProxy'>
+
+>>> add.__evaluated__()
+False
+
+>>> add        # <-- causes repr(add) to happen
+<@task: __main__.add>
+
+>>> add.__evaluated__()
+True
+\end{Verbatim}
+
+\textit{Finalization} of the app happens either explicitly by calling \verb"Celery.finalize()" – or implicitly by accessing the \verb"tasks" attribute.
+
+\subsection{Tasks}
+
+\ \ \ \ A task is a class that can be created out of any callable. It performs dual roles in that it defines both what happens when a task is called (sends a message), and what happens when a worker receives that message.
+
+Every task class has a unique name, and this name is referenced in messages so that the worker can find the right function to execute.
+
+A task message does not disappear until the message has been acknowledged by a worker. A worker can reserve many messages in advance and even if the worker is killed – caused by power failure or otherwise – the message will be redelivered to another worker.
+
+Ideally task functions should be idempotent(幂等的), which means that the function will not cause unintented effects even if called multiple times with the same arguments. Since the worker cannot detect if your tasks are idempotent, the default behavior is to acknowledge the message in advance, before it\textquoteright s executed, so that a task that has already been started is never executed again..
+
+\subsubsection{Names}
+
+\ \ \ \ Every task must have a unique name, and a new name will be generated out of the function name if a custom name is not provided.
+
+For example:
+
+\begin{Verbatim}[frame=single]
+>>> @celery.task(name='sum-of-two-numbers')
+>>> def add(x, y):
+...     return x + y
+
+>>> add.name
+'sum-of-two-numbers'
+\end{Verbatim}
+\ \ \ \ A best practice is to use the module name as a namespace, this way names won\textquoteright t collide if there\textquoteright s already a task with that name defined in another module.
+
+\begin{Verbatim}[frame=single]
+>>> @celery.task(name='tasks.add')
+>>> def add(x, y):
+...     return x + y
+\end{Verbatim}
+
+\subsubsection{Automatic naming and relative imports}
+
+\ \ \ \ Relative imports and automatic name generation does not go well together, so if you\textquoteright re using relative imports you should set the name explicitly.
+
+For example if the client imports the module “myapp.tasks” as “.tasks”, and the worker imports the module as “myapp.tasks”, the generated names won\textquoteright t match and an \verb"NotRegistered" error will be raised by the worker.
+
+This is also the case if using Django and using \textit{project.myapp}:
+
+\begin{Verbatim}[frame=single]
+INSTALLED_APPS = ('project.myapp', )
+\end{Verbatim}
+
+The worker will have the tasks registered as “project.myapp.tasks.*”, while this is what happens in the client if the module is imported as “myapp.tasks”:
+
+\begin{Verbatim}[frame=single]
+>>> from myapp.tasks import add
+>>> add.name
+'myapp.tasks.add'
+\end{Verbatim}
+
+For this reason you should never use “project.app”, but rather add the project directory to the Python path:
+
+\begin{Verbatim}[frame=single]
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+
+INSTALLED_APPS = ('myapp', )
+\end{Verbatim}
+
+\subsubsection{Logging}
+
+\ \ \ \ The worker will automatically set up logging for you, or you can configure logging manually.
+
+The best practice is to create a common logger for all of your tasks at the top of your module:
+
+\begin{Verbatim}[frame=single]
+from celery.utils.log import get_task_logger
+
+logger = get_task_logger(__name__)
+
+@celery.task
+def add(x, y):
+    logger.info('Adding %s + %s' % (x, y))
+    return x + y
+\end{Verbatim}
+
+You can also simply use \verb"print()", as anything written to standard out/-err will be redirected to the workers logs by default (see \href{http://docs.celeryproject.org/en/latest/configuration.html#std:setting-CELERY_REDIRECT_STDOUTS}{CELERY\_REDIRECT\_STDOUTS}).
+
+\subsubsection{How it works}
+
+\ \ \ \ All defined tasks are listed in a registry. The registry contains a list of task names and their task classes. You can investigate this registry yourself:
+
+\begin{Verbatim}[frame=single]
+>>> from celery import current_app
+>>> current_app.tasks
+{'celery.chord_unlock':
+    <@task: celery.chord_unlock>,
+ 'celery.backend_cleanup':
+    <@task: celery.backend_cleanup>,
+ 'celery.chord':
+    <@task: celery.chord>}
+\end{Verbatim}
+
+This is the list of tasks built-in to celery. Note that tasks will only be registered when the module they are defined in is imported.
+
+\subsection{Calling Tasks}
+
+\subsubsection{Linking(callbacks/errbacks)}
+
+\ \ \ \ Celery supports linking tasks together so that one task follows another. The callback task will be applied with the result of the parent task as a partial argument:
+
+\begin{Verbatim}[frame=single]
+add.apply_async((2, 2), link=add.s(16))
+\end{Verbatim}
+
+Here the result of the first task (4) will be sent to a new task that adds 16 to the previous result, forming the expression $(2 + 2) + 16 = 20$ .
+
+You can also cause a callback to be applied if task raises an exception (errback), but this behaves differently from a regular callback in that it will be passed the id of the parent task, not the result. This is because it may not always be possible to serialize the exception raised, and so this way the error callback requires a result backend to be enabled, and the task must retrieve the result of the task instead.
+
+This is an example error callback:
+
+\begin{Verbatim}[frame=single]
+@celery.task
+def error_handler(uuid):
+    result = AsyncResult(uuid)
+    exc = result.get(propagate=False)
+    print('Task %r raised exception: %r\n%r' % (
+          exc, result.traceback))
+\end{Verbatim}
+
+it can be added to the task using the \verb"link_error" execution option:
+
+\begin{Verbatim}[frame=single]
+add.apply_async((2, 2), link_error=error_handler.s())
+\end{Verbatim}
+
+In addition, both the \verb"link" and \verb"link_error" options can be expressed as a list:
+
+\begin{Verbatim}[frame=single]
+add.apply_async((2, 2), link=[add.s(16), other_task.s()])
+\end{Verbatim}
+
+The callbacks/errbacks will then be called in order, and all callbacks will be called with the return value of the parent task as a partial argument.
+
+\subsubsection{ETA and countdown}
+
+The ETA (estimated time of arrival) lets you set a specific date and time that is the earliest time at which your task will be executed. \textit{countdown} is a shortcut to set eta by seconds into the future.
+
+\begin{Verbatim}[frame=single]
+>>> result = add.apply_async((2, 2), countdown=3)
+>>> result.get()    # this takes at least 3 seconds to return
+20
+\end{Verbatim}
+
+The task is guaranteed to be executed at some time after the specified date and time, but not necessarily at that exact time. Possible reasons for broken deadlines may include many items waiting in the queue, or heavy network latency. To make sure your tasks are executed in a timely manner you should monitor the queue for congestion. Use \textbf{Munin}, or similar tools, to receive alerts, so appropriate action can be taken to ease the workload.
+
+While \textit{countdown} is an integer, eta must be a \verb"datetime" object, specifying an exact date and time (including millisecond precision, and timezone information):
+
+\begin{Verbatim}[frame=single]
+>>> from datetime import datetime, timedelta
+
+>>> tomorrow = datetime.utcnow() + timedelta(days=1)
+>>> add.apply_async((2, 2), eta=tomorrow)
+\end{Verbatim}
+
+\subsubsection{Expiration}
+
+\ \ \ \ The \textit{expires} argument defines an optional expiry time, either as seconds after task publish, or a specific date and time using \verb"datetime":
+
+\begin{Verbatim}[frame=single]
+>>> # Task expires after one minute from now.
+>>> add.apply_async((10, 10), expires=60)
+
+>>> # Also supports datetime
+>>> from datetime import datetime, timedelta
+>>> add.apply_async((10, 10), kwargs,
+...                 expires=datetime.now() + timedelta(days=1)
+\end{Verbatim}
+
+\subsubsection{Serializers}
+
+Data transferred between clients and workers needs to be serialized, so every message in Celery has a \verb"content_type" header that describes the serialization method used to encode it.
+
+The default serializer is \verb"pickle", but you can change this using the \verb"CELERY_TASK_SERIALIZER" setting, or for each individual task, or even per message.
+
+The following order is used to decide which serializer to use when sending a task:
+
+\begin{enumerate}
+\item The \textit{serializer} execution option.
+\item The \verb"Task.serializer" attribute.
+\item The \verb"CELERY_TASK_SERIALIZER" setting.
+\end{enumerate}
+
+Example setting a custom serializer for a single task invocation:
+
+\begin{Verbatim}[frame=single]
+>>> add.apply_async((10, 10), serializer='json')
+\end{Verbatim}
+
+\subsubsection{Compression}
+
+Celery can compress the messages using either \textit{gzip}, or \textit{bzip2}.
+
+The following order is used to decide which compression scheme to use when sending a task:
+
+\begin{enumerate}
+\item The \textit{compression} execution option.
+\item The \verb"Task.compression" attribute.
+\item The \verb"CELERY_MESSAGE_COMPRESSION" setting.
+\end{enumerate}
+
+Example specifying the compression used when calling a task:
+
+\begin{Verbatim}[frame=single]
+>>> add.apply_async((2, 2), compression='zlib')
+\end{Verbatim}
+
+\subsection{Works Guide}
 
 \end{CJK*}
 \end{document}
