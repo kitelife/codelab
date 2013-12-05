@@ -227,4 +227,217 @@ circle.attr({
 
 // 2.4.5 Applying gradients(渐变)
 
+/*
+ * Raphaël supports applying linear and gradient fills to elements. To achieve this, rather than 
+ * specifying a color string on the  fill attribute, we specify a string of the following form 
+ * in order to create linear gradients:
+ * 
+ * <angle>-<color>[-<color>[:<offset>]]*-<color>
+ *
+ * The following syntax is in order to create radial gradients:
+ *
+ * r[(<fx>, <fy>)]<color>[-<color>[:<offset>]]*-<color>
+ *
+ * */
 
+// 2.4.5.1 Linear gradients
+
+/*
+ * 演示图：
+ *  http://raphaeljsvectorgraphics.com/book/chapter-2/linear-gradients-1
+ *  http://raphaeljsvectorgraphics.com/book/chapter-2/linear-gradients-coordinates
+ *  http://raphaeljsvectorgraphics.com/book/chapter-2/linear-gradients-2
+ * */
+
+// 2.4.5.2 Radial gradients
+
+/*
+ * 演示图：
+ *  http://raphaeljsvectorgraphics.com/book/chapter-2/radial-gradients-1
+ *  http://raphaeljsvectorgraphics.com/book/chapter-2/radial-gradients-2
+ *  http://raphaeljsvectorgraphics.com/book/chapter-2/radial-gradients-focus
+ *  */
+
+// 2.4.6 Grouping elements
+
+/*
+ * There are times when we wish to apply the same attributes, transformations, or animations to 
+ * multiple elements. We can group elements in Raphaël by using the set method. 
+ * */
+
+var paper = Raphael('my-canvas', 540, 200);
+var circle = paper.circle(100, 100, 80);
+var rect = paper.rect(205, 40, 120, 120);
+var ellipse = paper.ellipse(430, 100, 80, 60);
+var group = paper.set();
+group.push(circle, rect, ellipse);
+group.attr({
+    fill: '180-#09c-#fff:30-#f00',
+    stroke: '#000',
+    'stroke-width': 5
+});
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-2/grouping-with-sets
+ * */
+
+// 2.5 Working with text
+
+/*
+ * Drawing text in the canvas rather than as HTML markup with CSS styling allows us to animate 
+ * and transform it in the same way as we would for other shapes. Text is created using the  
+ * text method and its properties (such as size and font-family) are modifiable as attributes. 
+ * The text method has the following definition, where the text parameter is our text string 
+ * and accepts the standard escape sequence '\n' as input, which places the proceeding text 
+ * onto a new line:
+ *
+ * Paper.text(x, y, text)
+ *
+ * */
+
+var text1 = paper.text(0, 15, 'I am text anchored start.');
+text1.attr({
+    'text-anchor': 'start',
+});
+var text2 = paper.text(270, 100, 'I am text\nanchored middle');
+text2.attr({
+    'text-anchor': 'middle'
+});
+var group = paper.set(text1, text2);
+group.attr({
+    'font-size': 20,
+    'font-family': 'serif'
+});
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-2/text
+ *
+ * You should notice that we have defined an individual attribute, text-anchor, on each text 
+ * element. The text-anchor attribute has the effect of determining whether the origin x point 
+ * on the text method is defined at the center of the text or at its leftmost edge. By default 
+ * it is defined at its center.
+* */
+
+// 2.5.1 Embedding custom fonts
+
+
+/******************************************************************************************************
+ * 3. Drawing Paths
+ * ***************************************************************************************************/
+
+/*
+ * Paths allow us to draw all manner of shapes by defining points connected by lines, arcs, and curves
+ * representing the outline of the shape itself.
+ *
+ * Paths, such as basic shapes, are elements meaning that user interaction, painting, transformations, 
+ * and animation are all possible with paths.
+ *
+ * */
+
+// 3.1 Path drawing concepts
+
+/*
+ * The process of drawing with a pen on paper can be broken down into the following steps:
+ *  1. You place your pen at a particular point on a piece of paper.
+ *  2. You press and move the pen freely from this point to another point.
+ *  3. You keep your pen at this point or lift up the pen and place it at another point on the paper.
+ *  4. The process is repeated until you have finished drawing.
+ *
+ * Path drawing works in much the same way. The point at which you place your pen, known as the 
+ * current point, defines the start of a path while the free movement of the pen describes the 
+ * path itself.
+ *  
+ * */
+
+// 3.2 Path drawing commands
+
+/*
+ * Paths are based on a number of drawing commands executed in the order in which they're defined. 
+ * Commands are expressed as a single letter that is either uppercase, meaning that a subsequent 
+ * drawing uses absolute coordinates in the drawing context, or lowercase, meaning that a 
+ * subsequent drawing uses coordinates relative to the current point.
+ *
+ * We draw paths in Raphaël using the  path method, which accepts either a path string or 
+ * an array as a parameter. Arrays are usually a more convenient and more readable way of 
+ * defining paths.
+ * 
+ * */
+
+// 3.2.1 The moveto command
+
+/*
+ * The moveto command establishes a new current point. In the pen analogy detailed in the 
+ * previous section, issuing a moveto command has the effect of lifting the pen off the page 
+ * and placing it at a given point. All paths start with a moveto command.
+ *
+ * --------------------------------------------------------------
+ *  Command         Parameters          Example
+ * --------------------------------------------------------------
+ *  M or m          (x, y)+             M 50, 50 100, 100
+ * --------------------------------------------------------------
+ * 
+ * You may have noticed that the moveto syntax allows us to repeat the  x and  y parameters 
+ * (indicated by the  + symbol). For example:
+ *
+ * "M 50,50 100,150"
+ *
+ * The first (x, y) pair moves the pen to the point (50, 50) on our canvas as we would expect. 
+ * However, the second (x, y) pair has the effect of drawing a line to the point (100, 150), 
+ * as well as moving the current point. This behavior means that the moveto command can be 
+ * used to draw polygons(多边形).
+ *
+ * The following code draws a triangle with vertices at (250, 50), (200, 100), and (300, 100) 
+ * using only the moveto command:
+ * */
+
+var path = paper.path([
+                      'M', 250, 50
+                      200, 100,
+                      300, 100,
+                      250, 50
+]);
+
+/*
+ * You should notice that all the (x, y) points mentioned are absolute, that is, defined 
+ * relative to the origin point of our canvas. Were we to specify the lowercase variant of
+ * the command,  m , every successive (x, y) pair would be relative to the previous one 
+ * (but note that the first (x, y) pair is always positioned using absolute coordinates 
+ * regardless of the  M command's case).
+ * */
+
+// 3.2.2 The lineto commands
+
+/*
+ * The lineto commands draw straight lines from the current point to a point specified.
+ * There are three lineto commands:
+ *  L for drawing lines to any (x, y) point
+ *  H for drawing horizontal lines in x
+ *  V for drawing vertical lines in y
+ * 
+ * ------------------------------------------------------------------
+ *  Command         Parameters          Example
+ * ------------------------------------------------------------------
+ *  L or l          (x, y)+             L 100 100
+ *  H or h          x+                  H 75
+ *  V or v          y+                  V -75
+ * ------------------------------------------------------------------
+ * */
+
+var sideLength = 100;
+var x = sideLength * Math.cos(Raphael.rad(60));
+var y = sideLength * Math.sin(Raphael.rad(60));
+var hexagon = paper.path(
+    ['M', 250, 15,
+        'l', sideLength, 0,
+        x, y,
+        -x, y,
+        -sideLength, 0,
+        -x, -y,
+        x,-y,
+    ]
+);
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-3/04_lineto_hexagon
+ *
+ * Note that in JavaScript, the trigonometric functions expect a value of angle measured 
+ * in radians to be passed so we have used the  rad utility method on the  Raphael object
+ * to convert 60 degrees into radians.
+ * */
