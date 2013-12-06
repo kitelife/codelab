@@ -769,4 +769,175 @@ var curve = paper.path( path );
  * 4. Transformations and Event Handling
  * *********************************************************************************************/
 
+/*
+ * When you create an element in Raphaël, you are effectively creating a Document Object Model
+ * (DOM) object. Like the DOM objects you are already familiar with elements drawn on to our 
+ * canvas will trigger events when interacted with by a user. Raphaël provides a number of 
+ * convenient, cross-browser methods for interacting with elements and also provides methods 
+ * that facilitate the drag-and-drop functionality.
+ *
+ * Transformations are equally versatile: Raphaël gives us the ability to transform (translate, 
+ * scale, and rotate) elements with ease using the concept of a transformation string. 
+ * */
+
+// 4.1 Basic transformations and event handling
+
+/*
+ * We perform transformations in Raphaël using the  transform method on elements, which accepts 
+ * as an argument a transformation string. Transformation strings define a sequence of transformations 
+ * to take place on a particular element.
+ * */
+
+// 4.1.1 Basic transformations
+
+/*
+ * Like a path string, a transformation string is composed of a number of commands defined in the order
+ * in which they are to be interpreted. The syntax for the basic commands is as follows:
+ *
+ * ----------------------------------------------------------------------------------------
+ *  Command         Parameters                      Example
+ * ----------------------------------------------------------------------------------------
+ *  T or t          x, y                            t 50, 100
+ *  R or r          angle of clockwise rotation,    R 45, 0, 0
+ *                  (rotation_point_x,
+ *                  rotation_point_y)
+ *  S or s          scale_x,                        S 2, 4.5, 75, 125
+ *                  scale_y,
+ *                  (scale_point_x,
+ *                  scale_point_y)
+ *                  or
+ *                  scale_factor,
+ *                  (scale_point_x,
+ *                  scale_point_y)
+ * ----------------------------------------------------------------------------------------
+ *
+ * As with a path string, transformation strings have uppercase and lowercase variants. 
+ * The uppercase variant means that we transform, irrespective of the previous transformation, 
+ * while the lowercase variant takes previous transformations into account.
+ * */
+
+// 4.1.1.1 Translation
+
+var triangle = paper.path("M 150 20 l 100 160 l -200 0 z").attr({
+    'stroke-dasharray': '- ',
+    'stroke-width': 5
+});
+var triangleCopy = triangle.clone(); // Clones our object
+triangleCopy.attr({
+    'stroke-dasharray': ''
+});
+// We then perform a translation of 300px on the x-axis and 0px on the y-axis as follows:
+triangleCopy.transform("T 300 0");
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-4/01_basic_transformations
+ *
+ * Note that while the  clone method is convenient, it is known to affect performance adversely 
+ * when cloning multiple elements. When cloning multiple elements, creating a new element using 
+ * the original path is advised. 
+ * */
+
+// 4.1.1.2 Rotation
+
+/*
+ * Creating another cloned triangle now and transforming it with the transformation string 
+ * below gives us a triangle rotated 45 degrees clockwise about its own center point 
+ * (the default when we do not specify a rotation point) after being translated 350px in x 
+ * and -35px in y.
+ * */
+
+triangleCopy.transform("t 350 -35 r 45");
+/*
+ * 效果见： http://raphaeljsvectorgraphics.com/book/chapter-4/01_basic_transformations
+ * */
+
+// 4.1.1.3 Scaling
+
+/*
+ * Scaling can be performed either equally on all points about a scaling point or a factor
+ * in x and y. The scaling for the "t 300 0 s 0.5" transformation scales all points by 0.5
+ * times their original about the center point of the element.
+ *
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-4/01_basic_transformations
+ *
+ * Scaling in x and y by the "t 310 0 s 1.2 0.5" transformation string scales the element 
+ * 1.2 times in x and 0.5 times in y.
+ * 
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-4/01_basic_transformations
+ * */
+
+// 4.1.2 Basic event handling
+
+// 4.1.2.1 Registering basic event handlers
+
+/*
+ * We will demonstrate registering the double-click, mouse over, and mouse out event handling 
+ * methods on a salinon shape. 
+ * */
+
+var salinon = paper.path([
+                         'M', 100, 200,
+                         'a', 150, 150, 0, 0, 1, 300, 0,
+                         50, 50, 0, 0, 0, -100, 0,
+                         50, 50, 0, 0, 1, -100, 0,
+                         50, 50, 0, 0, 0, -100, 0
+]);
+salinon.mouseover(function() {
+    this.transform('R 180');
+});
+salinon.dblclick(function() {
+    this.transform('r 45');
+});
+salinon.mouseout(function() {
+    this.transform('');
+});
+/*
+ * 效果见： http://raphaeljsvectorgraphics.com/book/chapter-4/02_basic_event_handling
+ *
+ * Concerning the resetting of transformations, passing an empty string to the transform 
+ * method has the effect of returning the shape to its original position.
+ *
+ * You will notice by running the previous code that the 45 degree rotation is performed 
+ * relative to its initial position, not that defined by the 180 degrees rotation. This is 
+ * because every invocation of the  transform method is relative to the original state of 
+ * the element.
+ *
+ * If, however, we want to transform an element from its current state—that resulting from 
+ * the previous invocation of  transform —we can prefix our transformation commands with 
+ * an ellipsis(省略号) in order to append a new transformation.
+ * */
+
+salinon.click(function() {
+    this.transform('t 300 0 R 180');
+});
+salinon.dblclick(function() {
+    this.transform('...t 200 0 r 45');
+});
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-4/03_transformation_ellipsis
+* */
+
+// 4.1.2.2 Unregistering basic event handlers
+
+/*
+ * The unregistering event handlers are methods of the element to which you have
+ * registered event handlers and accepted as a parameter the event handling function.
+ * */
+
+var square = paper.rect(50, 50, 100, 100);
+var clickHandler = function() {
+    this.transform('...r 15');
+};
+square.click(clickHandler);
+circle.dblclick(function() {
+    square.unclick(clickHandler);
+}
+
+/*
+ * You can register and unregister multiple event handlers for an event on a single element. 
+ * The handlers are run in the order in which they're defined.
+ * */
+
+
+// 4.2 Working with matrices
+
 
