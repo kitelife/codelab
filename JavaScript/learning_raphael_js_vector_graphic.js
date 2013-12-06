@@ -441,3 +441,212 @@ var hexagon = paper.path(
  * in radians to be passed so we have used the  rad utility method on the  Raphael object
  * to convert 60 degrees into radians.
  * */
+
+// 3.2.3 The closepath command
+
+/*
+ * The closepath command draws a straight line from the current point to the starting point 
+ * of the current subpath.
+ *
+ * The closepath command character is  Z and does not accept any parameters. 
+ * */
+
+var hexagon = paper.path(
+    ['M', 250, 15,
+        'l', sideLength, 0,
+        x, y,
+        -x, y,
+        -sideLength, 0,
+        -x, -y,
+        'z' // in place of the line to (x, -y)
+    ]
+);
+
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-3/05_closepath
+ *
+ * Note that the closepath command can be either uppercase or lowercase but this has 
+ * no effect on its behavior.
+ * 
+ * */
+
+
+// 3.3 Drawing curves
+
+/*
+ * There are three types of curve path: quadratic Bézier curves(二次贝塞尔曲线), 
+ * cubic Bézier curves(三次贝塞尔曲线), and arcs(弧线).
+ *
+ * Bézier curves are curves defined between a start and end point but whose direction 
+ * we can determine by using control points, while arcs are a portion of the circumference(圆周) 
+ * of an ellipse(椭圆).
+ * 
+ * */
+
+// 3.3.1 Quadratic Bézier curves
+
+/*
+ * A quadratic Bézier curve is a curve between two points with a single control point.
+ *
+ * 演示： http://www.jasondavies.com/animated-bezier/
+ *
+ * There are two quadratic Bézier curve commands:
+ *
+ * ------------------------------------------------------------
+ *  Command         Parameters          Example
+ * ------------------------------------------------------------
+ *  Q or q          (x1, y1, x, y)+     Q 100 50 200 250
+ *  T or t          (x y)+              T 400 250
+ * ------------------------------------------------------------
+ *
+ * The Q command (or q for relative points) describes a curve drawn from the current point 
+ * on a path to the point (x, y) using (x1, y1) as a control point. For example, consider 
+ * the following code:
+ * */
+
+paper.path(['M', 50, 150, 'Q', 225, 20, 400, 150]);
+/*
+ * 效果：http://raphaeljsvectorgraphics.com/book/chapter-3/06_quadratic_bezier
+ *
+ * Moving the control point affects the way that the path is drawn.
+ *
+ * As with the other commands we have encountered so far, parameters can be repeatable, 
+ * which allows us to draw multiple connected quadratic Bézier curves.
+ * */
+
+paper.path([
+           'M', 50, 150
+           'Q', 225, 20, 400, 150,
+           575, 20, 750, 150
+]);
+/*
+ * This has the effect of drawing a second curve from (400, 150) to the point (750, 150) 
+ * with a control point at (575, 20).
+ *
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-3/08_quadratic_bezier_03
+ * 
+ * The T or t command is shorthand whereby the control point coordinates are not specified. 
+ * Instead, the control point is determined automatically as a reflection(镜像) of the previous 
+ * control point.
+ * 
+ * */
+
+paper.path([
+           'M', 50, 150,
+           'Q', 225, 20, 400, 150,
+           'T', 750, 150
+]);
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-3/09_quadratic_bezier_04
+ * 
+ * The current point at the start of the path drawn by T is (400, 150). Relative to 
+ * this point, a reflection of the previous control point (225, 20) is (575, 280).
+ * 
+ * */
+
+// 3.3.2 Cubic Bézier curves
+
+/*
+ * The principles behind drawing cubic Bézier curves are similar to those for quadratic Bézier curves 
+ * except that cubic Bézier curves have two control points. 
+ * 
+ * 演示：http://www.jasondavies.com/animated-bezier/
+ *
+ * There are two cubic Bézier curve commands:
+ *
+ * --------------------------------------------------------------------------------
+ *  Command                 Parameters                  Example
+ * --------------------------------------------------------------------------------
+ *  C or c                  (x1, y1, x2, y2, x, y)+     C 150 25 350 50 500 300
+ *  S or s                  (x2, y2, x y)+              S 200 -100 200 50
+ * --------------------------------------------------------------------------------
+ * */
+
+paper.path([
+           'M', 200, 20,
+           'C', 400, 140, 400, 180, 200, 120,
+           'z'
+]).attr({fill: '#222'});
+/*
+ * Note also that we have closed the path and applied an attribute fill.
+ *
+ * 效果见： http://raphaeljsvectorgraphics.com/book/chapter-3/11_cubic_bezier_01
+ *
+ * The  S command has a similar effect to the  T command in automatically creating a control point 
+ * reflected about the current point. What it actually does is to reflect the second control point 
+ * about the current point and this becomes the first control point for our new subpath, for which 
+ * we now have to specify our second control point.
+ * */
+
+paper.path([
+           'M', 200, 20,
+           'C', 400, 140, 400, 180, 200, 120,
+           'S', 0, 100, 200, 220,
+           'z'
+]);
+
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-3/12_cubic_bezier_02
+ *
+ * The  S path starts from the current point (200, 120) and finishes at (200, 220) as shown.
+ * The second control point from our first curve, defined at (400, 180), is reflected about
+ * the current point, which creates a control point at (0, 60). We have then specified a 
+ * second control point at (0, 100).
+ *
+ * The hardest thing about working with Bézier curves is deciding where to define your control points. 
+ * Figuring these out is usually achieved by one of the following:
+ *  Trial and error
+ *  Mathematical computation
+ *  Using a graphic package such as Inkscape to aid you in drawing
+ * */
+
+// 3.3.3 Drawing arcs
+
+/*
+ * The syntax for arc drawing:
+ *
+ * ------------------------------------------------------------------------
+ *  Command         Parameters              Example
+ * ------------------------------------------------------------------------
+ *  A or a          (rx, ry,                a 25 50 0 1 0 100 200
+ *                  x-rotation,
+ *                  large-arc-flag,
+ *                  sweep-flag,
+ *                  x, y)+
+ * ------------------------------------------------------------------------
+ *
+ * The following table describes each of the individual parameters:
+ * -----------------------------------------------------------------------------------------
+ *  Parameters          Description
+ * -----------------------------------------------------------------------------------------
+ *  rx and ry           Since an arc is a portion of an ellipse, it has a radius in x and y
+ *  x-rotation          The counterclockwise rotation(旋转) of the ellipse along which the 
+ *                      arch is drawn(a value in degrees)
+ *  large-arc-flag      Whether our arc is drawn as a major(1) or minor(0) arc
+ *  sweep-flag          Whether the arc is drawn in a positive(1), that is, clockwise or
+ *                      negative(0), that is, counterclockwise, angular(角度) direction
+ *  x and y             The end point of our arc
+ * -----------------------------------------------------------------------------------------
+ * */
+
+paper.path([
+           'M', 50, 60,
+           'a', 150, 80, 0, 1, 1, 0, 80
+]);
+/*
+ * We first move to the current point (50, 60) and then draw an arc with an x-radius of 150 
+ * and a y-radius of 80. We set the  x-rotation value equal to 0 and identify that we're 
+ * drawing the large arc by setting  large-arc-flag equal to 1. The sweep-flag value is 
+ * equal to  1 and we use the lowercase, that is, relative, variant of the  A command meaning 
+ * our final  x and  y parameters (0, 80) are units relative to the start point, that is: 0 
+ * additional pixels in  x and 80 additional pixels in  y giving end point coordinates of (50, 140). 
+ *
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-3/13_arcs_01
+ *
+ * Were we to specify a  large-arc-flag value equal to 0:
+ *
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-3/14_arcs_02
+ * */
+
+
+// 3.4 Utility methods for working with paths
