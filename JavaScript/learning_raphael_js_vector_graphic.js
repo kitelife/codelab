@@ -940,4 +940,191 @@ circle.dblclick(function() {
 
 // 4.2 Working with matrices
 
+// 4.2.1 Transformation matrices
 
+/*
+ * Transformations in Raphaël are known as affine transformations. The idea is that we treat 
+ * every point in 2D space as a point in 3D space, which allows us to represent a transformation 
+ * using matrices. The 3D point is fixed at 1 so that an (x, y) point is represented as (x, y, 1), 
+ * that is, it does not vary in the third dimension.
+ * */
+
+// 4.2.1.1 Using transformation matrices
+
+/*
+ * When creating transformations, you can pass matrix parameters directly to a transformation string 
+ * using the syntax  "M a, b, c, d, e, f" . This has the effect of applying a transformation matrix 
+ * to every point on an element.
+ * */
+
+/*该部分内容（根据矩阵做图形变换）可以单独翻译出来。
+ * */
+
+// 4.3 The drag-and-drop functionality
+
+// 4.3.1 The Element.drag() method
+
+/*
+ * The  drag method of an element has the following syntax:
+ *
+ *      Element.drag(
+ *          onmove, onstart, onend, [mcontext], [scontext], [econtext]
+ *      )
+ *
+ * The "onmove", "onstart", and "onend" functions are callback functions invoked during the life cycle 
+ * of a dragged element, while "mcontext", "scontext", and "econtext" define the "this" variable in 
+ * the scope of these functions (defaulting to the element that is being dragged).
+ * 
+ * */
+
+// 4.3.2 The onstart event handler
+
+// 4.3.3 The onend event handler
+
+// 4.3.4 The onmove event handler
+
+/*
+ * The  onmove event handler is called every time an element is moved during dragging. It has the 
+ * parameters "dx" and "dy" that describe the amount by which the element has been dragged in x 
+ * and y respectively.
+ * */
+
+// 4.3.4.1 Dragging by example
+
+/*
+ * We first define our element and keep a reference to its start x and y positions in the "onstart" 
+ * event handler. To highlight that our element is in a "drag" state, we also paint it pink. In our 
+ * "onend" event handler, we reset the fill to be black to indicate that dragging has finished.
+ * */
+
+Raphael('my-canvas', 800, 400, function() {
+    var paper = this;
+    
+    var square = paper.rect(100, 100, 100, 100).attr('fill', '#000');
+
+    var startX, startY;
+
+    function onstart() {
+        startX = this.attr('x');
+        startY = this.attr('y');
+
+        this.attr('fill', 'pink');
+    }
+
+    function onend() {
+        this.attr('fill', '#000');
+    }
+
+    function onmove(dx, dy) {
+        this.attr({
+            x: startX + dx,
+            y: startY + dy
+        });
+    }
+
+    square.drag(onmove, onstart, onend);
+});
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-4/14_drag_drop_01
+ * */
+
+// 4.3.5 Dropping elements
+
+/*
+ * At the end of dragging an element, we can perform checks to see where it has ended up relative to 
+ * other elements. A "drop" is essentially a check to see whether our element falls within some 
+ * particular set of bounds.
+ * */
+
+// 4.3.5.1 Bounding box overlapping(范围边框(bounding)有重合)
+
+/*
+ * Every element has a bounding box that defines the smallest rectangular region containing all points
+ * of an element. By checking to see whether two bounding boxes overlap we can determine whether or not
+ * an element was "dropped" on to another.
+ * */
+
+Raphael('my-canvas', 800, 400, function() {
+    var paper = this;
+
+    var target = paper.rect(400, 100, 200, 200).attr('fill', '#ddd');
+    var square = paper.rect(100, 100, 100, 100).attr('fill', '#000');
+
+    var startX, startY;
+
+    function onstart() {
+        startX = this.attr('x');
+        startY = this.attr('y');
+
+        this.attr('fill', 'pink');
+    }
+
+    function onend() {
+        var bBox = this.getBBox(),
+        targetBBox = target.getBBox();
+
+        if(Raphael.isBBoxIntersect(bBox, targetBBox)) {
+            this.undrag();
+            this.attr({
+                x: 450,
+                y: 150
+            });
+        }
+    }
+
+    function onmove(dx, dy) {
+        this.attr({
+            x: startX + dx,
+            y: startY + dy
+        });
+    }
+
+    square.drag(onmove, onstart, onend);
+});
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-4/15_drag_drop_02
+ *
+ * This time, in our "onend" event handler, we get the bounding boxes of each of our square and target element
+ * using the "getBBox" method and then check whether or not the elements overlap using "isBBoxIntersect". 
+ * */
+
+// 4.3.5.2 Bounding box inside bounding box(一个物体的范围边框完全在另一个物体的范围边框之内)
+
+/*
+ * While the "isBBoxIntersect" method is convenient, we sometimes need to know whether or not all points on 
+ * an element are inside another.
+ *
+ * we could check to see whether the top-left vertex and bottom-right vertex of our square's bounding box 
+ * fall within the target bounding box using the "isPointInsideBBox" method.
+ * 
+ * */
+
+function onend() {
+    var targetBBox = target.getBBox();
+    var topLeftVertex = {
+        x: this.attr('x'),
+        y: this.attr('y')
+    };
+    var bottomRightVertex = {
+        x: this.attr('x') + this.attr('width'),
+        y: this.attr('y') + this.attr('height')
+    };
+    var point1InsideBox = Raphael.isPointInsideBBox(
+        targetBBox, topLeftVertex.x, topLeftVertex.y
+    );
+    var point2InsideBox = Raphael.isPointInsideBBox(
+        targetBBox, bottomRightVertex.x, bottomRightVertex.y
+    );
+    if(point1InsideBox && point2InsideBox) {
+        this.undrag();
+        this.attr({ x: 450, y: 150 });
+    }
+}
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-4/16_drag_drop_03
+ * */
+
+
+/***********************************************************************************************************
+ * 5. Vector Animation
+ * ********************************************************************************************************/
