@@ -650,3 +650,123 @@ paper.path([
 
 
 // 3.4 Utility methods for working with paths
+
+// 3.4.1 Element.getTotalLength()
+
+var pin = paper.path({
+    'M', 130, 350,
+    'A', 100, 180, 0, 1, 0, 210, 350,
+    'C', 290, 100, 50, 100, 130, 350,
+    'z'
+});
+var totalLength = pin.getTotalLength();
+paper.text(
+    180, 50,
+    "Total Length: " + totalLength.toPrecision(2)
+);
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-3/16_get_total_length
+ * 
+ * */
+
+// 3.4.2 Element.getPointAtLength(length)
+
+/*
+ * We can get the x and y coordinates of any point along the length of a path using the getPointAtLength 
+ * method. This method returns an object with  x and  y attributes.
+ * */
+
+var totalLength = pin.getTotalLength();
+p1 = pin.getPointAtLength(totalLength / 8);
+p2 = pin.getPointAtLength(totalLength / 2);
+paper.circle(p1.x, p1.y, 10);
+paper.circle(p2.x, p2.y, 10);
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-3/17_get_point_at_length
+ *
+ * Another attribute of the object returned by  getPointAtLength is the  alpha attribute.
+ * This returns the positive angle relative to the x-axis subtended by the gradient or 
+ * derivative line at the point.
+ *
+ * Knowing the derivative at a point is useful as it informs us of the extent to which thearc is changing 
+ * in x and y at that particular point.
+ * */
+
+// 3.4.3 Element.getSubpath(from, to)
+
+var path = paper.path([
+                      'M', 100, 100, 'c', 0, 100, 200, -100, 200, 0
+]);
+path.attr('stroke-width', 5);
+var totalLength = path.getTotalLength();
+var subPath = path.getSubpath(
+    totalLength /4, totalLength / 2
+);
+paper.path(subPath).attr('stroke-width', 15);
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-3/18_get_subpath
+ * */
+
+// 3.4.4 Catmull-Rom curves
+
+/*
+ * In those cases where we need to draw a curve that passes through a prescribed set of points, 
+ * a Catmull-Rom curve is often appropriate. Catmull-Rom curves are commonly used in charting 
+ * (that is, in data plotting) and gaming (for example, to move a character along a predefined 
+ * trajectory).
+ *
+ * Raphaël provides a path command to facilitate the drawing of Catmull-Rom curves.
+ *
+ * -------------------------------------------------------------------------------
+ *  Command         Parameters              Example
+ * -------------------------------------------------------------------------------
+ *  R or r          x1, y1 (xi, yi)+        R 25 50 0 1 0 100 200
+ * -------------------------------------------------------------------------------
+ *
+ * The point  (x1, y1) is the second point the curve should pass through while the (xi, yi) 
+ * points are every subsequent point. The first point should always be our current point, 
+ * from which the curve starts. 
+ * */
+
+var data = [
+    {x: 50, y: 250}, {x: 100, y: 100}, {x: 150, y: 150},
+    {x: 200, y: 140}, {x: 250, y: 250}, {x: 300, y: 200},
+    {x: 350, y: 180}, {x: 400, y: 230}
+];
+/*
+ * To plot these data points, we iterate over the array and draw a circle at each x and y 
+ * position (note that the points are grouped in to a set which makes applying attributes
+ * to them easier):
+ * */
+var plottedPoints = paper.set();
+for(var i = 0, num = data.length; i < num; i+=1) {
+    var point = data[i];
+    plottedPoints.push(paper.circle(point.x, point.y, 5));
+};
+plottedPoints.attr({fill: '#09c', 'stroke-width':0});
+/*
+ * When constructing our path string or path array, we make the current point our first data point 
+ * using the  M command and append the  R command to begin drawing our Catmull-Rom curve.
+ * */
+var path = ['M', data[0].x, data[0].y];
+path.push('R');
+/*
+ * We then iterate over all remaining points (all points except the first) and append their values
+ * to our path array.
+* */
+for(var i = 1, num = data.length; i < num; i+=1) {
+    path.push(data[i].x);
+    path.push(data[i].y);
+}
+var curve = paper.path( path );
+
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-3/19_catmull_rom
+ * */
+
+
+/************************************************************************************************
+ * 4. Transformations and Event Handling
+ * *********************************************************************************************/
+
+
