@@ -1438,3 +1438,50 @@ runloop();
  * *****************************************************************************************************************/
 
 
+// 6.1 Inkscape
+
+
+// 6.2 Inspecting paths
+
+
+// 6.3 SVG to Raphael conversion tools
+
+// 6.3.1 Ready Set Raphael
+
+/*
+ * http://www.readysetraphael.com/
+ * */
+
+// 6.3.2 Other converters
+
+/*
+ * Charles Thomas's SVG to HTML converter ( http://www.irunmywebsite.com/raphael/SVGTOHTML_LIVE.php ) converts all 
+ * primitive shapes to paths and ensures that all paths use absolute coordinates while the converter at 
+ * http://toki-woki.net/p/SVG2RaphaelJS/ is fast and lightweight.
+ * */
+
+
+// 6.4 Choropleth maps
+
+/*
+ * Choropleth maps are maps that show some particular area or region with an associated measurement or statistic. 
+ * */
+
+// 6.4.1 Creating choropleth maps
+
+/*
+ * Often when you need to associate data with some geographical region or area, the best approach is to utilize 
+ * an existing map in SVG format that you can then tailor to your needs (manually by modifying the raw XML or 
+ * using a graphics editor such as Inkscape). 
+ * */
+
+// 6.5 Open source SVGs
+
+/*
+ * There are a number of SVGs available via the Open Clip Art Library at http://openclipart.org . 
+ * */
+
+
+/************************************************************************************************************************
+ * 7. Creating a Suite of Social Media Visualizations
+ ***********************************************************************************************************************/
