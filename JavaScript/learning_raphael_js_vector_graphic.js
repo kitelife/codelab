@@ -1306,9 +1306,9 @@ square.click(function() {
 // 5.5.1 Custom attributes
 
 /*
- * A custom attribute is a custom-defined function that returns a set of attributes to be applied to an element. It can be 
- * thought of as a helper function for which existing attributes are derived based on calculation. A custom attribute is 
- * defined as an attribute of the  customAttributes namespace as follows:
+ * A custom attribute is a custom-defined function that returns a set of attributes to be applied to an element. 
+ * It can be thought of as a helper function for which existing attributes are derived based on calculation. A 
+ * custom attribute is  defined as an attribute of the  customAttributes namespace as follows:
  *
  * Paper.customAttributes.yourAttribute = function(a1, a2, ...){};
  * 
