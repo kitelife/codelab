@@ -1128,3 +1128,313 @@ function onend() {
 /***********************************************************************************************************
  * 5. Vector Animation
  * ********************************************************************************************************/
+
+/*
+ * Animation affords us the ability to change graphics with regard to time, that is, we can modify the 
+ * attributes of a vector graphic over some non-zero time interval.
+ * 
+ * */
+
+// 5.1 Basic animation
+
+/*
+ * Animation is accomplished using the "animate" method of an element. The method takes the following parameters 
+ * in the order that they're defined.
+ *
+ * -----------------------------------------------------------------------------------------
+ *  Parameter               Type                    Description
+ * -----------------------------------------------------------------------------------------
+ *  attributes              Object                  Key-value pair attributes as per the 
+ *                                                  Element.attr() method
+ *  duration                Number                  The number of milliseconds that the
+ *                                                  duration should last for
+ *  easing(optional)        String                  A string describing the rate of change
+ *                                                  of an attribute with regard to time
+ *  callback(optional)      Function                A function that is executed at the point
+ *                                                  at which the animation ends
+ * ------------------------------------------------------------------------------------------
+ * */
+
+var circle = paper.circle(100, 100, 50).attr({fill: 'green'});
+circle.animate({
+    cx: 500,
+    r: 15
+}, 1000);
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-5/01_animation_01
+ * */
+
+var rectangle = paper.rect(100, 50, 20, 50).attr({
+    fill: '#345'
+});
+rectangle.animate({
+    opacity: 0.6,
+    x: 400,
+    y: 100,
+    width: 100,
+    'stroke-width': 10
+}, 1000);
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-5/02_animation_02
+ * */
+
+// 5.2 Animating paths
+
+/*
+ * While the basic shapes have intrinsic x and y or  cx and  cy attributes and width and height, paths do not
+ * and so we will animate custom paths from one path to another.
+ * */
+
+var star = paper.path(
+    'M 100,40 40,210 190,90 10,90 160,210 z'
+);
+var square = paper.rect(500, 100, 50, 50).attr({
+    'fill': '#09c', cursor: 'pointer'
+});
+square.click(function() {
+    star.animate({
+        path: [
+            'M', 100, 180,
+            'a', 140, 140, 0, 0, 1, 280, 0,
+            90, 90, 0, 0, 0, -180, 0,
+            50, 50, 0, 0, 0, -100, 0
+        ]
+    }, 1000);
+});
+
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-5/03_animation_03
+ * */
+
+var pathStart = [
+    'M', 50, 250,
+    'R', 100, 100, 150, 150, 200, 140, 250, 200, 300, 80,
+    350, 130, 400, 250,
+    'H', 50,
+    'z'
+];
+var pathEnd = [
+    'M', 50, 250,
+    'R', 100, 130, 150, 220, 200, 200, 250, 100, 300, 200,
+    350, 180, 400, 250,
+    'H', 50,
+    'z'
+];
+var curve = paper.path(pathStart).attr({
+    'stroke-width': 0,
+    'stroke-linejoin': 'round'
+    'fill': 'green'
+});
+square.click(function() {
+    curve.animate({
+        path: pathEnd
+    }, 500);
+});
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-5/04_animation_04
+ * */
+
+// 5.3 Animation easing(动画缓冲 / 缓动函数)
+
+/*
+ * "Easing" describes how the value of an attribute varies with regard to time. By default, the value of an attribute 
+ * changes consistently—that is, linearly—over the course of an animation but by specifying a particular easing type, 
+ * we can change the way in which the attribute is animated.
+ *
+ * For each easing type, the rate at which the attribute changes varies along the graph in the time axis. Each easing 
+ * type can be described as such:
+ *  - Linear: The value varies consistently from its start value to its end value over the course of the animation.
+ *  - Ease Out: The value increases quickly towards its end point before slowing down towards the end of the animation.
+ *  - Ease In Out: The value decreases slowly at first and then increases quickly  before finally slowing down to its 
+ *                  end point towards the end of the animation. 
+ * */
+
+// 5.3.1 Built-in easing formulas
+
+// 演示：http://raphaeljs.com/easing.html
+
+// consider applying an easing type of  'bounce' to our Catmull-Rom path animation curve:
+
+square.click(function() {
+    curve.animate({
+        path: pathEnd
+    }, 500, 'bounce');
+});
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-5/05_animation_05
+ * */
+
+// 5.3.2 Custom easing using the cubic Bezier format
+
+/*
+ * The format for CSS3 transitions describing animation easing can be used to define custom easing paths in Raphaël. 
+ * The syntax is  'cubic-bezier(point1_x, point1_y, point2_x, point2_y)' , where each parameter defines the x and y
+ * positions of anchor points describing a cubic Bézier curve from (0, 0) to (1,1) in attribute value and time.
+ * */
+
+
+// 5.4 Animating transformations
+
+/*
+ * As with paths, an element's transform is an attribute on the element meaning we can animate in the same manner.
+ * */
+
+square.click(function() {
+    this.animate({
+        transform: ['...r 45']
+    }, 300);
+});
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-5/07_animation_07
+ * */
+
+var anim = Raphael.animation({
+    transform: [
+        '...', 'M', 1, 0, Math.tan(Raphael.rad(5)), 1, 0, 0
+    ]
+}, 300);
+square.click(function() {
+    this.animate(anim);
+});
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-5/08_animation_08
+ * */
+
+
+// 5.5 Animation using custom attributes
+
+// 5.5.1 Custom attributes
+
+/*
+ * A custom attribute is a custom-defined function that returns a set of attributes to be applied to an element. It can be 
+ * thought of as a helper function for which existing attributes are derived based on calculation. A custom attribute is 
+ * defined as an attribute of the  customAttributes namespace as follows:
+ *
+ * Paper.customAttributes.yourAttribute = function(a1, a2, ...){};
+ * 
+ * */
+
+var paper = Raphael('my-canvas', 600, 300);
+var data = [
+    {
+        name: 'Taiwan',
+        population: 0.1,
+        density: 1
+    },
+    {
+        name: 'South Korea',
+        population: 0.32,
+        density: 0.5
+    },
+    {
+        name: 'Netherlands',
+        population: 0.05,
+        density: 0.22
+    },
+    {
+        name: 'Belgium',
+        population: 0,
+        density: 0.07
+    },
+    {
+        name: 'Japan',
+        population: 1,
+        density: 0
+    }
+];
+
+paper.customAttributes.popDensity = function(population, density) {
+    var radius = 25 + (25 * population),
+        fillColor = 'hsb(' + 0.3 * (1 - density) + ', 1, 0.85)';
+
+    return {
+        fill: fillColor,
+        r: radius
+    };
+};
+
+var currentX = 70;
+for(var i = 0, ii = data.length; i < ii; i+=1) {
+    var country = data[i];
+    // -->
+    paper.circle(currentX, 150, 50).attr({
+        popDensity: [country.population, country.density],
+        'stroke-width': 4
+    });
+    // <--
+    paper.text(currentX, 225, country.name).attr({'font-size': 14});
+
+    currentX += 100;
+}
+
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-5/09_animation_09
+ *
+ * 若将 paper.circle的调用替换成如下代码：
+* */
+
+var circle = paper.circle(currentX, 150, 50).attr({
+    popDensity: [0, 0],
+    'stroke-width': 4
+});
+
+circle.animate({
+    popDensity: [country.population, country.density]
+}, 1000, 'easeOut');
+/*
+ * 则效果见：http://raphaeljsvectorgraphics.com/book/chapter-5/10_animation_10
+* */
+
+// 5.5.2 Animation along a path
+
+var paper = Raphael('my-canvas', 600, 300);
+
+var path = paper.path(
+    ['M', 100, 100, 
+    'C', 100, 0, 400, 200, 400, 100,
+    'S', 100, 200, 100, 100,
+    'z'
+    ]
+).attr({'stroke-width': 2});
+var circle = paper.circle(0, 0, 13).attr({fill: '#09c', cursor: 'pointer'});
+
+var pathLength = path.getTotalLength();
+paper.customAttributes.pathFactor = function(distance) {
+    var point = path.getPointAtLength(distance * pathLength);
+    var dx = point.x,
+        dy = point.y;
+    return {
+        transform: ['T', dx, dy]
+    };
+};
+
+circle.attr({pathFactor: 0});
+
+function runloop() {
+    circle.animate({pathFactor: 1}, 4000, function() {
+        this.attr({pathFactor: 0}); // Reset
+        setTimeout(runloop);
+    });
+    circle.unclick().click(function() {
+        this.pause();
+    });
+    circle.undblclick().dblclick(function() {
+        this.resume();
+    });
+};
+runloop();
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-5/11_animation_11
+* */
+
+// 5.5.2.1 Pausing and resuming animation
+
+/*
+ * 效果见：http://raphaeljsvectorgraphics.com/book/chapter-5/11_animation_11
+ * */
+
+/********************************************************************************************************************
+ * 6. Working with Existing SVGs
+ * *****************************************************************************************************************/
+
+
