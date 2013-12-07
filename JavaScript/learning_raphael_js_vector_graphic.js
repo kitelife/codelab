@@ -1485,3 +1485,30 @@ runloop();
 /************************************************************************************************************************
  * 7. Creating a Suite of Social Media Visualizations
  ***********************************************************************************************************************/
+
+
+// 7.1 Social network usage
+
+/*
+ * 演示：http://raphaeljsvectorgraphics.com/book/chapter-7/01_social_network_usage
+* */
+
+// 7.2 Tweets by time
+
+/*
+ * 演示见：http://raphaeljsvectorgraphics.com/book/chapter-7/03_tweets_by_time
+ * */
+
+// 7.3 Supplementary material
+
+// 7.3.1 Facebook usage per year
+
+/*
+ * 演示见：http://raphaeljsvectorgraphics.com/book/chapter-7/04_facebook_usage_by_year
+ * */
+
+// 7.3.2 Golden tweets
+
+/*
+ * 演示见：http://raphaeljsvectorgraphics.com/book/chapter-7/02_golden_tweets
+ * */
