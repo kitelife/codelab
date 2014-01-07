@@ -797,5 +797,240 @@ To call a task you can use the \textbf{URL} class:
 
 \subsection{Monitoring and Management Guide}
 
+\subsubsection{celery: Command Line Management Utility}
+\subsubsection{Flower: Real-time Celery web-monitor}
+Flower is a real-time web based monitor and administration tool for Celery. It is under active development, but is already an essential tool. Being the recommended monitor for Celery, it obsoletes the Django-Admin monitor, celerymon and the ncurses based monitor.
+
+\textbf{Usage}
+
+You can use pip to install Flower:
+\begin{Verbatim}[frame=single]
+$ pip install flower
+\end{Verbatim}
+
+Running the flower command will start a web-server that you can visit:
+\begin{Verbatim}[frame=single]
+$ celery flower
+\end{Verbatim}
+The default port is http://localhost:5555, but you can change this using the ¨Cport argument:
+\begin{Verbatim}[frame=single]
+$ celery flower --port=5555
+\end{Verbatim}
+Broker URL can also be passed through the ¨Cbroker argument :
+\begin{Verbatim}[frame=single]
+$ celery flower --broker=amqp://guest:guest@localhost:5672//
+\end{Verbatim}
+or
+\begin{Verbatim}[frame=single]
+$ celery flower --broker=redis://guest:guest@localhost:6379/0
+\end{Verbatim}
+Then, you can visit flower in your web browser :
+\begin{Verbatim}[frame=single]
+$ open http://localhost:5555
+\end{Verbatim}
+
+\subsubsection{celery events: Curses Monitor}
+\textit{celery events} is a simple curses monitor displaying task and worker history. You can inspect the result and traceback of tasks, and it also supports some management commands like rate limiting and shutting down workers. This monitor was started as a proof of concept, and you probably want to use Flower instead.
+
+Starting:
+
+\begin{Verbatim}[frame=single]
+$ celery events
+\end{Verbatim}
+
+\subsubsection{General Settings}
+
+\textbf{librabbitmq}
+
+If you¡¯re using RabbitMQ (AMQP) as the broker then you can install the \textbf{librabbitmq} module to use an optimized client written in C:
+
+\begin{Verbatim}[frame=single]
+$ pip install librabbitmq
+\end{Verbatim}
+
+The ¡®amqp¡¯ transport will automatically use the librabbitmq module if it¡¯s installed, or you can also specify the transport you want directly by using the \textit{pyamqp://} or \textit{librabbitmq://} prefixes.
+
+\subsection{Concurrency}
+\subsubsection{Concurrency with Eventlet}
+
+Eventlet is a concurrent networking library for Python that allows you to change how you run your code, not how you write it.
+
+\begin{itemize}
+\item It uses epoll(4) or libevent for highly scalable non-blocking I/O.
+\item \href{http://en.wikipedia.org/wiki/Coroutine}{Coroutines} ensure that the developer uses a blocking style of programming that is similar to threading, but provide the benefits of non-blocking I/O.
+\item The event dispatch is implicit, which means you can easily use Eventlet from the Python interpreter, or as a small part of a larger application.
+\end{itemize}
+
+\textbf{Enabling Eventlet}
+
+You can enable the Eventlet pool by using the \verb"-P" option to \textbf{celery worker}:
+\begin{Verbatim}[frame=single]
+$ celery worker -P eventlet -c 1000
+\end{Verbatim}
+
+\subsection{Signals}
+
+\section{Configuration and defaults}
+
+\section{Django}
+
+\subsection{First steps with Django}
+
+\subsubsection{Configuring your Django project to use Celery}
+
+You need four simple steps to use celery with your Django project.
+
+\begin{enumerate}
+\item Install the \verb"django-celery" library:
+    \begin{Verbatim}[frame=single]
+    $ pip install django-celery
+    \end{Verbatim}
+\item Add the following lines to \verb"settings.py":
+    \begin{Verbatim}[frame=single]
+    import djcelery
+    djcelery.setup_loader()
+    \end{Verbatim}
+\item Add \verb"djcelery" to \verb"INSTALLED_APPS".
+\item Create the celery database tables.\\
+    If you are using south for schema migrations, you\textquoteright ll want to:
+    \begin{Verbatim}[frame=single]
+    $ python manage.py migrate djcelery
+    \end{Verbatim}
+    For those who are not using south, a normal syncdb will work:
+    \begin{Verbatim}[frame=single]
+    $ python manage.py syncdb
+    \end{Verbatim}
+\end{enumerate}
+
+All settings mentioned in the Celery documentation should be added to your Django project\textquoteright s \verb"settings.py" module. For example you can configure the \verb"BROKER_URL" setting to specify what broker to use:
+
+\begin{Verbatim}[frame=single]
+BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+\end{Verbatim}
+
+\textbf{Special note for mod\_wsgi users}
+
+If you¡¯re using \verb"mod_wsgi" to deploy your Django application you need to include the following in your \verb".wsgi" module:
+
+\begin{Verbatim}[frame=single]
+import djcelery
+djcelery.setup_loader()
+\end{Verbatim}
+
+\subsubsection{Defining and calling tasks}
+
+Tasks are defined by wrapping functions in the \verb"@task" decorator. It is a common practice to put these in their own module named \verb"tasks.py", and the worker will automatically go through the apps in \verb"INSTALLED_APPS" to import these modules.
+
+\subsubsection{Starting the worker process}
+
+In a production environment you will want to run the worker in the background as a daemon - see \href{http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html#daemonizing}{Running the worker as a daemon} - but for testing and development it is useful to be able to start a worker instance by using the \verb"celery worker" manage command, much as you would use Django¡¯s runserver:
+
+\begin{Verbatim}[frame=single]
+$ python manage.py celery worker --loglevel=info
+\end{Verbatim}
+
+\section{Tutorials}
+
+\subsection{Running the worker as a daemon}
+Celery does not daemonize itself, please use one of the following daemonization tools.
+
+\subsubsection{Generic init scripts}
+See the \href{https://github.com/celery/celery/tree/3.0/extra/generic-init.d/}{extra/generic-init.d/} directory Celery distribution.
+
+\textbf{Init script: celeryd}
+
+\textbf{Usage}: \textit{/etc/init.d/celeryd {start|stop|restart|status}}
+\textbf{Configuration file}: /etc/default/celeryd
+
+To configure celeryd you probably need to at least tell it where to change directory to when it starts (to find your \textit{celeryconfig}).
+
+\textbf{Example configuration}
+
+\verb"/etc/default/celeryd":
+
+\begin{Verbatim}[frame=single]
+# Name of nodes to start
+# here we have a single node
+CELERYD_NODES="w1"
+# or we could have three nodes:
+#CELERYD_NODES="w1 w2 w3"
+
+# Where to chdir at start.
+CELERYD_CHDIR="/opt/Myproject/"
+
+# Extra arguments to celeryd
+CELERYD_OPTS="--time-limit=300 --concurrency=8"
+
+# %n will be replaced with the nodename.
+CELERYD_LOG_FILE="/var/log/celery/%n.log"
+CELERYD_PID_FILE="/var/run/celery/%n.pid"
+
+# Workers should run as an unprivileged user.
+CELERYD_USER="celery"
+CELERYD_GROUP="celery"
+\end{Verbatim}
+
+\textbf{Example Django configuration}
+
+This is an example configuration for those using \textit{django-celery}:
+
+\begin{Verbatim}[frame=single]
+# Name of nodes to start, here we have a single node
+CELERYD_NODES="w1"
+# or we could have three nodes:
+#CELERYD_NODES="w1 w2 w3"
+
+# Where to chdir at start.
+CELERYD_CHDIR="/opt/Myproject/"
+
+# How to call "manage.py celeryd_multi"
+CELERYD_MULTI="$CELERYD_CHDIR/manage.py celeryd_multi"
+
+# How to call "manage.py celeryctl"
+CELERYCTL="$CELERYD_CHDIR/manage.py celeryctl"
+
+# Extra arguments to celeryd
+CELERYD_OPTS="--time-limit=300 --concurrency=8"
+
+# %n will be replaced with the nodename.
+CELERYD_LOG_FILE="/var/log/celery/%n.log"
+CELERYD_PID_FILE="/var/run/celery/%n.pid"
+
+# Workers should run as an unprivileged user.
+CELERYD_USER="celery"
+CELERYD_GROUP="celery"
+
+# Name of the projects settings module.
+export DJANGO_SETTINGS_MODULE="MyProject.settings"
+\end{Verbatim}
+
+\section{Internals}
+
+\subsection{The worker}
+
+The worker consists of 4 main components: the consumer, the scheduler, the mediator and the task pool. All these components runs in parallel working with two data structures: the ready queue and the ETA schedule.
+
+\subsubsection{Components}
+
+\noindent\textbf{Consumer}
+
+Receives messages from the broker using \href{https://pypi.python.org/pypi/kombu}{Kombu}.
+
+When a message is received it\textquoteright s converted into a \verb"celery.worker.job.TaskRequest" object.
+
+Tasks with an ETA are entered into the \textit{eta\_schedule}, messages that can be immediately processed are moved directly to the \textit{ready\_queue}.
+\\\\
+\textbf{ScheduleController}
+
+The schedule controller is running the \textit{eta\_schedule}. If the scheduled tasks eta has passed it is moved to the \textit{ready\_queue}, otherwise the thread sleeps until the eta is met (remember that the schedule is sorted by time).
+\\\\
+\textbf{Mediator}
+
+The mediator simply moves tasks in the \textit{ready\_queue} over to the task pool for execution using \\\verb"celery.worker.job.TaskRequest.execute_using_pool()".
+\\\\
+\textbf{TaskPool}
+
+This is a slightly modified \verb"multiprocessing.Pool". It mostly works the same way, except it makes sure all of the workers are running at all times. If a worker is missing, it replaces it with a new one.
+
 \end{CJK*}
 \end{document}
