@@ -21,7 +21,7 @@
 
 \usepackage[lf]{venturis} %% lf option gives lining figures as default;
 			  %% remove option to get oldstyle figures as default
-%\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
 \usepackage[T1]{fontenc}
 
 % 调整页面
@@ -39,11 +39,13 @@
 %            内容
 %----------------------------------------------------------------------------------
 \begin{document}
-\begin{CJK}{UTF8}{gkai}                       % 详情参阅CJK文件包
+\begin{CJK}{UTF8}{kai}                       % 详情参阅CJK文件包
 \maketitle
 
 \section{工作背景}
-\cventry{2013.4 -- 至今}{运营开发工程师}{腾讯}{上海}{}{
+\cventry{2014.5 -- 至今}{Web研发工程师}{百度}{上海}{}{}
+
+\cventry{2013.4 -- 2014.5}{运营开发工程师}{腾讯}{上海}{}{
 \begin{itemize}
 \item {\color{blue}\href{http://youngsterxyf.github.io/2013/10/15/standardization-operations-development/}{运营开发规范化\tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
     \begin{itemize}
@@ -89,6 +91,10 @@
 
 \section{个人项目}
 \begin{itemize}
+\item 佑擎资产管理有限公司ERP系统
+    \begin{itemize}
+    \item 相关技术：Python、Django、MySQL、Celery、Redis
+    \end{itemize}
 \item {\color{blue}\href{https://github.com/youngsterxyf/Baidu_Music_Downloader}{百度音乐下载器\tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
     \begin{itemize}
     \item Python实现，基于Requests、BeautifulSoup、Gevent
