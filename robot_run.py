@@ -31,7 +31,7 @@ def vote(seq_id):
             'Host': 'www.51pretty.net'
         }
         try:
-            r = s.get('http://www.51pretty.net/plugin.php?id=chs_threadvote:vote', headers=http_get_headers, timeout=10)
+            r = s.get('http://www.51pretty.net/plugin.php?id=chs_threadvote:vote', headers=http_get_headers, timeout=15)
         except Exception as e:
             print 'Exception: ', e
             continue
@@ -58,7 +58,7 @@ def vote(seq_id):
             }
             url = 'http://www.51pretty.net/plugin.php?id=chs_threadvote:vote&infloat=1&inajax=1'
             try:
-                r = s.post(url, data=pay_load, headers=http_post_headers, timeout=10)
+                r = s.post(url, data=pay_load, headers=http_post_headers, timeout=15)
             except Exception as e:
                 print 'Error: ', e
                 continue_my_loop = False
@@ -77,7 +77,8 @@ def vote(seq_id):
                 continue_my_loop = False
                 continue
             count += 1
-
+            time.sleep(1)
+        time.sleep(1)
 
 def main():
     if len(sys.argv) != 2:
