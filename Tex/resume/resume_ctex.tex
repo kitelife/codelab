@@ -33,7 +33,7 @@
 \title{个人简历}                     % 可选项、如不需要可删除本行
 \phone[mobile]{15921584916}              % 可选项、如不需要可删除本行
 \email{youngsterxiayf@gmail.com}                    % 可选项、如不需要可删除本行
-\homepage{youngsterxyf.github.io}            % 可选项、如不需要可删除本行
+\homepage{blog.xiayf.cn}            % 可选项、如不需要可删除本行
 \extrainfo{\url{github.com/youngsterxyf}}
 %----------------------------------------------------------------------------------
 %            内容
@@ -43,114 +43,118 @@
 \maketitle
 
 \section{工作背景}
-\cventry{2014.5 -- 至今}{Web研发工程师}{百度}{上海}{}{}
 
-\cventry{2013.4 -- 2014.5}{运营开发工程师}{腾讯}{上海}{}{
+\cventry{2014.05 -- 至今}{高级Web研发工程师}{百度}{上海}{}{}
 \begin{itemize}
-\item {\color{blue}\href{http://youngsterxyf.github.io/2013/10/15/standardization-operations-development/}{运营开发规范化\tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
-    \begin{itemize}
-    \item 相关技术：Linux、Gitlab、Git、Python、PHP、Golang
-    \item 以更好的方式编写更好的代码
-    \end{itemize}
-\item {\color{blue}\href{http://youngsterxyf.github.io/2013/10/16/high-availability-load-balancer-and-dns/}{搭建高可用负载均衡组件\tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
-    \begin{itemize}
-    \item 基于HAProxy和Keepalived
-    \item 以Golang实现HAProxy负载均衡任务管理系统
-    \end{itemize}
-\item 运营平台：服务器信息配置模块、服务器归类模块、URL监控等
-    \begin{itemize}
-    \item 相关技术：PHP、MySQL、Redis、Memcached、Nginx、jQuery、Bootstrap、Highcharts、D3.js
-    \item 服务器信息配置模块为所有告警模块、数据图形化展示提供基础数据
-    \item 服务器归类模块方便分类展示、检索服务器
-    \item URL监控：见{\color{blue}\href{http://youngsterxyf.github.io/2013/10/12/url-monitoring-and-web-arch/}{文章}}说明
-    \end{itemize}
-\item 运维工具类开发
-    \begin{itemize}
-    \item Shell脚本实现自动安装部署软件、开机启动等
-    \item Python实现Nginx配置解析、自动添加ip到Nginx白名单的HTTP服务等
-    \item 独立Web应用-URL监控，Django实现
-    \item 简单的Nginx配置管理系统，相关技术：Django、jQuery、Bootstrap、codemirror等
-    \end{itemize}
-\item 服务器日常运维工作
-\end{itemize}}
+	\item {\color{blue}\href{http://ce.baidu.com}{百度云观测 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
+	\begin{itemize}
+		\item 简介：为中小站点提供可用性、访问速度、安全等方面的监测服务
+		\item 个人职责：Web后端功能开发，开放API设计与实现，微信服务号开发与维护 等
+		\item 相关技术：PHP、Yii、Yaf、Python、Go、Git、Gitlab
+	\end{itemize}
+\end{itemize}
 
-\cventry{2012.5. -- 2012.12}{Web开发实习生}{谷歌-企业社会责任部}{上海}{}{
-\begin{itemize}%
-\item 负责开发维护一起公益网(\url{www.17gong1.com})
+\cventry{2013.04 -- 2014.05}{运营开发工程师}{腾讯}{上海}{}{}
+\begin{itemize}
+	\item 内部运营平台
+	\begin{itemize}
+		\item 简介：针对易迅业务的线上服务器进行监控系统的收集、展示、告警 等
+		\item 个人职责：
+		\begin{itemize}
+			\item 服务器信息配置模块为所有告警模块、数据图形化展示提供基础数据
+			\item 服务器归类模块方便分类展示、检索服务器
+			\item URL监控：见{\color{blue}\href{http://blog.xiayf.cn/2013/10/12/url-monitoring-and-web-arch/}{文章}}说明
+		\end{itemize}
+		\item 相关技术：PHP、Redis、Memcached、Bootstrap、Highcharts、D3.js 等
+	\end{itemize}
+	
+	\item {\color{blue}\href{http://blog.xiayf.cn/2013/10/16/high-availability-load-balancer-and-dns/}{高可用容灾方案 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
+	\begin{itemize}
+		\item 简介：主要针对易迅IDC与腾讯IDC之间的互通，提供高可用容灾方案
+		\item 个人职责：
+		\begin{itemize}
+			\item 基于HAProxy和Keepalived提供网络双链路的负载均衡与互备
+			\item 基于BIND为IDC内部搭建缓存DNS
+			\item 使用Go语言实现HAProxy负载均衡任务管理系统 {\color{blue}\href{https://github.com/youngsterxyf/haproxyconsole}{HAProxyConsole \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
+		\end{itemize}
+		\item 说明：该项目由个人独立完成；HAProxyConsole在腾讯其他部门也得到应用。
+	\end{itemize}
+	
+	\item {\color{blue}\href{http://blog.xiayf.cn/2013/11/29/inner_warehouse_monitor_system/}{易迅全国仓库作业机器监控系统 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
+	\begin{itemize}
+		\item 简介：针对易迅业务全国仓库内的普通作业PC，采集、存储、展示CPU使用率、内存使用率、网卡流量、开关机状态等指标数据，以辅助机器故障分析
+		\item 个人职责：系统的总体设计，技术选型，NSQ客户端实现（包含数据存储），数据的展示 等
+		\item 相关技术：Go、Beego、NSQ、Saltstack 等
+	\end{itemize}
+	
+	\item {\color{blue}\href{http://blog.xiayf.cn/2013/10/15/standardization-operation-development/}{运营开发规范化 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
     \begin{itemize}
-    \item 相关技术：CentOS、Nginx、PHP、MySQL、SVN、jQuery
+    	\item 简介：针对团队协作存在的问题，定制一整套开发流程规范，以及规范的宣导
+    	\item 相关技术：Linux、Gitlab、Git、Python、PHP、Go
     \end{itemize}
-\item 维护公益品网(\url{www.gong1pin.com})
-\item 负责服务器的日常管理维护工作
-\item 使用Python处理多种数据
-    \begin{itemize}
-    \item 网络数据抓取，处理之后存入数据库
-    \item 图形化界面工具-自动解析Excel文件并批量发送邮件
-    \end{itemize}
-\end{itemize}}
+
+	\item 服务器日常运维工作及运维工具类开发
+\end{itemize}
+
+\cventry{2012.05 -- 2012.12}{Web开发实习生}{谷歌-企业社会责任部}{上海}{}{}
+\begin{itemize}
+	\item 工作简介：负责开发维护{\color{blue}\href{www.17gong1.com}{一起公益网}}、{\color{blue}\href{www.gong1pin.com}{公益品网}} 等
+	\item 相关技术：CentOS、Nginx、PHP、MySQL、SVN、jQuery等
+\end{itemize}
+
 
 \section{个人项目}
+
 \begin{itemize}
-\item 佑擎资产管理有限公司ERP系统
-    \begin{itemize}
-    \item 相关技术：Python、Django、MySQL、Celery、Redis
-    \end{itemize}
-\item {\color{blue}\href{https://github.com/youngsterxyf/Baidu_Music_Downloader}{百度音乐下载器\tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
-    \begin{itemize}
-    \item Python实现，基于Requests、BeautifulSoup、Gevent
-    \item 功能：按歌名下载、按歌手名批量下载专辑或单曲、多歌手并发批量下载专辑或单曲
-    \end{itemize}
-\item {\color{blue}\href{https://github.com/youngsterxyf/share-photo}{照片分享小应用\tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
-    \begin{itemize}
-    \item 相关技术：Flask、Flask-BasicAuth、Redis、PIL
-    \item 功能：照片原图上传展示、下载、删除，图片延迟加载
-    \end{itemize}
-\item {\color{blue}\href{https://github.com/youngsterxyf/WebBasedRobot}{基于Web的机器人控制系统\tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
-    \begin{itemize}
-    \item 相关技术：Tornado、pyserial、Nginx、NVD3.js、jQuery、嵌入式C
-    \item 功能：通过浏览器远程控制群体机器人的行为，并向用户反馈机器人的相关状态信息
-    \end{itemize}
-\item {\color{blue}\href{https://github.com/youngsterxyf/simpleFTPsearch}{FTP简易搜索\tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
-    \begin{itemize}
-    \item 索引部分：基于pyinotify监听ftp的目录，进行实时索引，数据库引擎采用Berkely DB
-    \item 搜索部分：python cgi脚本实现，直接在数据库中进行模糊匹配查找搜索关键词
-    \end{itemize}
-\item {\color{blue}\href{http://xiayf.readthedocs.org/en/latest/}{技术学习笔记\tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
+\item {\color{blue}\href{https://github.com/youngsterxyf/fuse}{支持多平台的Git webhook服务 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
+	\begin{itemize}
+		\item 简介：针对Git多分支工作流模型，以插件化方式实现多平台Webhook支持，配置灵活
+		\item 相关技术：Go、Martini、FlatUI等
+	\end{itemize}
+\item {\color{blue}\href{https://github.com/youngsterxyf/feed-world}{Feed聚合服务 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
+	\begin{itemize}
+		\item 相关技术：Slim、Vue.js、Github及微博OAuth2登陆
+	\end{itemize}
+\item {\color{blue}\href{https://github.com/youngsterxyf/blink}{Linux服务器单机监控 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
+	\begin{itemize}
+		\item 简介：针对单机Linux服务器，采集CPU、内存、磁盘指标数据，定期绘制成图表发送到指定邮箱
+		\item 相关技术：Python、psutil、Pandas、vincent、vega 等
+	\end{itemize}
+\item {\color{blue}\href{https://github.com/youngsterxyf/Baidu_Music_Downloader}{百度音乐下载器 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
+\begin{itemize}
+	\item 简介：按歌名下载、按歌手名批量下载专辑或单曲、多歌手并发批量下载专辑或单曲
+	\item 相关技术：Python、Requests、BeautifulSoup、Gevent
+\end{itemize}
+\item {\color{blue}\href{http://blog.xiayf.cn/sphinx/work_note}{技术学习笔记 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
     \begin{itemize}
     \item 主要分为架构、开发、运维、专业基础四个部分，记录技术学习笔记、技术资源聚合
     \end{itemize}
-\item {\color{blue}\href{http://cn.python-requests.org/zh_CN/latest/}{Requests文档中文翻译\tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
+\item {\color{blue}\href{http://cn.python-requests.org/zh_CN/latest/}{Requests文档中文翻译 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
     \begin{itemize}
     \item 完成大部分内容的翻译工作
     \end{itemize}
-\item {\color{blue}\href{https://github.com/PyCodersCN/PyCodersCN}{PyCodersCN翻译项目\tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
-    \begin{itemize}
-    \item 参与该项目，完成9篇文章的翻译
-    \end{itemize}
 \end{itemize}
+
 
 \section{教育背景}
 \cventry{2010.9 -- 2013.4}{硕士}{上海交通大学 - 软件学院}{上海}{}{}  % 第3到第6编码可留白
 \cventry{2006.9 -- 2010.7}{学士}{上海大学 - 计算机工程与科学学院}{上海}{}{}
 
-\section{计算机技能}
-\begin{itemize}
-\item 熟悉Python、PHP、JavaScript，会用Go、shell、C/C++、Java
-\item 熟悉Linux系统运维
-\item 熟练掌握常用数据结构与算法
-\end{itemize}
 
 \section{语言技能}
+
 \cvitemwithcomment{英语}{CET-6}{读、写 - 流畅，听、说 - 一般}
 \begin{itemize}
-\item 经常翻译优秀技术文章（见{\color{blue}\href{http://youngsterxyf.github.io}{个人博客}}）
-\item 每天阅读Hacker News，经常查询Stack Overflow, 浏览High Scalability、Quora等网站
+\item 经常翻译优秀技术文章（见{\color{blue}\href{http://blog.xiayf.cn}{个人博客}}）
+\item 每天阅读Hacker News，经常查询Stack Overflow，浏览High Scalability、Quora等网站
 \end{itemize}
 
+
 \section{个人兴趣}
-\cvitem{阅读}{\small 三日不读书便觉面目可憎。阅读甚广，尤其偏爱文史哲}
+
+\cvitem{技术分享}{\small 个人分享列表见 {\color{blue} \href{http://blog.xiayf.cn/pages/tech-share.html}{这里}}；发起并组织 {\color{blue}\href{http://happytechgroup.github.io/}{众成技术聚乐部}}}
 \cvitem{技术翻译}{\small 业余时间热衷于翻译自认为好的英文技术文章}
-\cvitem{长跑}{\small 曾跑过上海马拉松半程(21KM)，2小时13分钟}
+\cvitem{阅读}{\small 三日不读书便觉面目可憎。阅读甚广，尤其偏爱文史哲}
 
 \clearpage\end{CJK}
 \end{document}
