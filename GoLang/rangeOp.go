@@ -36,4 +36,5 @@ func main() {
 		}
 		fmt.Printf("%d %d\n", i, v)
 	}
+	fmt.Println(s)
 }
