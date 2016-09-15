@@ -9,7 +9,7 @@ package main
 
 import "fmt"
 
-type testInt func(int) bool	// 声明一个函数类型
+type testInt func(int) bool // 声明一个函数类型
 
 func isOdd(integer int) bool {
 	if integer%2 == 0 {
@@ -36,7 +36,7 @@ func filter(slice []int, f testInt) []int {
 }
 
 func main() {
-	slice := []int {1, 2, 3, 4, 5, 6, 7}
+	slice := []int{1, 2, 3, 4, 5, 6, 7}
 	fmt.Println("slice = ", slice)
 	odd := filter(slice, isOdd)
 	fmt.Println("Odd elements of slice are: ", odd)

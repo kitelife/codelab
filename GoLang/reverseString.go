@@ -1,6 +1,7 @@
 package main
 
 import "fmt"
+
 /*
 func main() {
 	s := "foobar"
@@ -24,5 +25,5 @@ func main() {
 	}
 
 	fmt.Printf("str is %s\n", str)
-	fmt.Printf("reverseStr is %s\n",reverseStr)
+	fmt.Printf("reverseStr is %s\n", reverseStr)
 }

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"os"
 	"flag"
 	"fmt"
+	"os"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 		flag.PrintDefaults()
 	}
 	flag.Parse()
-	fmt.Printf("dnssec: %v\n",*dnssec)
-	fmt.Printf("port: %v\n",*port)
+	fmt.Printf("dnssec: %v\n", *dnssec)
+	fmt.Printf("port: %v\n", *port)
 	flag.Usage()
 }

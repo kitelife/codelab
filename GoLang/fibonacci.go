@@ -14,6 +14,6 @@ func Fibonacci(value int) []int {
 func main() {
 
 	for index, term := range Fibonacci(20) {
-		fmt.Printf("%v: %v\n",index, term)
+		fmt.Printf("%v: %v\n", index, term)
 	}
 }

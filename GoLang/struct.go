@@ -2,16 +2,17 @@ package main
 
 import "fmt"
 
-type NameAge struct{
+type NameAge struct {
 	name string
-	age int
+	age  int
 }
 
-func main(){
+func main() {
 	a := new(NameAge)
-	a.name = "Pete"; a.age=42
+	a.name = "Pete"
+	a.age = 42
 
-	fmt.Printf("%v\n",a)
-	fmt.Printf("%v\n",a.name)
+	fmt.Printf("%v\n", a)
+	fmt.Printf("%v\n", a.name)
 	fmt.Printf("%v\n", a.age)
 }

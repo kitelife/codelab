@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	callback(5,printit)
+	callback(5, printit)
 }
 
 func printit(x int) {

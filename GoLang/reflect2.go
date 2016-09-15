@@ -1,4 +1,4 @@
-package main 
+package main
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 )
 
 type Bird struct {
-	Name string
+	Name           string
 	LifeExpectance int
 }
 

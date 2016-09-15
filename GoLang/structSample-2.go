@@ -10,8 +10,8 @@ package main
 import "fmt"
 
 type Human struct {
-	name string
-	age int
+	name   string
+	age    int
 	weight int
 }
 
@@ -20,7 +20,7 @@ type Human struct {
 */
 
 type Student struct {
-	Human	// 匿名字段，那么默认Student就包含了Human的所有字段
+	Human      // 匿名字段，那么默认Student就包含了Human的所有字段
 	speciality string
 }
 

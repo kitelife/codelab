@@ -8,7 +8,7 @@ func modify(array [5]int) {
 }
 
 func main() {
-	array := [5]int{1,2,3,4,5}
+	array := [5]int{1, 2, 3, 4, 5}
 	modify(array)
 	fmt.Println("In main(), array values:", array)
 }

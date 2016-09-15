@@ -6,5 +6,5 @@ import "fmt"
 func main() {
 	cmd := exec.Command("/bin/ls", "-l")
 	buf, err := cmd.Output()
-	fmt.Printf("%s\n",string(buf))
+	fmt.Printf("%s\n", string(buf))
 }
