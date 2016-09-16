@@ -9,6 +9,8 @@ instance.method(args...) ---> <type>.func(instance, args...)
 
 两者都可像普通函数那样赋值和传参，
 区别在于method value绑定实例，而method expression则须显式传参
+
+需要注意, method value 会复制 receiver
 */
 
 import (
