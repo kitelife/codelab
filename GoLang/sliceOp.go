@@ -20,6 +20,7 @@ func main() {
 	fmt.Printf("y: %v\n", y)
 	//
 	z := []int{100, 1, 2, 10}
+	z[1] = z[1] + 1
 	fmt.Printf("z: %v\n", z)
 
 	s1 := []int{0, 1, 2, 3, 8: 100}
