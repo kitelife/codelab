@@ -14,3 +14,4 @@
 *.gz
 *.bak
 *.class
+.vscode/
