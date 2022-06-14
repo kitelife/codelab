@@ -51,3 +51,16 @@ void __global__ add(const double *x, const double *y, double *z)
   const int n = blockDim.x * blockIdx.x + threadIdx.x;
   z[n] = x[n] + y[n];
 }
+
+void check(const double *z, const int N)
+{
+  bool has_error = false;
+  for (int n = 0; n < N; ++n)
+  {
+    if (fabs(z[n] - c) > EPSILON)
+    {
+      has_error = true;
+    }
+  }
+  printf("%s\n", has_error ? "Has errors" : "No errors");
+}
