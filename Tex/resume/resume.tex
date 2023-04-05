@@ -1,11 +1,3 @@
-%% start of file `template-zh.tex'.
-%% Copyright 2006-2013 Xavier Danaux (xdanaux@gmail.com).
-%
-% This work may be distributed and/or modified under the
-% conditions of the LaTeX Project Public License version 1.3c,
-% available at http://www.latex-project.org/lppl/.
-
-
 \documentclass[12pt,a4paper,sans]{moderncv}   % possible options include font size ('10pt', '11pt' and '12pt'), paper size ('a4paper', 'letterpaper', 'a5paper', 'legalpaper', 'executivepaper' and 'landscape') and font family ('sans' and 'roman')
 
 % moderncv 主题
@@ -45,66 +37,45 @@
 
 \section{工作背景}
 
-\cventry{2014.05 -- 至今}{高级Web研发工程师}{百度}{上海}{}{}
+\cventry{2014.05 -- 至今}{资深研发工程师}{百度}{上海}{}{}
 \begin{itemize}
+	\item {\color{blue}\href{https://cloud.baidu.com}{百度云 \tikz \draw[->, thick](0, 0) cos(0.1,0.2);}}
+	\begin{itemize}
+		\item 简介：百度云风控专为百度云业务开展的合规性护航，多层面应对监管风险
+		\item 主要职责：风控工程负责人
+		\begin{itemize}
+			\item 内容机器审核项目：全面监管百度云内容风险，采用分层架构设计
+			\begin{itemize}
+				\item 一级处理日实时处理请求消息百亿级
+				\item 二级处理基于 Spark 技术栈，采用机器学习算法模型等多种策略进行数据过滤，数据处理量近 10T
+			\end{itemize}
+			\item 设计实现了新一代的备案巡查系统，监控数十万一级域名 IP 对的备案状态
+			\begin{itemize}
+				\item 基于 Zookeeper 采用分布式锁实现多机高可用架构，以及任务负载均衡
+				\item 相比老系统，因为任务负载均衡、缓存优化、算法优化，在业务量 3 倍增长的同时巡查速度近 10 倍提升
+			\end{itemize}
+			\item 初步设计一套基于 Spark SQL 的插件化用户特征聚合抽取框架，便于策略分析
+			\item 探索设计基于图存储计算分析的异常用户检测系统
+		\end{itemize}
+		\item 相关技术：Spark、Hadoop、Spring、Kafka、Zookeeper 等
+	\end{itemize}
 	\item {\color{blue}\href{https://bsi.baidu.com}{百度安全指数 \tikz \draw[->, thick](0, 0) cos(0.1,0.2);}}
 	\begin{itemize}
-		\item 简介：基于一套多维度(实时安全、历史安全、网站环境、攻击风险等)标准模型，对站点的整体情况进行评估打分，并提供各维度评分的详细依据；此外还提供互联网整体及分行业的安全评估
-		\item 个人职责：
+		\item 简介：基于一套多维度（实时安全、历史安全、网站环境、攻击风险等）标准模型，对站点的整体情况进行评估打分，并提供各维度评分的详细依据；覆盖千万数量级站点的安全监测；还提供互联网整体及分行业的安全评估
+		\item 主要职责：
 		\begin{itemize}
-			\item 负责产品架构设计，独立完成Web后端开发
-			\item 参与Spark大数据处理开发工作
-			\item 负责核心资产漏洞库API、指纹识别基础服务等开发工作
-			\item 负责相关产品的业务运维、可用性保障
+			\item 系统整体架构设计，Web 后端开发、后台 Spark 大数据处理任务开发
+			\item 安全指数提供从指标统计到维度详细多种粒度的数据，为保证 API 响应速度和系统稳定性，在 Web 后端系统中设计实现了一个大数据预处理子模块
 		\end{itemize}
-		\item 相关技术：Go、JAVA、Spark、Python等
-	\end{itemize}
-	\item {\color{blue}\href{http://ce.baidu.com}{百度云观测 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
-	\begin{itemize}
-		\item 简介：为中小站点提供可用性、访问速度、安全等方面的监测服务
-		\item 个人职责：Web后端功能开发，开放API设计与实现，微信服务号开发与维护 等
-		\item 相关技术：PHP、Yii、Python、Go等
+		\item 相关技术：Java、Spark、Go、Python 等
 	\end{itemize}
 \end{itemize}
 
 \cventry{2013.04 -- 2014.05}{运营开发工程师}{腾讯}{上海}{}{}
 \begin{itemize}
-	\item 内部运营平台
-	\begin{itemize}
-		\item 简介：针对易迅业务的线上服务器、网络设备，通过指标数据的采集、展示、告警等进行服务监控
-		\item 个人职责：
-		\begin{itemize}
-			\item 服务器信息配置模块：为所有告警模块、数据图形化展示提供基础数据
-			\item 服务器归类模块：方便分类展示、检索服务器
-			\item URL监控：见{\color{blue}\href{http://blog.xiayf.cn/2013/10/12/url-monitoring-and-web-arch/}{文章}}说明
-		\end{itemize}
-		\item 相关技术：PHP、Redis、Memcached、Bootstrap、Highcharts、D3.js 等
-	\end{itemize}
-
-	\item {\color{blue}\href{http://blog.xiayf.cn/2013/10/16/high-availability-load-balancer-and-dns/}{高可用容灾方案 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
-	\begin{itemize}
-		\item 简介：主要针对易迅IDC与腾讯IDC之间的互通，提供高可用容灾方案
-		\item 个人职责：
-		\begin{itemize}
-			\item 基于HAProxy和Keepalived提供网络双链路的负载均衡与互备
-			\item 基于BIND为IDC内部搭建缓存DNS
-			\item 使用Go语言实现HAProxy负载均衡任务管理系统 {\color{blue}\href{https://github.com/youngsterxyf/haproxyconsole}{HAProxyConsole \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
-		\end{itemize}
-		\item 说明：该项目由个人独立完成；HAProxyConsole在腾讯其他部门也得到应用。
-	\end{itemize}
-
+	\item 内部运营平台：针对易迅业务的线上服务器、网络设备，通过指标数据的采集、展示、告警等进行服务监控
+	\item {\color{blue}\href{http://blog.xiayf.cn/2013/10/16/high-availability-load-balancer-and-dns/}{高可用容灾方案 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}：主要针对易迅 IDC 与腾讯 IDC 之间的互通，提供高可用容灾方案；HAProxyConsole 在腾讯其他部门也得到应用
 	\item {\color{blue}\href{http://blog.xiayf.cn/2013/11/29/inner_warehouse_monitor_system/}{易迅全国仓库作业机器监控系统 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
-	\begin{itemize}
-		\item 简介：针对易迅业务全国仓库内的普通作业PC，采集、存储、展示CPU使用率、内存使用率、网卡流量、开关机状态等指标数据，以辅助机器故障分析
-		\item 个人职责：系统的总体设计，技术选型，NSQ客户端实现（包含数据存储），数据的展示 等
-		\item 相关技术：Go、Beego、NSQ、Saltstack 等
-	\end{itemize}
-\end{itemize}
-
-\cventry{2012.05 -- 2012.12}{Web开发实习生}{谷歌-企业社会责任部}{上海}{}{}
-\begin{itemize}
-	\item 工作简介：负责开发维护{\color{blue}\href{www.17gong1.com}{一起公益网}}、{\color{blue}\href{www.gong1pin.com}{公益品网}} 等
-	\item 相关技术：CentOS、Nginx、PHP、MySQL等
 \end{itemize}
 
 
@@ -113,43 +84,27 @@
 \begin{itemize}
 	\item{\color{blue}\href{http://beego.me/}{Beego - Go Web框架 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
 	\begin{itemize}
-		\item Star数：9000+
+		\item Star数：1.4万+
 		\item 职责：核心开发者
 	\end{itemize}
 	\item{\color{blue}\href{https://github.com/youngsterxyf/redis-sentinel-ui}{redis-sentinel-ui \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
 	\begin{itemize}
-		\item: 简介：Redis Sentinel集群监控后台，提供集群运行概况、监控数据可视化、数据查询功能
+		\item: 简介：Redis Sentinel 集群监控后台，提供集群运行概况、监控数据可视化、数据查询功能
 	\end{itemize}
 	\item{\color{blue}\href{https://github.com/youngsterxyf/memcached-ui}{memcached-ui \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
 	\begin{itemize}
-		\item: 简介：Memcached集群Web UI，提供集群运行概况、在线操作功能，内置memcache协议实现
+		\item: 简介：Memcached 集群 Web UI，提供集群运行概况、在线操作功能，内置 memcache 协议实现
 	\end{itemize}
-	\item 微信公众号 “i练” Web APP
+	\item {\color{blue}\href{https://github.com/youngsterxyf/fuse}{支持多平台的 Git webhook 服务 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
 	\begin{itemize}
-		\item 相关技术：单页面应用，Framework7、require.js、微信JS SDK等
+		\item 简介：针对 Git 多分支工作流模型，以插件化方式实现多平台 Webhook 支持，配置灵活
+		\item 相关技术：Go、Martini、FlatUI 等
 	\end{itemize}
-	\item 佑擎财富管理有限公司ERP系统
-	\begin{itemize}
-		\item 相关技术：Python、Django、Celery、Bootstrap、Highcharts、QQ企业邮箱无缝集成 等
-	\end{itemize}
-	\item {\color{blue}\href{https://github.com/youngsterxyf/fuse}{支持多平台的Git webhook服务 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
-	\begin{itemize}
-		\item 简介：针对Git多分支工作流模型，以插件化方式实现多平台Webhook支持，配置灵活
-		\item 相关技术：Go、Martini、FlatUI等
-	\end{itemize}
-	\item {\color{blue}\href{https://github.com/youngsterxyf/feed-world}{Feed聚合服务 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
-	\begin{itemize}
-		\item 相关技术：Slim、Vue.js、Github及微博OAuth2登陆
-	\end{itemize}
-	\item {\color{blue}\href{http://blog.xiayf.cn/sphinx/work_note}{技术学习笔记 \tikz \draw[->, thick] (0,0) cos(0.1,0.2);}}
-    \begin{itemize}
-    \item 主要分为架构、开发、运维、专业基础四个部分，记录技术学习笔记、技术资源聚合
-    \end{itemize}
 \end{itemize}
 
 
 \section{教育背景}
-\cventry{2010.9 -- 2013.4}{硕士}{上海交通大学 - 软件学院}{上海}{}{}  % 第3到第6编码可留白
+\cventry{2010.9 -- 2013.4}{硕士}{上海交通大学 - 软件学院}{上海}{}{}
 \cventry{2006.9 -- 2010.7}{学士}{上海大学 - 计算机工程与科学学院}{上海}{}{}
 
 
@@ -157,11 +112,8 @@
 
 \cvitemwithcomment{英语}{CET-6}{读、写 - 流畅，听、说 - 一般}
 \begin{itemize}
-\item 已出版译著《精通Python设计模式》，经常翻译优秀技术文章（见{\color{blue}\href{http://blog.xiayf.cn}{个人博客}}）
-\item 每天阅读Hacker News，经常查询Stack Overflow，浏览High Scalability、Quora等网站
+\item 翻译出版技术书籍《精通 Python 设计模式》、《Python 漫游指南》，经常翻译优秀技术文章（见{\color{blue}\href{http://blog.xiayf.cn}{个人博客}}）
 \end{itemize}
 
 \clearpage\end{CJK}
 \end{document}
-
-%% 文件结尾 `template-zh.tex'.
