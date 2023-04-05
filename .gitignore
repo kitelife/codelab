@@ -1,3 +1,5 @@
+*.fdb_latexmk
+*.fls
 *.pdf
 *.beam
 *.pyc

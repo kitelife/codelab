@@ -4,20 +4,20 @@
 \geometry{left=1cm,right=1cm,top=2cm,bottom=2cm}
 
 \ifx\pdfoutput\undefined
-\usepackage[CJKbookmarks=true,dvipdfm, pdfstartview=FitH,colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green% ø™ º ±∫Ú“≥√Êµƒ¥Û–°£¨ «’˝≥£µƒ“≥√Ê£¨º¥100%£¨◊¢ ÕµÙµƒª∞“≥√Ê¥Û–°Œ™50%
+\usepackage[CJKbookmarks=true,dvipdfm, pdfstartview=FitH,colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green% ÂºÄÂßãÊó∂ÂÄôÈ°µÈù¢ÁöÑÂ§ßÂ∞èÔºåÊòØÊ≠£Â∏∏ÁöÑÈ°µÈù¢ÔºåÂç≥100%ÔºåÊ≥®ÈáäÊéâÁöÑËØùÈ°µÈù¢Â§ßÂ∞è‰∏∫50%
 ]{hyperref} \else
-\usepackage[CJKbookmarks=true,pdftex,pdfstartview=FitH,colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green% ø™ º ±∫Ú“≥√Êµƒ¥Û–°£¨ «’˝≥£µƒ“≥√Ê£¨º¥100%£¨◊¢ ÕµÙµƒª∞“≥√Ê¥Û–°Œ™50%
+\usepackage[CJKbookmarks=true,pdftex,pdfstartview=FitH,colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green% ÂºÄÂßãÊó∂ÂÄôÈ°µÈù¢ÁöÑÂ§ßÂ∞èÔºåÊòØÊ≠£Â∏∏ÁöÑÈ°µÈù¢ÔºåÂç≥100%ÔºåÊ≥®ÈáäÊéâÁöÑËØùÈ°µÈù¢Â§ßÂ∞è‰∏∫50%
 ]{hyperref}
 \fi
 
 \usepackage{fancyvrb}
 \usepackage{listings}
-\usepackage{indentfirst} %  ◊––ÀıΩ¯
+\usepackage{indentfirst} % È¶ñË°åÁº©Ëøõ
 \begin{document}
 \begin{CJK*}{GBK}{kai}
 
-\title{CeleryŒƒµµ\ ‘ƒ∂¡± º«}
-\author{œƒ”¿∑Ê}
+\title{CeleryÊñáÊ°£\ ÈòÖËØªÁ¨îËÆ∞}
+\author{Â§èÊ∞∏Èîã}
 
 \maketitle
 
@@ -27,14 +27,14 @@
 \section{Get Started}
 
 \subsection{Introduction to Celery}
-Celery «“ª∏ˆºÚµ•°¢¡ÈªÓ«“ø…øøµƒ∑÷≤º ΩœµÕ≥£¨”√”⁄¥¶¿Ì ˝¡øæﬁ¥Ûµƒœ˚œ¢£¨Õ¨ ±Ã·π©Œ¨ª§’‚—˘“ª∏ˆœµÕ≥À˘–Ë“™µƒπ§æﬂ°£Celery «“ª∏ˆœ˚œ¢∂”¡–£¨≤‡÷ÿ”⁄ µ ±¥¶¿Ì£¨µ´“≤÷ß≥÷»ŒŒÒµ˜∂»°£
+CeleryÊòØ‰∏Ä‰∏™ÁÆÄÂçï„ÄÅÁÅµÊ¥ª‰∏îÂèØÈù†ÁöÑÂàÜÂ∏ÉÂºèÁ≥ªÁªüÔºåÁî®‰∫éÂ§ÑÁêÜÊï∞ÈáèÂ∑®Â§ßÁöÑÊ∂àÊÅØÔºåÂêåÊó∂Êèê‰æõÁª¥Êä§ËøôÊ†∑‰∏Ä‰∏™Á≥ªÁªüÊâÄÈúÄË¶ÅÁöÑÂ∑•ÂÖ∑„ÄÇCeleryÊòØ‰∏Ä‰∏™Ê∂àÊÅØÈòüÂàóÔºå‰æßÈáç‰∫éÂÆûÊó∂Â§ÑÁêÜÔºå‰ΩÜ‰πüÊîØÊåÅ‰ªªÂä°Ë∞ÉÂ∫¶„ÄÇ
 
-\subsubsection{What is a Task Queue£ø}
-»ŒŒÒ∂”¡– «“ª÷÷‘⁄∂‡œﬂ≥ÃªÚ∂‡ª˙∆˜÷Æº‰∑÷≈‰»ŒŒÒµƒª˙÷∆°£»ŒŒÒ∂”¡–µƒ ‰»Î «“ª∏ˆπ§◊˜µ•‘™£¨“≤≥∆Œ™“ª∏ˆ»ŒŒÒ£¨»ª∫Û◊®”√µƒπ§◊˜’ﬂΩ¯≥Ã≥÷–¯µÿº‡Ã˝∏√∂”¡–£¨ø¥ «∑Ò”––¬µƒπ§◊˜–Ë“™ÕÍ≥…°£Celery π”√“ª∏ˆ÷–º‰»À£®Broker£©‘⁄øÕªß∂À£®œ˚œ¢…˙≤˙’ﬂ£©∫Õπ§◊˜’ﬂ£®Worker£¨œ˚œ¢œ˚∑—’ﬂ£©÷Æº‰¥´µ›œ˚œ¢°£øÕªß∂À‘⁄∂‘¡–÷–∑≈»Î“ª∏ˆœ˚œ¢¿¥ø™ º“ª∏ˆ»ŒŒÒ£¨÷–º‰»ÀΩ´∏√œ˚œ¢∑÷∑¢µΩ“ª∏ˆπ§◊˜’ﬂ°£
+\subsubsection{What is a Task QueueÔºü}
+‰ªªÂä°ÈòüÂàóÊòØ‰∏ÄÁßçÂú®Â§öÁ∫øÁ®ãÊàñÂ§öÊú∫Âô®‰πãÈó¥ÂàÜÈÖç‰ªªÂä°ÁöÑÊú∫Âà∂„ÄÇ‰ªªÂä°ÈòüÂàóÁöÑËæìÂÖ•ÊòØ‰∏Ä‰∏™Â∑•‰ΩúÂçïÂÖÉÔºå‰πüÁß∞‰∏∫‰∏Ä‰∏™‰ªªÂä°ÔºåÁÑ∂Âêé‰∏ìÁî®ÁöÑÂ∑•‰ΩúËÄÖËøõÁ®ãÊåÅÁª≠Âú∞ÁõëÂê¨ËØ•ÈòüÂàóÔºåÁúãÊòØÂê¶ÊúâÊñ∞ÁöÑÂ∑•‰ΩúÈúÄË¶ÅÂÆåÊàê„ÄÇCelery‰ΩøÁî®‰∏Ä‰∏™‰∏≠Èó¥‰∫∫ÔºàBrokerÔºâÂú®ÂÆ¢Êà∑Á´ØÔºàÊ∂àÊÅØÁîü‰∫ßËÄÖÔºâÂíåÂ∑•‰ΩúËÄÖÔºàWorkerÔºåÊ∂àÊÅØÊ∂àË¥πËÄÖÔºâ‰πãÈó¥‰º†ÈÄíÊ∂àÊÅØ„ÄÇÂÆ¢Êà∑Á´ØÂú®ÂØπÂàó‰∏≠ÊîæÂÖ•‰∏Ä‰∏™Ê∂àÊÅØÊù•ÂºÄÂßã‰∏Ä‰∏™‰ªªÂä°Ôºå‰∏≠Èó¥‰∫∫Â∞ÜËØ•Ê∂àÊÅØÂàÜÂèëÂà∞‰∏Ä‰∏™Â∑•‰ΩúËÄÖ„ÄÇ
 
-“ª∏ˆCeleryœµÕ≥ø…“‘∞¸∫¨∂‡∏ˆπ§◊˜’ﬂ∫Õ÷–º‰»À£¨“‘ µœ÷∏ﬂø…”√∫ÕÀÆ∆Ω¿©’π°£
+‰∏Ä‰∏™CeleryÁ≥ªÁªüÂèØ‰ª•ÂåÖÂê´Â§ö‰∏™Â∑•‰ΩúËÄÖÂíå‰∏≠Èó¥‰∫∫Ôºå‰ª•ÂÆûÁé∞È´òÂèØÁî®ÂíåÊ∞¥Âπ≥Êâ©Â±ï„ÄÇ
 
-\subsubsection{What do I need£ø}
+\subsubsection{What do I needÔºü}
 Celery requires a message broker to send and receive messages. The RabbitMQ, Redis and MongoDB broker transports are feature complete, but there\textquoteright s also support for a myriad of other solutions, including using SQLite for local development.
 
 Celery can run on a single machine, on multiple machines, or even across data centers.
@@ -42,7 +42,7 @@ Celery can run on a single machine, on multiple machines, or even across data ce
 \subsection{Brokers}
 
 \subsubsection{Using RabbitMQ}
-RabbitMQ is the default broker so it does not require any additional dependencies or initial configuration, other than the URL location of the broker instance you want to use£∫
+RabbitMQ is the default broker so it does not require any additional dependencies or initial configuration, other than the URL location of the broker instance you want to useÔºö
 
 \begin{Verbatim}[frame=single]
 >>> BROKER_URL = 'amqp://guest:guest@localhost:5672//'
@@ -441,7 +441,7 @@ The Celery library must be instantiated before use, this instance is called an a
 
 The application is thread-safe so that multiple Celery applications with different configuration, components and tasks can co-exist in the same process space.
 
-Let°Øs create one now:
+Let‚Äôs create one now:
 
 \begin{Verbatim}[frame=single]
 >>> from celery import Celery
@@ -510,16 +510,16 @@ False
 True
 \end{Verbatim}
 
-\textit{Finalization} of the app happens either explicitly by calling \verb"Celery.finalize()" ®C or implicitly by accessing the \verb"tasks" attribute.
+\textit{Finalization} of the app happens either explicitly by calling \verb"Celery.finalize()" ‚Äì or implicitly by accessing the \verb"tasks" attribute.
 
 \subsection{Tasks}
 A task is a class that can be created out of any callable. It performs dual roles in that it defines both what happens when a task is called (sends a message), and what happens when a worker receives that message.
 
 Every task class has a unique name, and this name is referenced in messages so that the worker can find the right function to execute.
 
-A task message does not disappear until the message has been acknowledged by a worker. A worker can reserve many messages in advance and even if the worker is killed ®C caused by power failure or otherwise ®C the message will be redelivered to another worker.
+A task message does not disappear until the message has been acknowledged by a worker. A worker can reserve many messages in advance and even if the worker is killed ‚Äì caused by power failure or otherwise ‚Äì the message will be redelivered to another worker.
 
-Ideally task functions should be idempotent(√›µ»µƒ), which means that the function will not cause unintented effects even if called multiple times with the same arguments. Since the worker cannot detect if your tasks are idempotent, the default behavior is to acknowledge the message in advance, before it\textquoteright s executed, so that a task that has already been started is never executed again..
+Ideally task functions should be idempotent(ÂπÇÁ≠âÁöÑ), which means that the function will not cause unintented effects even if called multiple times with the same arguments. Since the worker cannot detect if your tasks are idempotent, the default behavior is to acknowledge the message in advance, before it\textquoteright s executed, so that a task that has already been started is never executed again..
 
 \subsubsection{Names}
 Every task must have a unique name, and a new name will be generated out of the function name if a custom name is not provided.
@@ -546,7 +546,7 @@ A best practice is to use the module name as a namespace, this way names won\tex
 \subsubsection{Automatic naming and relative imports}
 Relative imports and automatic name generation does not go well together, so if you\textquoteright re using relative imports you should set the name explicitly.
 
-For example if the client imports the module °∞myapp.tasks°± as °∞.tasks°±, and the worker imports the module as °∞myapp.tasks°±, the generated names won\textquoteright t match and an \verb"NotRegistered" error will be raised by the worker.
+For example if the client imports the module ‚Äúmyapp.tasks‚Äù as ‚Äú.tasks‚Äù, and the worker imports the module as ‚Äúmyapp.tasks‚Äù, the generated names won\textquoteright t match and an \verb"NotRegistered" error will be raised by the worker.
 
 This is also the case if using Django and using \textit{project.myapp}:
 
@@ -554,7 +554,7 @@ This is also the case if using Django and using \textit{project.myapp}:
 INSTALLED_APPS = ('project.myapp', )
 \end{Verbatim}
 
-The worker will have the tasks registered as °∞project.myapp.tasks.*°±, while this is what happens in the client if the module is imported as °∞myapp.tasks°±:
+The worker will have the tasks registered as ‚Äúproject.myapp.tasks.*‚Äù, while this is what happens in the client if the module is imported as ‚Äúmyapp.tasks‚Äù:
 
 \begin{Verbatim}[frame=single]
 >>> from myapp.tasks import add
@@ -562,7 +562,7 @@ The worker will have the tasks registered as °∞project.myapp.tasks.*°±, while th
 'myapp.tasks.add'
 \end{Verbatim}
 
-For this reason you should never use °∞project.app°±, but rather add the project directory to the Python path:
+For this reason you should never use ‚Äúproject.app‚Äù, but rather add the project directory to the Python path:
 
 \begin{Verbatim}[frame=single]
 import os
@@ -812,11 +812,11 @@ Running the flower command will start a web-server that you can visit:
 \begin{Verbatim}[frame=single]
 $ celery flower
 \end{Verbatim}
-The default port is http://localhost:5555, but you can change this using the ®Cport argument:
+The default port is http://localhost:5555, but you can change this using the ‚Äìport argument:
 \begin{Verbatim}[frame=single]
 $ celery flower --port=5555
 \end{Verbatim}
-Broker URL can also be passed through the ®Cbroker argument :
+Broker URL can also be passed through the ‚Äìbroker argument :
 \begin{Verbatim}[frame=single]
 $ celery flower --broker=amqp://guest:guest@localhost:5672//
 \end{Verbatim}
@@ -842,13 +842,13 @@ $ celery events
 
 \textbf{librabbitmq}
 
-If you°Øre using RabbitMQ (AMQP) as the broker then you can install the \textbf{librabbitmq} module to use an optimized client written in C:
+If you‚Äôre using RabbitMQ (AMQP) as the broker then you can install the \textbf{librabbitmq} module to use an optimized client written in C:
 
 \begin{Verbatim}[frame=single]
 $ pip install librabbitmq
 \end{Verbatim}
 
-The °Æamqp°Ø transport will automatically use the librabbitmq module if it°Øs installed, or you can also specify the transport you want directly by using the \textit{pyamqp://} or \textit{librabbitmq://} prefixes.
+The ‚Äòamqp‚Äô transport will automatically use the librabbitmq module if it‚Äôs installed, or you can also specify the transport you want directly by using the \textit{pyamqp://} or \textit{librabbitmq://} prefixes.
 
 \subsection{Concurrency}
 \subsubsection{Concurrency with Eventlet}
@@ -910,7 +910,7 @@ BROKER_URL = 'amqp://guest:guest@localhost:5672/'
 
 \textbf{Special note for mod\_wsgi users}
 
-If you°Øre using \verb"mod_wsgi" to deploy your Django application you need to include the following in your \verb".wsgi" module:
+If you‚Äôre using \verb"mod_wsgi" to deploy your Django application you need to include the following in your \verb".wsgi" module:
 
 \begin{Verbatim}[frame=single]
 import djcelery
@@ -923,7 +923,7 @@ Tasks are defined by wrapping functions in the \verb"@task" decorator. It is a c
 
 \subsubsection{Starting the worker process}
 
-In a production environment you will want to run the worker in the background as a daemon - see \href{http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html#daemonizing}{Running the worker as a daemon} - but for testing and development it is useful to be able to start a worker instance by using the \verb"celery worker" manage command, much as you would use Django°Øs runserver:
+In a production environment you will want to run the worker in the background as a daemon - see \href{http://docs.celeryproject.org/en/latest/tutorials/daemonizing.html#daemonizing}{Running the worker as a daemon} - but for testing and development it is useful to be able to start a worker instance by using the \verb"celery worker" manage command, much as you would use Django‚Äôs runserver:
 
 \begin{Verbatim}[frame=single]
 $ python manage.py celery worker --loglevel=info

@@ -24,17 +24,24 @@ int main(void)
   }
 
   double *d_x, *d_y, *d_z;
-  cudaMalloc((void **)&d_x, M);
-  cudaMalloc((void **)&d_y, M);
-  cudaMalloc((void **)&d_z, M);
-  cudaMemcpy(d_x, h_x, M, cudaMemcpyHostToDevice);
-  cudaMemcpy(d_y, h_y, M, cudaMemcpyHostToDevice);
+  size_t s = cudaMalloc((void **)&d_x, M);
+  printf("cudaMalloc return: %d\n", s);
+  s = cudaMalloc((void **)&d_y, M);
+  printf("cudaMalloc return: %d\n", s);
+  s = cudaMalloc((void **)&d_z, M);
+  printf("cudaMalloc return: %d\n", s);
+  s = cudaMemcpy(d_x, h_x, M, cudaMemcpyHostToDevice);
+  printf("cudaMemcpy return: %d\n", s);
+  s = cudaMemcpy(d_y, h_y, M, cudaMemcpyHostToDevice);
+  printf("cudaMemcpy return: %d\n", s);
 
   const int block_size = 128;
   const int grid_size = N / block_size;
   add<<<grid_size, block_size>>>(d_x, d_y, d_z);
 
-  cudaMemcpy(h_z, d_z, M, cudaMemcpyDeviceToHost);
+  s = cudaMemcpy(h_z, d_z, M, cudaMemcpyDeviceToHost);
+  printf("cudaMemcpy return: %d\n", s);
+  cudaDeviceSynchronize();
   check(h_z, N);
 
   free(h_x);
